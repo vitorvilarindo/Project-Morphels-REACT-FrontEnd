@@ -2,7 +2,7 @@ import { Church, Moon } from 'lucide-react'
 function Header() {
   return (
     <>
-      <div className=' flex justify-center items-center'>
+      <div className=' flex justify-center items-center border-b border-neutral-200 h-[6vh] w-screen '>
         <section className='w-[55vw] flex justify-between'>
           <nav className='flex  items-center space-x-3 m-2'>
             <div className=''><Church size={32}/></div>
@@ -16,7 +16,6 @@ function Header() {
           </button>
         </section>
       </div>
-      <hr className=' bg-gray-400 w-screen'/>
     </>
   )
 }
