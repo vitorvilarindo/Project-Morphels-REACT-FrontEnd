@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import RevenuesPage from './pages/revenuesPage.jsx';
-import Expences from './pages/expences.jsx';
-import Grafics from './pages/grafics.jsx';
-import Reports from './pages/reports.jsx';
+import ExpencesPage from './pages/expencesPage.jsx';
+import GraficsPage from './pages/graficsPage.jsx';
+import ReportsPage from './pages/reportsPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -19,15 +19,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/expences",
-    element: <Expences />,
+    element: <ExpencesPage />,
   },
   {
     path: "/grafics",
-    element: <Grafics />,
+    element: <GraficsPage />,
   },
   {
     path: "/reports",
-    element: <Reports />,
+    element: <ReportsPage />,
   }
 ]);
 

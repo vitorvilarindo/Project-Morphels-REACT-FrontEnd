@@ -15,8 +15,10 @@ function App() {
       <Menu />
 
       <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
-      <Grafics title={'Grafico teste'} description={'Estou testando o modelo de gráfico'} grafic={'Gráfico'} />
-      </div>
+      <section className=" flex justify-center w-[55vw] m-auto">
+        <Grafics title={'Grafico teste'} description={'Estou testando o modelo de gráfico'} grafic={'Gráfico'} />
+      </section>
+    </div>
   )}
 
 export default App

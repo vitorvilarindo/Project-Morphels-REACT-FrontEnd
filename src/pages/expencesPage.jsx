@@ -1,7 +1,7 @@
 import Menu from "../components/menu.jsx";
 import Header from "../components/header.jsx";
 import Table from "../components/table.jsx";
-function Expences() {
+function ExpencesPage() {
   return (
     <div className="justify-center h-[90vh] w-screen">
       <Header />
@@ -22,4 +22,4 @@ function Expences() {
   );
 }
 
-export default Expences;
+export default ExpencesPage;

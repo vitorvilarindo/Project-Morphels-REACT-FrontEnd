@@ -22,7 +22,7 @@ function DataBalons({category, data, title, value, description, color_value, col
       <section className="flex justify-between items-center">
         <h1 className="text-sm">{title}</h1>
         <div className="flex gap-3">
-          <p className={`text-sl ${classeCorValue}`}>R$ {value}</p>
+          <p className={`text-sl ${classeCorValue[0]}`}>R$ {value}</p>
           <button className="text-red-600"><Trash2 size={16}/></button>
         </div>
       </section>
