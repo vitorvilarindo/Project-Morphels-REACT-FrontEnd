@@ -5,20 +5,20 @@
   const navigate = useNavigate()
   return (
     <div className='flex justify-center items-center mt-7'>
-      <ul className='w-[55vw] justify-around flex bg-gray-200 rounded-sm items-center shadow-lg p-1'>
-        <li>
+      <ul className='w-[55vw] flex flex-row bg-gray-200 rounded-sm items-center shadow-lg'>
+        <li className='w-full '>
           <MenuButtons onClick={() => navigate(`/`)}><ChartColumn size={14}/>Dashboard </MenuButtons>
-        </li>
-        <li>
+        </li >
+        <li className='w-full'>
           <MenuButtons onClick={() => navigate(`/revenues`)}><BadgeDollarSign size={14}/>Receitas </MenuButtons>
         </li>
-        <li>
+        <li className='w-full'>
           <MenuButtons onClick={() => navigate(`/expences`)}><Receipt size={14}/>Despesas </MenuButtons>
         </li>
-        <li>
+        <li className='w-full'>
           <MenuButtons onClick={() => navigate(`/grafics`)}><ChartColumn size={14}/>Gráficos </MenuButtons>
         </li>
-        <li>
+        <li className='w-full'>
           <MenuButtons onClick={() => navigate(`/reports`)}><FileText size={14}/>Relatórios</MenuButtons>
         </li>
       </ul>

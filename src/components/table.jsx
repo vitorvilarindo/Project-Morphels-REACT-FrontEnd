@@ -2,10 +2,12 @@ import Header2 from "./header2.jsx";
 import FormButtons from "./formButtons.jsx";
 import OpenFromButton from "./openFromButton.jsx";
 import DataBalons from "./dadaBalons.jsx";
+import SearchArea from "./searchArea.jsx";
+import { Search } from "lucide-react";
 function Table({header_title, header_description, button_title, category, data, title, value, description, color_value, color_categorty}) {
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-4">
+      <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
         <section className="flex justify-between items-center">
           <Header2
             title={header_title}
@@ -13,6 +15,7 @@ function Table({header_title, header_description, button_title, category, data, 
           />
           <OpenFromButton>{button_title}</OpenFromButton>
         </section>
+        <SearchArea placeholder={"Search by description or member..."} />
         <DataBalons
           category={category}
           data={data}

@@ -13,7 +13,7 @@ function DataBalons({category, data, title, value, description, color_value, col
   const classeCorCategory = cores[color_categorty]
 
   return (
-    <div className="flex flex-col justify-center border border-neutral-200 bg-white px-4 py-3 rounded-lg gap-1">
+    <button className="flex flex-col justify-center border hover:bg-gray-100 border-neutral-200 bg-white px-4 py-3 rounded-lg gap-1">
       <nav className="flex gap-3 ">
 
         <p className={`text-xs text-blue-300 ${classeCorCategory[0]} ${classeCorCategory[1]} px-2 py-1 rounded-lg items-center`}>{category}</p>        
@@ -29,7 +29,7 @@ function DataBalons({category, data, title, value, description, color_value, col
       <section className="flex justify-start">
         <p className="text-xs text-gray-500">{description}</p>
       </section>
-    </div>
+    </button>
   )
 }
 export default DataBalons;
