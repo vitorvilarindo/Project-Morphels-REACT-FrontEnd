@@ -6,12 +6,17 @@ import RevenuesPage from './pages/revenuesPage.jsx';
 import ExpencesPage from './pages/expencesPage.jsx';
 import GraficsPage from './pages/graficsPage.jsx';
 import ReportsPage from './pages/reportsPage.jsx';
+import Login from './pages/mainPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/main",
+    element: <Login />,
   },
   {
     path: "/revenues",
