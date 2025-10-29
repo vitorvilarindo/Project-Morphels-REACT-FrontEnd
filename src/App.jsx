@@ -2,15 +2,17 @@ import './App.css'
 import{ Church, Mail, Lock } from "lucide-react"
 import SearchBar from './components/searchBar.jsx';
 import AdebBackground from '../images/adebBackground.jpg'
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function onCheckLogin() {
-  // const navigate = useNavigate()
-  // Função para checar login (a ser implementada)
-}
+
 
 function App() {
+  const navigate = useNavigate()
+  function onCheckLogin() {
   
+  navigate('/main')
+  // Função para checar login (a ser implementada)
+}
   return(
     <main className="flex flex-col justify-center items-center h-screen w-screen gap-4 bg-[url('../images/adebBackground.jpg')] bg-cover bg-center bg-black/30 bg-blend-darken">
       <div className="flex flex-col justify-center items-center bg-white backdrop-blur-md p-10 rounded-lg shadow-lg w-110 gap-4">
