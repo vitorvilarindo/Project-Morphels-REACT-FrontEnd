@@ -1,5 +1,5 @@
 import { Calendar, Trash2 } from "lucide-react";
-function DataBalons({category, date, title, value, description, color_value, color_category}) {
+function DataBalons({type, date, title, value, payment, color_value, color_category, onDelete}) {
   const cores = {
     red: ['text-red-700', 'bg-red-100'],
     green: ['text-green-700', 'bg-green-100'],
@@ -13,23 +13,23 @@ function DataBalons({category, date, title, value, description, color_value, col
   const classeCorCategory = cores[color_category] ?? ['text-gray-500', 'bg-gray-100']
 
   return (
-    <button className="flex flex-col justify-center border hover:bg-gray-100 border-neutral-200 bg-white px-4 py-3 rounded-lg gap-1">
+    <div className="flex flex-col justify-center border hover:bg-gray-100 border-neutral-200 bg-white px-4 py-3 rounded-lg gap-1">
       <nav className="flex gap-3 ">
 
-        <p className={`text-xs text-blue-300 ${classeCorCategory[0]} ${classeCorCategory[1]} px-2 py-1 rounded-lg items-center`}>{category}</p>        
+        <p className={`text-xs text-blue-300 ${classeCorCategory[0]} ${classeCorCategory[1]} px-2 py-1 rounded-lg items-center`}>{type}</p>        
         <p className="flex items-center text-gray-500 text-xs"> <Calendar  size={13}/> {date}</p>
       </nav>
       <section className="flex justify-between items-center">
         <h1 className="text-sm">{title}</h1>
         <div className="flex gap-3">
           <p className={`text-sl ${classeCorValue[0]}`}>R$ {value}</p>
-          <button className="text-red-700"><Trash2 size={16}/></button>
+          <button onClick={onDelete} className="text-red-700"><Trash2 size={16}/></button>
         </div>
       </section>
       <section className="flex justify-start">
-        <p className="text-xs text-gray-500">{description}</p>
+        <p className="text-xs text-gray-500">{payment}</p>
       </section>
-    </button>
+    </div>
   )
 }
 export default DataBalons;
