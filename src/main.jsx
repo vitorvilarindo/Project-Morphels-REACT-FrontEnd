@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import RevenuesPage from './pages/revenuesPage.jsx';
 import ExpencesPage from './pages/expencesPage.jsx';
-import GraficsPage from './pages/graficsPage.jsx';
+import Register from './pages/register.jsx';
 import ReportsPage from './pages/reportsPage.jsx';
 import Login from './pages/mainPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/grafics",
-    element: <GraficsPage />,
+    element: <Register />,
   },
   {
     path: "/reports",
