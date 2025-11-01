@@ -5,7 +5,7 @@ import Balons from "../components/balons.jsx";
 import Header2 from "../components/header2.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import SearchBar from "../components/searchBar.jsx";
-import { User, Building2, BadgeDollarSign, Search } from 'lucide-react';
+import { User, Building2, BadgeDollarSign, Search, Trash2 } from 'lucide-react';
 import { useState } from "react";
 
 function Register() {
@@ -122,8 +122,9 @@ function Register() {
                 <section className="w-full rounded-lg border border-neutral-200">
                   <table className="w-full">
                     <thead className="">
-                      <tr className="text-left border-b border-b-neutral-200">
-                        <th  className="p-2">Igreja</th>
+                      <tr className="h-10 text-xs text-gray-900 text-left border-b border-b-neutral-200">
+                        <th  className="px-2">Igreja</th>
+                        <th >Igreja</th>
                         <th >Igreja</th>
                         <th >Igreja</th>
                         <th >Igreja</th>
@@ -132,12 +133,18 @@ function Register() {
                     </thead>
                     <tbody>
                       {Members.map((member) => 
-                      (<tr className="text-left border-b border-b-neutral-200">
+                      (<tr className="h-11 text-xs text-gray-900 text-left border-b border-b-neutral-200">
                         <td className="p-2">{member.name}</td>
-                        <td>{member.name}</td>
-                        <td>{member.name}</td>
-                        <td>{member.name}</td>
-                        <td className="text-right px-2">{member.name}</td>
+                        <td>{member.cellPhone}</td>
+                        <td>{member.dateBorn}</td>
+                        <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{member.typePixKey}</div></td>
+                        <td>{member.pixKey}</td>
+                        
+                        <td><div className="pr-3 flex justify-end text-red-600">
+                          <button>
+                            <Trash2 size={18}/>
+                          </button>
+                        </div></td>
                       </tr> ))}
                       
                     </tbody>
