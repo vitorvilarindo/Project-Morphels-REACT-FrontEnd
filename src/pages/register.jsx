@@ -5,12 +5,20 @@ import Balons from "../components/balons.jsx";
 import Header2 from "../components/header2.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import SearchBar from "../components/searchBar.jsx";
-import { User, Building2, BadgeDollarSign } from 'lucide-react';
+import { User, Building2, BadgeDollarSign, Search } from 'lucide-react';
 import { useState } from "react";
 
 function Register() {
   const [showPage, setShowPage] = useState(true)
   const [showForm, setShowForm] = useState(false)
+  const [Members, setMembers] = useState([{
+    id: 1,
+    name: "Um ser humano",
+    cellPhone: "(61)99380-3557",
+    dateBorn: "06/09/2008",
+    pixKey: "071.257.761-08",
+    typePixKey: "CPF"
+  }])
 
   const onShowPage = () => {
     setShowPage(!showPage)
@@ -103,6 +111,40 @@ function Register() {
                   </div>
                 )}
               </div>
+            </div>
+            <div className="flex justify-center">
+              <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                <Header2 title={"Registed Member"} description={""}/>
+                <section  className="flex items-center gap-2">
+                  <Search size={16} className="text-gray-500"/>
+                  <SearchBar placeholder="Member" type="text" id="member"/>
+                </section> 
+                <section className="w-full rounded-lg border border-neutral-200">
+                  <table className="w-full">
+                    <thead className="">
+                      <tr className="text-left border-b border-b-neutral-200">
+                        <th  className="p-2">Igreja</th>
+                        <th >Igreja</th>
+                        <th >Igreja</th>
+                        <th >Igreja</th>
+                        <th className="text-right px-2">Igreja</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Members.map((member) => 
+                      (<tr className="text-left border-b border-b-neutral-200">
+                        <td className="p-2">{member.name}</td>
+                        <td>{member.name}</td>
+                        <td>{member.name}</td>
+                        <td>{member.name}</td>
+                        <td className="text-right px-2">{member.name}</td>
+                      </tr> ))}
+                      
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+
             </div>
             
           </main>
