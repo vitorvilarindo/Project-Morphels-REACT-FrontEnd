@@ -5,6 +5,7 @@ import Balons from "../components/balons.jsx";
 import Header2 from "../components/header2.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import SearchBar from "../components/searchBar.jsx";
+import Inputs from "../components/inputs.jsx";
 import { User, Building2, BadgeDollarSign, Search, Trash2, Users, CreditCard, MapPin, Phone } from 'lucide-react';
 import { useState } from "react";
 
@@ -34,7 +35,7 @@ function Register() {
   }])
 
   return (
-      <div className='justify-center h-[90vh] w-screen'>
+      <div className=''>
         <Header />
         <Menu />
         <section className='flex justify-center items-center mt-7'>
@@ -78,20 +79,11 @@ function Register() {
                       </section>
                       
                       <section className="flex flex-row gap-4 w-full">
-                        <div className="flex flex-col items-start w-full">
-                          <label htmlFor="cellphone" className="text-xs">Cellphone</label>
-                          <SearchBar placeholder="(61) 91234-5678" type="number" id="cellphone" />
-                        
-                           
-                        </div>
-                        <div className="flex flex-col items-start w-full">
-                          <label htmlFor="date" className="text-xs">Data</label>
-                          <SearchBar placeholder="Enter category" type="date"  id="date" />
-                        </div>
-                        
+                        <Inputs id="cellphone" type="text" placeholder={'(61) 91234-5678'}>Cellphone *</Inputs>
+                        <Inputs id="dateBorn" type="date" >Date of Birth</Inputs>
                       </section >
                       <section className="flex flex-row gap-4 w-full">
-                        <div className="flex flex-col items-start w-full">
+                        <div className="flex flex-col items-start w-full space-y-1">
                           <label htmlFor="pixType" className="text-xs">Pix type</label>
                           <select id="pixType" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" >
                             <option value="CPF">CPF</option>
@@ -101,10 +93,7 @@ function Register() {
                             <option value="aleatoryKey">Aleatory Key</option>
                           </select>
                         </div>
-                        <div className="flex flex-col items-start w-full">
-                          <label htmlFor="value" className="text-xs">Pix Key</label>
-                          <SearchBar placeholder="Write the Pix key." type="number"  id="value" />
-                        </div>
+                        <Inputs id="pixKey" type="text" placeholder={'Write the Pix key.'}>Pix Key</Inputs>
                       </section >
                     
                     
@@ -190,43 +179,25 @@ function Register() {
                           <h2 className="text-sm font-bold">Empress's Data</h2>
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
-                          <div className="flex flex-col items-start w-[70%] space-y-2">
-                            <label htmlFor="member" className="text-xs">CNPJ *</label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="00.000.000/0000-00"/>
-                          </div>
+                          <Inputs id="cnpj" type="text" placeholder={'00.000.000/0000-00'}>CNPJ *</Inputs>
                           <div className="flex flex-col items-start w-[30%] space-y-2">
                             <button className="w-[100%] justify-center gap-3 flex flex-row text-xs bg-gray-100 hover:bg-gray-200 border rounded-md border-gray-100 px-2 py-2"><Search size={16}/> <div>Buscar CNPJ</div></button>
                           </div>
                         </section>
                         
                         <section className="flex flex-row gap-4 w-full">
-                          <div className="flex flex-col items-start w-full space-y-1">
-                            <label htmlFor="cellphone" className="text-xs">Razão Social *</label>
-                            <SearchBar placeholder="Empresa ABC LTDA" type="text" id="cellphone" />
-                          </div>
-                          <div className="flex flex-col items-start w-full space-y-1">
-                            <label htmlFor="date" className="text-xs">Nome Fantasia</label>
-                            <SearchBar placeholder="ABC Empresa" type="text"  id="date" />
-                          </div>
+                          <Inputs id="companyName" type="text" placeholder={'Empresa ABC LTDA'}>Company Name *</Inputs>
+                          <Inputs id="fantasyName" type="text" placeholder={'ABC Empresa'}>Fantasy Name</Inputs>
                         
                         </section >
                         <section className="flex flex-row gap-4 w-full">
-                          <div className="flex flex-col items-start w-full space-y-1">
-                            <label htmlFor="cellphone" className="text-xs">Inscrição Estadual</label>
-                            <SearchBar placeholder="000.000.000.000" type="text" id="cellphone" />
-                          </div>
-                          <div className="flex flex-col items-start w-full space-y-1">
-                            <label htmlFor="date" className="text-xs">Inscrição Munincipal</label>
-                            <SearchBar placeholder="000000-0" type="text"  id="date" />
-                          </div>
+                          <Inputs id="inscricaoEstadual" type="text" placeholder={'000000-0'}>Inscrição Estadual</Inputs>
+                          <Inputs id="inscricaoMunicipal" type="text" placeholder={'000000-0'}>Inscrição Municipal</Inputs>
                         
                         </section >
                         <section className="flex flex-row gap-4 w-full">
-                          <div className="flex flex-col items-start w-full">
-                            <label htmlFor="value" className="text-xs">Data de Abertura</label>
-                            <SearchBar placeholder="Write the Pix key." type="date"  id="value" />
-                          </div>
-                          <div className="flex flex-col items-start w-full">
+                          <Inputs id="pixKey" type="text" placeholder={'00.000.000/0000-00'}>Pix Key</Inputs>
+                          <div className="flex flex-col items-start w-full space-y-1">
                             <label htmlFor="pixType" className="text-xs">Situation</label>
                             <select id="pixType" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" >
                               <option value="Active">Active</option>
@@ -247,31 +218,22 @@ function Register() {
                             <label htmlFor="member" className="text-xs">CEP </label>
                             <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="00.000.000/0000-00"/>
                           </div>
-                          <div className="flex flex-col items-start w-[80%] space-y-2">
-                            <label htmlFor="member" className="text-xs">Logadouro </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Rua, Avenida, etc"/>
-                          </div>
+                          <Inputs id="address" type="text" placeholder={'Street name, Avenue, etc'}>Address </Inputs>
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
                           <div className="flex flex-col items-start w-[20%] space-y-2">
                             <label htmlFor="member" className="text-xs">Nùmero </label>
                             <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="123"/>
                           </div>
-                          <div className="flex flex-col items-start w-[80%] space-y-2">
-                            <label htmlFor="member" className="text-xs">Complemento </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Sala, Andar, etc"/>
-                          </div>
+                          <Inputs id="complement" type="text" placeholder={'Sala, Andar, etc'}>Complement </Inputs>
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
+                          <Inputs id="neighborhood" type="text" placeholder={'Neighborhood name'}>Neighborhood </Inputs>
                           <div className="flex flex-col items-start w-[50%] space-y-2">
-                            <label htmlFor="member" className="text-xs">Bairro </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Centro"/>
-                          </div>
-                          <div className="flex flex-col items-start w-[25%] space-y-2">
                             <label htmlFor="member" className="text-xs">Cidade </label>
                             <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="São Paulo"/>
                           </div>
-                          <div className="flex flex-col items-start w-[25%] space-y-2">
+                          <div className="flex flex-col items-start w-[50%] space-y-1">
                             <label htmlFor="member" className="text-xs">UF </label>
                             <select className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Sala, Andar, etc">
                               <option value="ac">AC</option>
@@ -311,14 +273,8 @@ function Register() {
                           <h2 className="text-sm font-bold">Contact</h2>
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
-                          <div className="flex flex-col items-start w-[50%] space-y-2">
-                            <label htmlFor="member" className="text-xs">Telefone * </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="(61) 91234-5678"/>
-                          </div>
-                          <div className="flex flex-col items-start w-[50%] space-y-2">
-                            <label htmlFor="member" className="text-xs">E-mail </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Contato@empresa.com"/>
-                          </div>
+                          <Inputs id="cellphone" type="text" placeholder={'(61) 91234-5678'}>Cellphone </Inputs>
+                          <Inputs id="telephone" type="text" placeholder={'company@contact.com'}>E-mail </Inputs>
                         </section>
 
                       </article>
@@ -328,14 +284,11 @@ function Register() {
                           <h2 className="text-sm font-bold">Atividade Econômica</h2>
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
-                          <div className="flex flex-col items-start w-[20%] space-y-2">
+                          <div className="flex flex-col items-start w-[30%] space-y-2">
                             <label htmlFor="member" className="text-xs">CNAE </label>
                             <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="0000-0/00"/>
                           </div>
-                          <div className="flex flex-col items-start w-[80%] space-y-2">
-                            <label htmlFor="member" className="text-xs">Descrição de Atividade </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Ex: Serviços de manutenção e reparação"/>
-                          </div>
+                          <Inputs id="descriptionActivity" type="text" placeholder={'Ex: Serviços de manutenção e reparação'}>Descrição de Atividade </Inputs>
                         </section>
                         
                       </article>
@@ -345,7 +298,7 @@ function Register() {
                           <h2 className="text-sm font-bold">Dados para Pagamento</h2>
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
-                          <div className="flex flex-col items-start w-[20%] space-y-2">
+                          <div className="flex flex-col items-start w-[30%] space-y-1">
                             <label htmlFor="member" className="text-xs">CNAE </label>
                             <select className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="0000-0/00">
                               <option value="CPF">CPF</option>
@@ -355,10 +308,7 @@ function Register() {
                               <option value="aleatoryKey">Aleatory Key</option>
                             </select>
                           </div>
-                          <div className="flex flex-col items-start w-[80%] space-y-2">
-                            <label htmlFor="member" className="text-xs">Descrição de Atividade </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Ex: Serviços de manutenção e reparação"/>
-                          </div>
+                          <Inputs id="pixKeyPayment" type="text" placeholder={'Write the Pix key.'}>Pix Key</Inputs>
                         </section>
                         
                       </article>
