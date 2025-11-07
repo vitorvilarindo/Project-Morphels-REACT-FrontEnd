@@ -20,6 +20,18 @@ function Register() {
     pixKey: "071.257.761-08",
     typePixKey: "CPF"
   }])
+  const [Companies, setCompanies] = useState([{
+    id: 1,
+    name: "Empresa ABC LTDA",
+    fanntasyName: "ABC Empresa",
+    CNPJ: "00.000.000/0000-00",
+    localization: "São Paulo/SP",
+    cellphone: "(61)91234-5678",
+    situation: "Active",
+    CNAE: "0000-0/00",
+    pixKey: "00.000.000/0000-00",
+    typePixKey: "CNPJ"
+  }])
 
   return (
       <div className='justify-center h-[90vh] w-screen'>
@@ -112,8 +124,8 @@ function Register() {
                   <Search size={16} className="text-gray-500"/>
                   <SearchBar placeholder="Member" type="text" id="member"/>
                 </section> 
-                <section className="w-full rounded-lg border border-neutral-200">
-                  <table className="w-full">
+                <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
+                  <table className="w-full ">
                     <thead className="">
                       <tr className="h-10 text-xs text-gray-900 text-left border-b border-b-neutral-200">
                         <th  className="px-2">Igreja</th>
@@ -357,9 +369,54 @@ function Register() {
                       </div>
                     </form>
                   </div>)}
-
+                  
               </div>
-            </div>   
+            </div> 
+            <div className="flex justify-center">
+              <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                <Header2 title={"Registed Member"} description={""}/>
+                <section  className="flex items-center gap-2">
+                  <Search size={16} className="text-gray-500"/>
+                  <SearchBar placeholder="Member" type="text" id="member"/>
+                </section> 
+                <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
+                  <table className="border-collapse w-full ">
+                    <thead className="w-full">
+                      <tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-10">
+                        <th className="px-2 whitespace-nowrap w-[20%]">Company Name</th>
+                        <th className="whitespace-nowrap">Fantasy Name</th>
+                        <th className="whitespace-nowrap">CNPJ</th>
+                        <th className="whitespace-nowrap">City/UF</th>
+                        <th className="whitespace-nowrap">Cellphone</th>
+                        <th className="whitespace-nowrap">Situation</th>
+                        <th className="whitespace-nowrap">CNAE</th>
+                        <th className="text-right px-2 whitespace-nowrap">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className=" w-full">
+                      {Companies.map((company) => 
+                      (<tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
+                        <td className="px-2 whitespace-nowrap">{company.name}</td>
+                        <td className="whitespace-nowrap">{company.fanntasyName}</td>
+                        <td className="whitespace-nowrap">{company.CNPJ}</td>
+                        <td className="whitespace-nowrap">{company.localization}</td>
+                        <td className="whitespace-nowrap">{company.cellphone}</td>
+                        <td><div className="inline-block  border bg-black text-white border-neutral-200 px-1 py-0.5 rounded-md uppercase whitespace-nowrap">{company.situation}</div></td>
+                        <td className="whitespace-nowrap">{company.CNAE}</td>
+                        
+                        <td><div className="pr-3 flex justify-end text-red-600">
+                          <button>
+                            <Trash2 size={18}/>
+                          </button>
+                        </div></td>
+                      </tr> ))}
+                      
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+
+            </div>
           </main>
         )}
       </div>
