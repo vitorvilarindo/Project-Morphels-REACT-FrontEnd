@@ -35,7 +35,7 @@ function Register() {
   }])
 
   return (
-      <div className=''>
+      <main className=" w-screen">
         <Header />
         <Menu />
         <section className='flex justify-center items-center mt-7'>
@@ -51,16 +51,16 @@ function Register() {
 
         {showPage ? (
           
-          <main className="w-screen">
-            <div className='flex justify-center'>
-              <section className='flex w-[55vw] gap-3'>
+          <main>
+            <div className='flex justify-center mt-7'>
+              <section className='flex flex-col w-[55vw] gap-2 lg:flex-row lg:gap-3  '>
                 <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<Users size={16} />} color="green"/>
                 <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<CreditCard size={16} />} color="green"/>
                 <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<Users size={16} />} color="green"/>
               </section>
             </div>
             <div className="flex justify-center">
-              <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+              <div className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
                 <section className="flex justify-between items-center">
                   <Header2
                     title={"Revenues Form"}
@@ -107,7 +107,7 @@ function Register() {
               </div>
             </div>
             <div className="flex justify-center">
-              <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+              <div className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
                 <Header2 title={"Registed Member"} description={""}/>
                 <section  className="flex items-center gap-2">
                   <Search size={16} className="text-gray-500"/>
@@ -150,8 +150,8 @@ function Register() {
             
           </main>
         ) : (
-          <main className="w-screen">
-            <div className='flex justify-center'>
+          <main >
+            <div className='flex justify-center mt-7'>
               <section className='flex w-[55vw] gap-3'>
                 <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<Users size={16} />} color="green"/>
                 <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<CreditCard size={16} />} color="green"/>
@@ -159,7 +159,7 @@ function Register() {
               </section>
             </div>
             <div className="flex justify-center">
-              <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+              <div className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
                 <section className="flex justify-between items-center">
                   <Header2
                     title={"Revenues Form"}
@@ -323,14 +323,14 @@ function Register() {
               </div>
             </div> 
             <div className="flex justify-center">
-              <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+              <div className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
                 <Header2 title={"Registed Member"} description={""}/>
                 <section  className="flex items-center gap-2">
                   <Search size={16} className="text-gray-500"/>
                   <SearchBar placeholder="Member" type="text" id="member"/>
                 </section> 
                 <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
-                  <table className="border-collapse w-full ">
+                  <table className="border-collapse w-[150%] xl:w-[100%]">
                     <thead className="w-full">
                       <tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-10">
                         <th className="px-2 whitespace-nowrap w-[20%]">Company Name</th>
@@ -369,6 +369,6 @@ function Register() {
             </div>
           </main>
         )}
-      </div>
+      </main>
   )}
 export default Register;

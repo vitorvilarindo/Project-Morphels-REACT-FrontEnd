@@ -1,13 +1,14 @@
 import Menu from "../components/menu.jsx";
 import Header from "../components/header.jsx";
 import Table from "../components/table.jsx";
-import { useState, Fragment } from "react";
+import { useState, useEffect } from "react";
 import Header2 from "../components/header2.jsx";
 import FormButtons from "../components/formButtons.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import DataBalons from "../components/dadaBalons.jsx";
 import SearchArea from "../components/searchArea.jsx";
 import SearchBar from "../components/searchBar.jsx";
+import api from "../services/api.js";
 import { Listbox, Transition } from '@headlessui/react'
 
 function RevenuesPage() {
@@ -17,47 +18,21 @@ function RevenuesPage() {
   const [value, setValue] = useState('');
   const [payment, setPayment] = useState("");
   const [date, setDate] = useState("");
-  const [revenues, setRevenues] = useState([{
-    id: 0,
-    type: 'Dizimo',
-    date: '14/10/2025',
-    member: 'Dizimo de Alguem',
-    value: 2000.00,
-    payment: 'Cheque',
-    color_value: "green",
-    color_category: "blue"
-  },
-  {
-    id: 1,
-    type: 'Oferta',
-    date: '15/10/2025',
-    member: 'Oferta de Alguem',
-    value: 500.00,
-    payment: 'Dinheiro',
-    color_value: "green",
-    color_category: "green"
-  },
-  {
-    id: 2,
-    type: 'Dizimo',
-    date: '16/10/2025',
-    member: 'Dizimo de Outra Pessoa',
-    value: 1500.00,
-    payment: 'Pix/Depósito',
-    color_value: "green",
-    color_category: "blue"
-  }
-  ]);
+  const [revenues, setRevenues] = useState([]);
 
   const onShowForm =  () => {
     setShowForma(!showForma);
     console.log("Button clicked! Show form:", showForma);
   }
 
-  function onDeleteRevenue(id) {
-    const updatedRevenues = revenues.filter((revenue) => revenue.id !== id);
-    setRevenues(updatedRevenues);
+  async function onGetRevenues() {
+    const response = await api.get("/revenues")
+    setRevenues(response.data)
   }
+
+  useEffect(() => {
+    onGetRevenues();
+  }, []);
 
   function onAddRevenue(member, type, value, payment, date) {
     let color_category = ""
@@ -79,6 +54,10 @@ function RevenuesPage() {
       color_category
     }
     setRevenues([...revenues, newRevenue]);
+  }
+  function onDeleteRevenue(id) {
+    const updatedRevenues = revenues.filter((revenue) => revenue.id !== id);
+    setRevenues(updatedRevenues);
   }
 
   return (
