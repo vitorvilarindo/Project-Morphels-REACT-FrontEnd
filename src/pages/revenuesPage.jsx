@@ -9,10 +9,12 @@ import DataBalons from "../components/dadaBalons.jsx";
 import SearchArea from "../components/searchArea.jsx";
 import SearchBar from "../components/searchBar.jsx";
 import api from "../services/api.js";
+import Modal from "../components/modal.jsx";
 import { Listbox, Transition } from '@headlessui/react'
 
 function RevenuesPage() {
   const [showForma, setShowForma] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
   const [member, setMember] = useState("");
   const [type, setType] = useState("");
   const [value, setValue] = useState('');
@@ -55,9 +57,11 @@ function RevenuesPage() {
     }
     setRevenues([...revenues, newRevenue]);
   }
-  function onDeleteRevenue(id) {
-    const updatedRevenues = revenues.filter((revenue) => revenue.id !== id);
-    setRevenues(updatedRevenues);
+  async function onDeleteRevenue(id) {
+    console.log("Deleting revenue with id:", id);
+    await api.delete(`/revenues/${id}`)
+
+    onGetRevenues();
   }
 
   return (
@@ -79,7 +83,7 @@ function RevenuesPage() {
           </section>
           <SearchArea placeholder={"Search by description or member..."} />
           {showForma && (
-            <div className="bg-gray-50 p-3 rounded-sm border-1 border-gray-300 shadow-md">
+            <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form action={() => onAddRevenue(member, type, value, payment, date)} className="flex flex-col  space-y-3">
                 <section className="flex flex-col items-start">
                   <label htmlFor="member" className="text-xs">Member</label>
@@ -134,11 +138,13 @@ function RevenuesPage() {
               title={data.member}
               value={data.value}
               payment={data.payment}
-              color_value={data.color_value}
+              color_value={"green"}
               color_category={data.color_category}
+              showEditForm={() => setShowEditForm(true)}
               onDelete={() => onDeleteRevenue(data.id)}
             />
             ))}
+            {showEditForm && <Modal onClose={() => setShowEditForm(false)} />}
         </div>
       </div>
     </div>
