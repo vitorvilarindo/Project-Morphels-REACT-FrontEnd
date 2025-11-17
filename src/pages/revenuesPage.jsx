@@ -11,16 +11,16 @@ import SearchBar from "../components/searchBar.jsx";
 import api from "../services/api.js";
 import Modal from "../components/modal.jsx";
 import { Listbox, Transition } from '@headlessui/react'
+import { set, useForm } from "react-hook-form"
+import { data } from "react-router-dom";
 
 function RevenuesPage() {
   const [showForma, setShowForma] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [member, setMember] = useState("");
-  const [type, setType] = useState("");
-  const [value, setValue] = useState('');
-  const [payment, setPayment] = useState("");
-  const [date, setDate] = useState("");
   const [revenues, setRevenues] = useState([]);
+  const [editData, setEditData] = useState(null);
+
+  const { register, handleSubmit} = useForm();
 
   const onShowForm =  () => {
     setShowForma(!showForma);
@@ -36,26 +36,9 @@ function RevenuesPage() {
     onGetRevenues();
   }, []);
 
-  function onAddRevenue(member, type, value, payment, date) {
-    let color_category = ""
-    if (type == 'Dizimo'){
-      color_category = "blue"
-    }else if (type == 'Oferta'){
-      color_category = "green"
-    }else{
-      color_category = "purple"
-    }
-    const newRevenue = {
-      id: revenues.length + 1,
-      type,
-      date,
-      member,
-      value,
-      payment,
-      color_value: "green",
-      color_category
-    }
-    setRevenues([...revenues, newRevenue]);
+  async function onAddRevenue(data) {
+    await api.post("/revenues", data)
+    onGetRevenues();
   }
   async function onDeleteRevenue(id) {
     console.log("Deleting revenue with id:", id);
@@ -84,16 +67,16 @@ function RevenuesPage() {
           <SearchArea placeholder={"Search by description or member..."} />
           {showForma && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
-              <form action={() => onAddRevenue(member, type, value, payment, date)} className="flex flex-col  space-y-3">
+              <form action={() => handleSubmit(onAddRevenue)()} className="flex flex-col  space-y-3">
                 <section className="flex flex-col items-start">
                   <label htmlFor="member" className="text-xs">Member</label>
-                  <SearchBar placeholder="Member" type="text" id="member" value={member} onChange={(event) => setMember(event.target.value)}/>
+                  <SearchBar placeholder="Member" type="text" id="member" {...register("member")} />
                 </section>
                 
                 <section className="flex flex-row gap-4 w-full">
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="type" className="text-xs">Type</label>
-                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" value={type} onChange={(event) => setType(event.target.value)}>
+                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("type")} >
                       <option value="">Select a category</option>
                       <option value="Dizimo">Dizimo</option>
                       <option value="Oferta">Oferta</option>
@@ -102,13 +85,13 @@ function RevenuesPage() {
                   </div>
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="value" className="text-xs">Values</label>
-                    <SearchBar placeholder="00,0" type="number"  id="value" value={value} onChange={(event) => setValue(event.target.value)}/>
+                    <SearchBar placeholder="00,0" type="number"  id="value" {...register("value")}/>
                   </div>
                 </section >
                 <section className="flex flex-row gap-4 w-full">
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="payment" className="text-xs">Payment</label>
-                    <select id="payment" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" value={payment} onChange={(event) => setPayment(event.target.value)}>
+                    <select id="payment" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("payment")} >
                       <option value="">Select a Payment</option>
                       <option value="Pix/Depósito">Pix/Depósito</option>
                       <option value="Dinheiro">Dinheiro</option>
@@ -117,7 +100,7 @@ function RevenuesPage() {
                   </div>
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="date" className="text-xs">Data</label>
-                    <SearchBar placeholder="Enter category" type="date"  id="date" value={date} onChange={(event) => setDate(event.target.value)}/>
+                    <SearchBar type="date"  id="date" {...register("date")} />
                   </div>
                 </section >
               
@@ -140,11 +123,14 @@ function RevenuesPage() {
               payment={data.payment}
               color_value={"green"}
               color_category={data.color_category}
-              showEditForm={() => setShowEditForm(true)}
+              showEditForm={() => {
+                setShowEditForm(true)
+                setEditData(data)
+              }}
               onDelete={() => onDeleteRevenue(data.id)}
             />
             ))}
-            {showEditForm && <Modal onClose={() => setShowEditForm(false)} />}
+            {showEditForm && <Modal  complete={editData}/>}
         </div>
       </div>
     </div>
