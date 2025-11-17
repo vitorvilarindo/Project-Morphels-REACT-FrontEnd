@@ -14,7 +14,7 @@ function Login () {
       <Menu />
 
       <div className='flex justify-center'>
-        <section className='flex w-[55vw] gap-3'>
+        <section className='flex w-[55vw] mt-8 gap-3'>
           <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
           <Balons title={'entradas'} value={'2000.00'} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
         </section>
