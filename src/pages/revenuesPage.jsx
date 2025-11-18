@@ -10,9 +10,7 @@ import SearchArea from "../components/searchArea.jsx";
 import SearchBar from "../components/searchBar.jsx";
 import api from "../services/api.js";
 import Modal from "../components/modal.jsx";
-import { Listbox, Transition } from '@headlessui/react'
-import { set, useForm } from "react-hook-form"
-import { data } from "react-router-dom";
+import
 
 function RevenuesPage() {
   const [showForma, setShowForma] = useState(false);
