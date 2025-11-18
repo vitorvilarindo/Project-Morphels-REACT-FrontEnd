@@ -10,10 +10,10 @@ import SearchArea from "../components/searchArea.jsx";
 import SearchBar from "../components/searchBar.jsx";
 import api from "../services/api.js";
 import Modal from "../components/modal.jsx";
-import
+import { useForm } from 'react-hook-form';
 
 function RevenuesPage() {
-  const [showForma, setShowForma] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [revenues, setRevenues] = useState([]);
   const [editData, setEditData] = useState(null);
@@ -21,8 +21,8 @@ function RevenuesPage() {
   const { register, handleSubmit} = useForm();
 
   const onShowForm =  () => {
-    setShowForma(!showForma);
-    console.log("Button clicked! Show form:", showForma);
+    setShowForm(!showForm);
+    console.log("Button clicked! Show form:", showForm);
   }
 
   async function onGetRevenues() {
@@ -34,7 +34,7 @@ function RevenuesPage() {
     onGetRevenues();
   }, []);
 
-  async function onAddRevenue(data) {
+  async function onAddRevenue(data) {   
     await api.post("/revenues", data)
     onGetRevenues();
   }
@@ -63,7 +63,7 @@ function RevenuesPage() {
             </div>
           </section>
           <SearchArea placeholder={"Search by description or member..."} />
-          {showForma && (
+          {showForm && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form action={() => handleSubmit(onAddRevenue)()} className="flex flex-col  space-y-3">
                 <section className="flex flex-col items-start">
@@ -128,7 +128,7 @@ function RevenuesPage() {
               onDelete={() => onDeleteRevenue(data.id)}
             />
             ))}
-            {showEditForm && <Modal  complete={editData}/>}
+            {showEditForm && <Modal onGetRevenues={() => onGetRevenues()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
         </div>
       </div>
     </div>

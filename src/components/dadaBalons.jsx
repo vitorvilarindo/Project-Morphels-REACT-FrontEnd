@@ -30,6 +30,14 @@ function DataBalons({type, date, title, value, payment, color_value, color_categ
   const classeCorValue = cores[color_value] ?? ['text-gray-500', 'bg-gray-100']
   const classeCorCategory = cores[color_category] ?? ['text-gray-500', 'bg-gray-100']
 
+  const dataObj = new Date(date);
+
+  const formatedData = dataObj.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+});
+
   return (
     <div
       onClick={showEditForm}
@@ -40,7 +48,7 @@ function DataBalons({type, date, title, value, payment, color_value, color_categ
           {type}
         </p>
         <p className="flex items-center text-gray-500 text-xs">
-          <Calendar size={13} /> {date}
+          <Calendar size={13} /> {formatedData}
         </p>
       </nav>
 
