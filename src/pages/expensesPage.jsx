@@ -1,92 +1,48 @@
 import Menu from "../components/menu.jsx";
 import Header from "../components/header.jsx";
-import Table from "../components/table.jsx";
-import { useState, Fragment } from "react";
+import { useState, useEffect } from "react";
 import Header2 from "../components/header2.jsx";
-import FormButtons from "../components/formButtons.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import DataBalons from "../components/dadaBalons.jsx";
 import SearchArea from "../components/searchArea.jsx";
 import SearchBar from "../components/searchBar.jsx";
-import { Listbox, Transition } from '@headlessui/react'
+import api from "../services/api.js";
+import { useForm } from "react-hook-form";
+import ModalExpenses from "../components/modalExpences.jsx";
 
-function ExpencesPage() {
+function ExpensesPage() {
   
   const [showForma, setShowForma] = useState(false);
-  const [supplier, setSupplier] = useState("");
-  const [type, setType] = useState("");
-  const [value, setValue] = useState('');
-  const [payment, setPayment] = useState("");
-  const [date, setDate] = useState("");
-  const [expences, setExpences] = useState([{
-    id: 0,
-    type: 'Utilidades',
-    date: '14/10/2025',
-    supplier: 'Alguma utilidade',
-    value: 2000.00,
-    payment: 'Pix/Depósito',
-    color_value: "red",
-    color_category: "blue"
-  },
-  {
-    id: 1,
-    type: 'Alimentação',
-    date: '15/10/2025',
-    supplier: 'Compra de comida',
-    value: 500.00,
-    payment: 'Dinheiro',
-    color_value: "red",
-    color_category: "yellow"
-  },
-  {
-    id: 2,
-    type: 'Transporte',
-    date: '16/10/2025',
-    supplier: 'Combustível',
-    value: 1500.00,
-    payment: 'Cheque',
-    color_value: "red",
-    color_category: "blue"
-  }  
-]);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [expenses, setExpences] = useState([]);
+
+  const { register, handleSubmit } = useForm();
 
   const onShowForm =  () => {
     setShowForma(!showForma);
-    console.log("Button clicked! Show form:", showForma);
+
+  }
+  async function onGetExpences(){
+    const response =  await api.get("/expenses");
+    setExpences (response.data);
   }
 
-  function onDeleteExpences(id){
-    const updateExpences = expences.filter((expence) => expence.id !== id)
-    setExpences(updateExpences)
+  useEffect(() => {
+      onGetExpences();
+    }, []);
+
+  async function onAddExpence(data) {
+    console.log(data);
+    await api.post("/expenses", data);
+    onGetExpences();
+  }
+  async function onDeleteExpence(id){
+    await api.delete(`/expenses/${id}`);
+    onGetExpences();
   }
 
-  function onAddExpence(member, type, value, payment, date) {
-    let color_category = ""
-    if (type == 'Manutenção'){
-      color_category = "yellow"
-    }else if (type == 'Salários'){
-      color_category = "red"
-    }else if (type == 'Projetos'){
-      color_category = "purple"
-    }else if (type == 'Utilidades'){
-      color_category = "blues"
-    }else if (type == 'Eventos'){
-      color_category = "green"
-    }else{
-      color_category = "purple"
-    }
-    const newExpences = {
-      id: expences.length + 1,
-      type,
-      date,
-      supplier,
-      value,
-      payment,
-      color_value: "red",
-      color_category
-    }
-    setExpences([...expences, newExpences]);
-  }
+ 
 
   return (
     <div className="justify-center h-[90vh] w-screen">
@@ -106,17 +62,18 @@ function ExpencesPage() {
           </section>
           <SearchArea placeholder={"Search by description or supplier..."} />
           {showForma && (
-            <div className="bg-gray-50 p-3 rounded-sm border-1 border-gray-300">
-              <form action={() => onAddExpence(supplier, type, value, payment, date)} className="flex flex-col  space-y-3">
+            <div className="bg-gray-50 p-3 rounded-sm border border-gray-300">
+              <form action={() => handleSubmit(onAddExpence)()} className="flex flex-col  space-y-3">
                 <section className="flex flex-col items-start">
-                  <label htmlFor="supplier" className="text-xs">Supplier/recepient</label>
-                  <SearchBar placeholder="Supplier/recepient" type="text" id="supplier" value={supplier} onChange={(event) => setSupplier(event.target.value)}/>
+                  <label htmlFor="Title" className="text-xs">Title</label>
+                  <SearchBar placeholder="Title" type="text" id="Title" {...register('title')} />
                 </section>
+                
                 
                 <section className="flex flex-row gap-4 w-full">
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="type" className="text-xs">Category</label>
-                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" value={type} onChange={(event) => setType(event.target.value)}>
+                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('category')}  >
                       <option value="">Select a category</option>
                       <option value="Manutenção">Manutenção</option>
                       <option value="Salários">Salários</option>
@@ -128,13 +85,13 @@ function ExpencesPage() {
                   </div>
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="value" className="text-xs">Value</label>
-                    <SearchBar placeholder="00,0" type="number"  id="values" value={value} onChange={(event) => setValue(event.target.value)}/>
+                    <SearchBar placeholder="00,0" type="number"  id="values" {...register('value')}  />
                   </div>
                 </section >
                 <section className="flex flex-row gap-4 w-full">
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="payment" className="text-xs">Payment</label>
-                    <select id="payment" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" value={payment} onChange={(event) => setPayment(event.target.value)}>
+                    <select id="payment" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('payment')}  >
                       <option value=''>Select a payment</option>
                       <option value="Pix/Transferência" >Pix/Transferência</option>
                       <option value="Dinheiro">Dinheiro</option>
@@ -144,9 +101,13 @@ function ExpencesPage() {
                   </div>
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="date" className="text-xs">Data</label>
-                    <SearchBar placeholder="Enter category" type="date"  id="date" value={date} onChange={(event) => setDate(event.target.value)}/>
+                    <SearchBar placeholder="Enter category" type="date"  id="date" {...register('date')}  />
                   </div>
                 </section >
+                <section className="flex flex-col items-start">
+                  <label htmlFor="beneficiary" className="text-xs">Supplier/recepient</label>
+                  <SearchBar placeholder="Supplier/recepient" type="text" id="beneficiary" {...register('beneficiary')} />
+                </section>
               
               
                 <div className="w-full flex flex-row mt-4 gap-4 ">
@@ -157,23 +118,27 @@ function ExpencesPage() {
             </div>
           )}
           
-          {expences.map((data) => (
+          {expenses.map((data) => (
             <DataBalons
               key={data.id}
-              type={data.type}
+              type={data.category}
               date={data.date}
-              title={data.supplier}
+              title={data.title}
               value={data.value}
-              payment={data.payment}
-              color_value={data.color_value}
-              color_category={data.color_category}
-              onDelete={() => onDeleteExpences(data.id)}
+              payment={data.baneficiary}
+              color_value={"red"}
+              showEditForm={() => {
+                setShowEditForm(true);
+                setEditData(data);
+              }}
+              onDelete={() => onDeleteExpence(data.id)}
             />
             ))}
+            {showEditForm && <ModalExpenses onGetRevenues={() => onGetExpences()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
         </div>
       </div>
     </div>
   );
 }
 
-export default ExpencesPage;
+export default ExpensesPage;

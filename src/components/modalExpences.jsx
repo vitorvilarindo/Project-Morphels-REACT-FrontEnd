@@ -1,14 +1,14 @@
-import { useForm } from "react-hook-form"
-import api from "../services/api.js";
-import SearchBar from "./searchBar.jsx";
-import Header2 from "./header2.jsx";
+import api from '../services/api.js';
+import { useForm } from 'react-hook-form';
+import SearchBar from './searchBar.jsx';
+import Header2 from './header2.jsx';
 
-function Modal({complete, onHideForm, onGetRevenues}) {
+function ModalExpenses({complete, onHideForm, onGetExpenses}) {
   const { register, handleSubmit} = useForm();
 
-    async function onEditRevenue(data) {
-      await api.put(`/revenues/${complete.id}`, data)
-      onGetRevenues()
+    async function onEditExpence(data) {
+      await api.put(`/expenses/${complete.id}`, data)
+      onGetExpenses()
     }
   return (
     <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
@@ -17,7 +17,7 @@ function Modal({complete, onHideForm, onGetRevenues}) {
               title={"Revenues put Form"}
               description={"Form to edit revenues"}
         />
-        <form action={() => handleSubmit(onEditRevenue)()} className="flex flex-col  space-y-3">
+        <form action={() => handleSubmit(onEditExpence)()} className="flex flex-col  space-y-3">
                 <section className="flex flex-col items-start">
                   <label htmlFor="member" className="text-xs">Member</label>
                   <SearchBar placeholder="Member" type="text" id="member" {...register("member")} defaultValue={complete.member}/>
@@ -64,4 +64,4 @@ function Modal({complete, onHideForm, onGetRevenues}) {
   );
 }
 
-export default Modal;
+export default ModalExpenses;
