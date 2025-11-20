@@ -125,16 +125,16 @@ function ExpensesPage() {
               date={data.date}
               title={data.title}
               value={data.value}
-              payment={data.baneficiary}
-              color_value={"red"}
+              payment={data.beneficiary}
+              color_value={"green"}
               showEditForm={() => {
                 setShowEditForm(true);
                 setEditData(data);
               }}
               onDelete={() => onDeleteExpence(data.id)}
             />
-            ))}
-            {showEditForm && <ModalExpenses onGetRevenues={() => onGetExpences()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
+          ))}
+            {showEditForm && <ModalExpenses onGetExpenses={() => onGetExpences()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
         </div>
       </div>
     </div>

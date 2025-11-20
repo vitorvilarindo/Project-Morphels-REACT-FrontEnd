@@ -67,15 +67,15 @@ function DataBalons({
         </p>
       </nav>
 
-      <section className="flex justify-between items-center">
+      <div className="flex justify-between items-center">
         <h1 className="text-sm">{title}</h1>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
           <p className={`text-sl ${classeCorValue[0]}`}>R$ {value}</p>
-          <button onClick={onDelete} className="text-red-700">
+          <button onClick={(e) => {e.stopPropagation(); onDelete()}} className="text-red-700 p-2 hover:bg-red-100 rounded-lg">
             <Trash2 size={16} />
           </button>
         </div>
-      </section>
+      </div>
 
       <section className="flex justify-start">
         <p className="text-xs text-gray-500">{payment}</p>

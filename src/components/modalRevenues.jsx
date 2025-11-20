@@ -9,6 +9,7 @@ function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
   async function onEditRevenue(data) {
     await api.put(`/revenues/${complete.id}`, data);
     onGetRevenues();
+    onHideForm();
   }
   return (
     <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
