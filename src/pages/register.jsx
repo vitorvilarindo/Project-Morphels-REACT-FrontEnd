@@ -14,31 +14,27 @@ function Register() {
   const [showForm1, setShowForm1] = useState(false)
   const [showForm2, setShowForm2] = useState(false)
   const[members, setMembers] = useState([])
-  const[companies, setCompanies] = useState([])
+  // const[companies, setCompanies] = useState([])
   
   async function fetchMembers() {
-    try {
-      const response = await api.get('/members');
-      setMembers(response.data);
-    } catch (error) {
-      console.error('Error fetching members:', error);
-    }
+    const response = await api.get('/members');
+    setMembers(response.data);
   }
 
-  async function fetchCompanies() {
-    try {
-      const response = await api.get('/companies');
-      setCompanies(response.data);
-    } catch (error) {
-      console.error('Error fetching companies:', error);
-    }
-  }
+  // async function fetchCompanies() {
+  //   try {
+  //     const response = await api.get('/companies');
+  //     setCompanies(response.data);
+  //   } catch (error) {
+  //     console.error('Error fetching companies:', error);
+  //   }
+  // }
   useEffect(() => {
       fetchMembers();
     }, []);
-    useEffect(() => {
-      fetchCompanies();
-    }, []);
+    // useEffect(() => {
+    //   fetchCompanies();
+    // }, []);
 
   return (
       <main className=" w-screen">
@@ -122,12 +118,12 @@ function Register() {
                   <table className="w-full ">
                     <thead className="">
                       <tr className="h-10 text-xs text-gray-900 text-left border-b border-b-neutral-200">
-                        <th  className="px-2">Igreja</th>
-                        <th >Igreja</th>
-                        <th >Igreja</th>
-                        <th >Igreja</th>
-                        <th >Igreja</th>
-                        <th className="text-right px-2">Igreja</th>
+                        <th  className="px-2">Nome</th>
+                        <th >Telefone</th>
+                        <th >Data de Nascimento</th>
+                        <th >Tipo</th>
+                        <th >Chave Pix</th>
+                        <th className="text-right px-2">Controles</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -201,13 +197,13 @@ function Register() {
                         
                         </section >
                         <section className="flex flex-row gap-4 w-full">
-                          <Inputs id="pixKey" type="text" placeholder={'00.000.000/0000-00'}>Pix Key</Inputs>
+                          <Inputs id="pixKey" type="date">Open Date</Inputs>
                           <div className="flex flex-col items-start w-full space-y-1">
-                            <label htmlFor="pixType" className="text-xs">Situation</label>
+                            <label htmlFor="pixType" className="text-xs">Register Situation</label>
                             <select id="pixType" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" >
                               <option value="Active">Active</option>
                               <option value="Suspence">Suspence</option>
-                              <option value="Inapta">Inapta</option>
+                              <option value="Inapta">Inapt</option>
                               <option value="Baixada">Baixada</option>
                             </select>
                           </div>
@@ -304,7 +300,7 @@ function Register() {
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
                           <div className="flex flex-col items-start w-[30%] space-y-1">
-                            <label htmlFor="member" className="text-xs">CNAE </label>
+                            <label htmlFor="member" className="text-xs">Pix type </label>
                             <select className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="0000-0/00">
                               <option value="CPF">CPF</option>
                               <option value="CNPJ">CNPJ</option>
