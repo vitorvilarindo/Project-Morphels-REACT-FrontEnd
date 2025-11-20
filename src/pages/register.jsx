@@ -1,38 +1,44 @@
 import Menu from "../components/menu.jsx"
 import Header from "../components/header.jsx";
-import MenuButtons from "../components/menuButtons.jsx";
 import Balons from "../components/balons.jsx";
 import Header2 from "../components/header2.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import SearchBar from "../components/searchBar.jsx";
 import Inputs from "../components/inputs.jsx";
-import { User, Building2, BadgeDollarSign, Search, Trash2, Users, CreditCard, MapPin, Phone } from 'lucide-react';
-import { useState } from "react";
+import { User, Building2, Search, Trash2, Users, CreditCard, MapPin, Phone } from 'lucide-react';
+import { useState, useEffect } from "react";
+import api from "../services/api.js";
 
 function Register() {
   const [showPage, setShowPage] = useState(true)
   const [showForm1, setShowForm1] = useState(false)
   const [showForm2, setShowForm2] = useState(false)
-  const [Members, setMembers] = useState([{
-    id: 1,
-    name: "Um ser humano",
-    cellPhone: "(61)99380-3557",
-    dateBorn: "06/09/2008",
-    pixKey: "071.257.761-08",
-    typePixKey: "CPF"
-  }])
-  const [Companies, setCompanies] = useState([{
-    id: 1,
-    name: "Empresa ABC LTDA",
-    fanntasyName: "ABC Empresa",
-    CNPJ: "00.000.000/0000-00",
-    localization: "São Paulo/SP",
-    cellphone: "(61)91234-5678",
-    situation: "Active",
-    CNAE: "0000-0/00",
-    pixKey: "00.000.000/0000-00",
-    typePixKey: "CNPJ"
-  }])
+  const[members, setMembers] = useState([])
+  const[companies, setCompanies] = useState([])
+  
+  async function fetchMembers() {
+    try {
+      const response = await api.get('/members');
+      setMembers(response.data);
+    } catch (error) {
+      console.error('Error fetching members:', error);
+    }
+  }
+
+  async function fetchCompanies() {
+    try {
+      const response = await api.get('/companies');
+      setCompanies(response.data);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
+  }
+  useEffect(() => {
+      fetchMembers();
+    }, []);
+    useEffect(() => {
+      fetchCompanies();
+    }, []);
 
   return (
       <main className=" w-screen">
@@ -50,7 +56,6 @@ function Register() {
         </section>
 
         {showPage ? (
-          
           <main>
             <div className='flex justify-center mt-7'>
               <section className='flex flex-col w-[55vw] gap-2 lg:flex-row lg:gap-3  '>
@@ -126,7 +131,7 @@ function Register() {
                       </tr>
                     </thead>
                     <tbody>
-                      {Members.map((member) => 
+                      {members.map((member) => 
                       (<tr className="h-11 text-xs text-gray-900 text-left border-b border-b-neutral-200">
                         <td className="p-2">{member.name}</td>
                         <td>{member.cellPhone}</td>
@@ -181,7 +186,7 @@ function Register() {
                         <section className="flex flex-row gap-4 w-full items-end">
                           <Inputs id="cnpj" type="text" placeholder={'00.000.000/0000-00'}>CNPJ *</Inputs>
                           <div className="flex flex-col items-start w-[30%] space-y-2">
-                            <button className="w-[100%] justify-center gap-3 flex flex-row text-xs bg-gray-100 hover:bg-gray-200 border rounded-md border-gray-100 px-2 py-2"><Search size={16}/> <div>Buscar CNPJ</div></button>
+                            <button className="w-full justify-center gap-3 flex flex-row text-xs bg-gray-100 hover:bg-gray-200 border rounded-md border-gray-100 px-2 py-2"><Search size={16}/> <div>Buscar CNPJ</div></button>
                           </div>
                         </section>
                         
@@ -216,14 +221,14 @@ function Register() {
                         <section className="flex flex-row gap-4 w-full items-end">
                           <div className="flex flex-col items-start w-[20%] space-y-2">
                             <label htmlFor="member" className="text-xs">CEP </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="00.000.000/0000-00"/>
+                            <input className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="00.000.000/0000-00"/>
                           </div>
                           <Inputs id="address" type="text" placeholder={'Street name, Avenue, etc'}>Address </Inputs>
                         </section>
                         <section className="flex flex-row gap-4 w-full items-end">
                           <div className="flex flex-col items-start w-[20%] space-y-2">
                             <label htmlFor="member" className="text-xs">Nùmero </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="123"/>
+                            <input className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="123"/>
                           </div>
                           <Inputs id="complement" type="text" placeholder={'Sala, Andar, etc'}>Complement </Inputs>
                         </section>
@@ -231,11 +236,11 @@ function Register() {
                           <Inputs id="neighborhood" type="text" placeholder={'Neighborhood name'}>Neighborhood </Inputs>
                           <div className="flex flex-col items-start w-[50%] space-y-2">
                             <label htmlFor="member" className="text-xs">Cidade </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="São Paulo"/>
+                            <input className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="São Paulo"/>
                           </div>
                           <div className="flex flex-col items-start w-[50%] space-y-1">
                             <label htmlFor="member" className="text-xs">UF </label>
-                            <select className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Sala, Andar, etc">
+                            <select className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="Sala, Andar, etc">
                               <option value="ac">AC</option>
                               <option value="al">AL</option>
                               <option value="ap">AP</option>
@@ -286,7 +291,7 @@ function Register() {
                         <section className="flex flex-row gap-4 w-full items-end">
                           <div className="flex flex-col items-start w-[30%] space-y-2">
                             <label htmlFor="member" className="text-xs">CNAE </label>
-                            <input className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="0000-0/00"/>
+                            <input className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="0000-0/00"/>
                           </div>
                           <Inputs id="descriptionActivity" type="text" placeholder={'Ex: Serviços de manutenção e reparação'}>Descrição de Atividade </Inputs>
                         </section>
@@ -300,7 +305,7 @@ function Register() {
                         <section className="flex flex-row gap-4 w-full items-end">
                           <div className="flex flex-col items-start w-[30%] space-y-1">
                             <label htmlFor="member" className="text-xs">CNAE </label>
-                            <select className="w-[100%] text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="0000-0/00">
+                            <select className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2" type="text" id="member" placeholder="0000-0/00">
                               <option value="CPF">CPF</option>
                               <option value="CNPJ">CNPJ</option>
                               <option value="E-mail">E-mail</option>
@@ -330,7 +335,7 @@ function Register() {
                   <SearchBar placeholder="Member" type="text" id="member"/>
                 </section> 
                 <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
-                  <table className="border-collapse w-[150%] xl:w-[100%]">
+                  <table className="border-collapse w-[150%] xl:w-full">
                     <thead className="w-full">
                       <tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-10">
                         <th className="px-2 whitespace-nowrap w-[20%]">Company Name</th>
@@ -344,7 +349,7 @@ function Register() {
                       </tr>
                     </thead>
                     <tbody className=" w-full">
-                      {Companies.map((company) => 
+                      {companies.map((company) => 
                       (<tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
                         <td className="px-2 whitespace-nowrap">{company.name}</td>
                         <td className="whitespace-nowrap">{company.fanntasyName}</td>

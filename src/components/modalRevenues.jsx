@@ -13,7 +13,7 @@ function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
   }
   return (
     <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
-      <div className="flex flex-col bg-white w-[50%] lg:w[25%] p-6 rounded-lg shadow-lg space-y-4">
+      <div className="flex flex-col bg-white w-[50%] lg:w-[30%] p-6 rounded-lg shadow-lg space-y-4">
         <Header2
           title={"Revenues put Form"}
           description={"Form to edit revenues"}
