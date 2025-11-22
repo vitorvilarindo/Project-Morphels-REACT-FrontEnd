@@ -8,17 +8,28 @@ import Inputs from "../components/inputs.jsx";
 import { User, Building2, Search, Trash2, Users, CreditCard, MapPin, Phone } from 'lucide-react';
 import { useState, useEffect } from "react";
 import api from "../services/api.js";
+import { useForm } from 'react-hook-form';
 
 function Register() {
   const [showPage, setShowPage] = useState(true)
   const [showForm1, setShowForm1] = useState(false)
   const [showForm2, setShowForm2] = useState(false)
   const[members, setMembers] = useState([])
+  const[companies, setCompanies] = useState([])
+
+  const { register, handleSubmit } = useForm();
   // const[companies, setCompanies] = useState([])
   
   async function fetchMembers() {
     const response = await api.get('/members');
+    console.log(response.data);
     setMembers(response.data);
+  }
+
+  async function onAddMember(data) {
+    console.log(data);
+    await api.post("/members", data);
+    fetchMembers();
   }
 
   // async function fetchCompanies() {
@@ -73,20 +84,21 @@ function Register() {
                 </section>
                 {showForm1 && (
                   <div className="">
-                    <form  className="flex flex-col  space-y-3">
+                    <form action={() => handleSubmit(onAddMember)()}  className="flex flex-col  space-y-3">
                       <section className="flex flex-col items-start space-y-1">
                         <label htmlFor="member" className="text-xs">Complete name *</label>
-                        <SearchBar placeholder="Name" type="text" id="member" />
+                        <SearchBar placeholder="Name" type="text" id="member" {...register("name")} />
                       </section>
                       
                       <section className="flex flex-row gap-4 w-full">
-                        <Inputs id="cellphone" type="text" placeholder={'(61) 91234-5678'}>Cellphone *</Inputs>
-                        <Inputs id="dateBorn" type="date" >Date of Birth</Inputs>
+                        <Inputs id="cellphone" type="text" placeholder={'(61) 91234-5678'} register={{...register("cellphone")}} >Cellphone *</Inputs>
+                        <Inputs id="dateBorn" type="date" register={{...register("date_birth")}} >Date of Birth</Inputs>
                       </section >
                       <section className="flex flex-row gap-4 w-full">
+                        <Inputs id="pixKey" type="text" placeholder={'Write the Pix key.'} register={{...register("pixkey")}} >Pix Key</Inputs>
                         <div className="flex flex-col items-start w-full space-y-1">
                           <label htmlFor="pixType" className="text-xs">Pix type</label>
-                          <select id="pixType" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" >
+                          <select id="pixType" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("pixtype")} >
                             <option value="CPF">CPF</option>
                             <option value="CNPJ">CNPJ</option>
                             <option value="E-mail">E-mail</option>
@@ -94,7 +106,7 @@ function Register() {
                             <option value="aleatoryKey">Aleatory Key</option>
                           </select>
                         </div>
-                        <Inputs id="pixKey" type="text" placeholder={'Write the Pix key.'}>Pix Key</Inputs>
+                        
                       </section >
                     
                     
@@ -130,10 +142,10 @@ function Register() {
                       {members.map((member) => 
                       (<tr className="h-11 text-xs text-gray-900 text-left border-b border-b-neutral-200">
                         <td className="p-2">{member.name}</td>
-                        <td>{member.cellPhone}</td>
-                        <td>{member.dateBorn}</td>
-                        <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{member.typePixKey}</div></td>
-                        <td>{member.pixKey}</td>
+                        <td>{member.cellphone}</td>
+                        <td>{member.date_birth}</td>
+                        <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{member.pixtype}</div></td>
+                        <td>{member.pixkey}</td>
                         
                         <td><div className="pr-3 flex justify-end text-red-600">
                           <button>
