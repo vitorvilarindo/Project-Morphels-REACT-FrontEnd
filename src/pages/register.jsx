@@ -244,7 +244,7 @@ function Register() {
                         
                         <section className="flex flex-row gap-4 w-full">
                           <Inputs id="companyName" type="text" placeholder={'Empresa ABC LTDA'} register={{...register("company_name")}}>Company Name *</Inputs>
-                          <Inputs id="fantasyName" type="text" placeholder={'ABC Empresa'} register={{...register("fntasy_name")}}>Fantasy Name</Inputs>
+                          <Inputs id="fantasyName" type="text" placeholder={'ABC Empresa'} register={{...register("fantasy_name")}}>Fantasy Name</Inputs>
                         
                         </section >
                         <section className="flex flex-row gap-4 w-full">
@@ -404,13 +404,13 @@ function Register() {
                       {companies.map((company) => { 
                         const dataObj = new Date(company.date_birth);
 
-                        const formatedData = dataObj.toLocaleDateString("pt-BR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        });
+                        // const formatedData = dataObj.toLocaleDateString("pt-BR", {
+                        //   day: "2-digit",
+                        //   month: "2-digit",
+                        //   year: "numeric",
+                        // });
                       
-                      return (<tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
+                      return (<tr key={company.id} className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
                         <td className="px-2 whitespace-nowrap">{company.company_name}</td>
                         <td className="whitespace-nowrap">{company.fantasy_name}</td>
                         <td className="whitespace-nowrap">{company.cnpj}</td>
@@ -419,7 +419,7 @@ function Register() {
                         <td><div className="inline-block  border bg-black text-white border-neutral-200 px-1 py-0.5 rounded-md uppercase whitespace-nowrap">{company.situation}</div></td>
                         <td className="whitespace-nowrap">{company.cnae}</td>
                         
-                        <td><div className="pr-3 flex justify-end text-red-600">
+                        <td><div className="pr-3 flex justify-end gap-2 items-center">
                           <button onClick={() => {
                                 onShowInfo({
                                   id: company.id,
@@ -447,7 +447,7 @@ function Register() {
                               }} className="hover:bg-neutral-200 p-1 rounded-md">
                               <Info size={18} />
                           </button>
-                          <button>
+                          <button className=" text-red-600">
                             <Trash2 size={18}/>
                           </button>
                         </div></td>

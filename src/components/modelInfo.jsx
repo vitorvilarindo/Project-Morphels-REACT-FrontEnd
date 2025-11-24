@@ -35,7 +35,7 @@ function ModalInfo({selectedCompanyInfo, setShowInfo}) {
             <IforParagraf title="Company Name:" info={selectedCompanyInfo.company_name} />
             <IforParagraf title="Fantasy Name:" info={selectedCompanyInfo.fantasy_name} />
             <IforParagraf title="CNPJ:" info={selectedCompanyInfo.cnpj} />
-            <p className='flex flex-col items-start'><strong className='text-neutral-400 text-sm'>Situação Cadastral</strong> <div className=' bg-black text-white text-[16px] px-1 rounded-md'>{selectedCompanyInfo.situation}</div></p>
+            <p className='flex flex-col items-start'><strong className='text-neutral-400 text-sm'>Situação Cadastral</strong> <span className=' bg-black text-white text-[16px] px-1 rounded-md'>{selectedCompanyInfo.situation}</span></p>
             <IforParagraf title="Opening Date:" info={formatedData} />
             <IforParagraf title="State Registration:" info={selectedCompanyInfo.state_registration} />
             <IforParagraf title="Municipal Registration:" info={selectedCompanyInfo.municipal_registration} />
