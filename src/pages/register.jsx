@@ -5,7 +5,8 @@ import Header2 from "../components/header2.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import SearchBar from "../components/searchBar.jsx";
 import Inputs from "../components/inputs.jsx";
-import { User, Building2, Search, Trash2, Users, CreditCard, MapPin, Phone } from 'lucide-react';
+import ModalInfo from "../components/modelInfo.jsx";
+import { User, Building2, Search, Trash2, Users, CreditCard, MapPin, Phone, Info } from 'lucide-react';
 import { useState, useEffect } from "react";
 import api from "../services/api.js";
 import { useForm } from 'react-hook-form';
@@ -16,6 +17,8 @@ function Register() {
   const [showForm2, setShowForm2] = useState(false)
   const[members, setMembers] = useState([])
   const[companies, setCompanies] = useState([])
+  const [selectedCompanyInfo, setSelectedCompanyInfo] = useState(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   const { register, handleSubmit } = useForm();
   
@@ -32,6 +35,8 @@ function Register() {
     await api.post("/members", data);
     fetchMembers();
   }
+
+
 
   //Companies services
 
@@ -55,6 +60,12 @@ function Register() {
       console.error('Error adding company:', error);
     }
   }
+
+  function onShowInfo(data) {
+    setSelectedCompanyInfo(data);
+    setShowInfo(true)
+  }
+
   useEffect(() => {
       fetchMembers();
     }, []);
@@ -164,19 +175,21 @@ function Register() {
                           month: "2-digit",
                           year: "numeric",
                         });
+
                         return (
-                          <tr className="h-11 text-xs text-gray-900 text-left border-b border-b-neutral-200" key={member.id}>
+                          <tr className="h-11 text-xs text-gray-900 text-left border-b border-b-neutral-200 hover:bg-gray-100" key={member.id}>
                             <td className="p-2">{member.name}</td>
                             <td>{member.cellphone}</td>
                             <td className="flex flex-col gap-1 py-1">
-                              <section className="bold">{parseInt(formatedData.substring(6,10)) - parseInt(new Date().getFullYear())} anos</section>
+                              <section className="bold">{parseInt(new Date().getFullYear()) - parseInt(formatedData.substring(6,10)) } anos</section>
                               <section className=" text-gray-500">{formatedData}</section>
                               </td>
                             <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{member.pixtype}</div></td>
                             <td>{member.pixkey}</td>
                             
-                            <td><div className="pr-3 flex justify-end text-red-600">
-                              <button>
+                            <td><div className="pr-3 flex justify-end  items-center gap-2">
+                              
+                              <button className="text-red-600 hover:bg-red-200 p-1 rounded-md">
                                 <Trash2 size={18}/>
                               </button>
                             </div></td>
@@ -188,6 +201,7 @@ function Register() {
                   </table>
                 </section>
               </div>
+
 
             </div>
             
@@ -387,28 +401,66 @@ function Register() {
                       </tr>
                     </thead>
                     <tbody className=" w-full">
-                      {companies.map((company) => 
-                      (<tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
+                      {companies.map((company) => { 
+                        const dataObj = new Date(company.date_birth);
+
+                        const formatedData = dataObj.toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        });
+                      
+                      return (<tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
                         <td className="px-2 whitespace-nowrap">{company.company_name}</td>
                         <td className="whitespace-nowrap">{company.fantasy_name}</td>
                         <td className="whitespace-nowrap">{company.cnpj}</td>
-                        <td className="whitespace-nowrap">{company.city}/{company.UF}</td>
+                        <td className="whitespace-nowrap">{company.city}/{(company.uf || '').toUpperCase()}</td>
                         <td className="whitespace-nowrap">{company.cellphone}</td>
                         <td><div className="inline-block  border bg-black text-white border-neutral-200 px-1 py-0.5 rounded-md uppercase whitespace-nowrap">{company.situation}</div></td>
                         <td className="whitespace-nowrap">{company.cnae}</td>
                         
                         <td><div className="pr-3 flex justify-end text-red-600">
+                          <button onClick={() => {
+                                onShowInfo({
+                                  id: company.id,
+                                  cnpj: company.cnpj,
+                                  fantasy_name: company.fantasy_name,
+                                  estate_registration: company.estate_registration,
+                                  municipal_registration: company.municipal_registration,
+                                  open_date: company.open_date,
+                                  situation: company.situation,
+                                  company_name: company.company_name,
+                                  cnae: company.cnae,
+                                  activity_description: company.activity_description,
+                                  cep: company.cep,
+                                  street: company.street,
+                                  number: company.number,
+                                  complement: company.complement,
+                                  neighborhood: company.neighborhood,
+                                  city: company.city,
+                                  uf: company.uf,
+                                  email: company.email,
+                                  cellphone: company.cellphone,
+                                  pixtype: company.pixtype,
+                                  pixkey: company.pixkey,
+                                })
+                              }} className="hover:bg-neutral-200 p-1 rounded-md">
+                              <Info size={18} />
+                          </button>
                           <button>
                             <Trash2 size={18}/>
                           </button>
                         </div></td>
-                      </tr> ))}
+                      </tr> )})}
                       
                     </tbody>
                   </table>
+                  
                 </section>
               </div>
-
+                {showInfo && selectedCompanyInfo && (
+                    <ModalInfo selectedCompanyInfo={selectedCompanyInfo} setShowInfo={() => setShowInfo(false)}/>
+                  )}              
             </div>
           </main>
         )}
