@@ -16,6 +16,7 @@ function ExpensesPage() {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editData, setEditData] = useState(null);
   const [expenses, setExpences] = useState([]);
+  const [search, setSearch] = useState("")
 
   const { register, handleSubmit } = useForm();
 
@@ -42,6 +43,19 @@ function ExpensesPage() {
     onGetExpences();
   }
 
+  useEffect (() => {
+    async function onSearch (){
+      if (search !== null) {
+        const response = await api.get(`/expenses?search=${encodeURIComponent(search)}`)
+        setExpences(response.data)
+      }else{
+        const response = await api.get("/revenues")
+        setExpences(response.data)
+
+      }
+    }
+    onSearch()
+  }, [search])
  
 
   return (
@@ -60,7 +74,7 @@ function ExpensesPage() {
               <OpenFromButton onClick={onShowForm}>{"New Expences"}</OpenFromButton>
             </div>
           </section>
-          <SearchArea placeholder={"Search by description or supplier..."} />
+          <SearchArea placeholder={"Search by description or supplier..."} value={search} onChange={(e) => setSearch(e.target.value)} />
           {showForma && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300">
               <form action={() => handleSubmit(onAddExpence)()} className="flex flex-col  space-y-3">

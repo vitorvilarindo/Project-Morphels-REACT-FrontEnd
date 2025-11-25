@@ -16,6 +16,8 @@ function RevenuesPage() {
   const [showEditForm, setShowEditForm] = useState(false);
   const [revenues, setRevenues] = useState([]);
   const [editData, setEditData] = useState(null);
+  const [search, setSearch] = useState("")
+  
 
   const { register, handleSubmit } = useForm();
 
@@ -44,6 +46,20 @@ function RevenuesPage() {
     onGetRevenues();
   }
 
+  useEffect(() => {
+    async function fetchSearch() {
+      if (search !== "") {
+        const response = await api.get(`/revenues?search=${encodeURIComponent(search)}`);
+        setRevenues(response.data);
+      } else {
+        const response = await api.get("/revenues");
+        setRevenues(response.data);
+      }
+    }
+    fetchSearch();
+  }, [search]);
+  
+
   return (
     <div className="justify-center h-[90vh] w-screen">
       <Header />
@@ -62,7 +78,8 @@ function RevenuesPage() {
               </OpenFromButton>
             </div>
           </section>
-          <SearchArea placeholder={"Search by description or member..."} />
+          <SearchArea placeholder={"Search by description or member..."} value={search} 
+                  onChange={(e) => {setSearch(e.target.value)}} />
           {showForm && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form
@@ -73,12 +90,8 @@ function RevenuesPage() {
                   <label htmlFor="member" className="text-xs">
                     Member
                   </label>
-                  <SearchBar
-                    placeholder="Member"
-                    type="text"
-                    id="member"
-                    {...register("member")}
-                  />
+                  <SearchBar placeholder="Member" type="text" id="member" {...register("member")} />
+
                 </section>
 
                 <section className="flex flex-row gap-4 w-full">
@@ -140,7 +153,7 @@ function RevenuesPage() {
                   >
                     Submit
                   </button>
-                  <button className="bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">
+                  <button onClick={() => setShowForm(false)} className="bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">
                     Cancel
                   </button>
                 </div>

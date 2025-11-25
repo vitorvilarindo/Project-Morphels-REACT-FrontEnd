@@ -401,16 +401,7 @@ function Register() {
                       </tr>
                     </thead>
                     <tbody className=" w-full">
-                      {companies.map((company) => { 
-                        const dataObj = new Date(company.date_birth);
-
-                        // const formatedData = dataObj.toLocaleDateString("pt-BR", {
-                        //   day: "2-digit",
-                        //   month: "2-digit",
-                        //   year: "numeric",
-                        // });
-                      
-                      return (<tr key={company.id} className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
+                      {companies.map((company) => (<tr key={company.id} className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
                         <td className="px-2 whitespace-nowrap">{company.company_name}</td>
                         <td className="whitespace-nowrap">{company.fantasy_name}</td>
                         <td className="whitespace-nowrap">{company.cnpj}</td>
@@ -451,7 +442,7 @@ function Register() {
                             <Trash2 size={18}/>
                           </button>
                         </div></td>
-                      </tr> )})}
+                      </tr> ))}
                       
                     </tbody>
                   </table>
