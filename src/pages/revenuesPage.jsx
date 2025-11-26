@@ -2,7 +2,6 @@ import Menu from "../components/menu.jsx";
 import Header from "../components/header.jsx";
 import { useState, useEffect } from "react";
 import Header2 from "../components/header2.jsx";
-import FormButtons from "../components/formButtons.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import DataBalons from "../components/dadaBalons.jsx";
 import SearchArea from "../components/searchArea.jsx";
@@ -32,18 +31,18 @@ function RevenuesPage() {
   }
 
   useEffect(() => {
-    onGetRevenues();
+    onGetRevenues().then();
   }, []);
 
   async function onAddRevenue(data) {
     await api.post("/revenues", data);
-    onGetRevenues();
+    onGetRevenues().then();
   }
   async function onDeleteRevenue(id) {
     console.log("Deleting revenue with id:", id);
     await api.delete(`/revenues/${id}`);
 
-    onGetRevenues();
+    onGetRevenues().then();
   }
 
   useEffect(() => {
@@ -56,7 +55,7 @@ function RevenuesPage() {
         setRevenues(response.data);
       }
     }
-    fetchSearch();
+    fetchSearch().then();
   }, [search]);
   
 
@@ -83,7 +82,7 @@ function RevenuesPage() {
           {showForm && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form
-                action={() => handleSubmit(onAddRevenue)()}
+                action={() =>  handleSubmit(onAddRevenue)()}
                 className="flex flex-col  space-y-3"
               >
                 <section className="flex flex-col items-start">
