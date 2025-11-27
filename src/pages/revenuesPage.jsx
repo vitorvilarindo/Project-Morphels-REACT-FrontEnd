@@ -1,14 +1,16 @@
 import Menu from "../components/menu.jsx";
 import Header from "../components/header.jsx";
-import { useState, useEffect } from "react";
+import {useState, useEffect, use} from "react";
 import Header2 from "../components/header2.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import DataBalons from "../components/dadaBalons.jsx";
 import SearchArea from "../components/searchArea.jsx";
 import SearchBar from "../components/searchBar.jsx";
+import Filt from "../components/filt.jsx";
 import api from "../services/api.js";
 import ModalRevenues from "../components/modalRevenues.jsx";
 import { useForm } from "react-hook-form";
+import { Filter } from "lucide-react";
 
 function RevenuesPage() {
   const [showForm, setShowForm] = useState(false);
@@ -16,6 +18,10 @@ function RevenuesPage() {
   const [revenues, setRevenues] = useState([]);
   const [editData, setEditData] = useState(null);
   const [search, setSearch] = useState("")
+  const [showFilter, setShowFilter] = useState(false);
+  const [type, setType] = useState("date"),
+      [start_date, setStart_date] = useState(""),
+      [end_date, setEnd_date] = useState("")
   
 
   const { register, handleSubmit } = useForm();
@@ -57,6 +63,15 @@ function RevenuesPage() {
     }
     fetchSearch().then();
   }, [search]);
+
+  useEffect(() => {
+      async function onFilterRevenues(){
+          const response = await api.get(`/revenues/filter?type=${encodeURIComponent(type)}&date1=${encodeURIComponent(start_date)}&date2=${encodeURIComponent(end_date)}`);
+          setRevenues(response.data)
+     }
+      onFilterRevenues().then()
+      console.log();
+  },[type, start_date, end_date]);
   
 
   return (
@@ -77,8 +92,9 @@ function RevenuesPage() {
               </OpenFromButton>
             </div>
           </section>
-          <SearchArea placeholder={"Search by description or member..."} value={search} 
+          <SearchArea placeholder={"Search by description or member..."} showFilter={() => setShowFilter(!showFilter)} value={search}
                   onChange={(e) => {setSearch(e.target.value)}} />
+            {showFilter && <Filt type={type} start_date={start_date} end_date={end_date} onChangeType={(e) => setType(e.target.value)} onChangeStartDate={(e) => setStart_date(e.target.value)} onChangeEndDate={(e) => setEnd_date(e.target.value)} />}
           {showForm && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form
