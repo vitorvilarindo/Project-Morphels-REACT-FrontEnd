@@ -1,6 +1,6 @@
 import Menu from "../components/menu.jsx";
 import Header from "../components/header.jsx";
-import {useState, useEffect, use} from "react";
+import {useState, useEffect} from "react";
 import Header2 from "../components/header2.jsx";
 import OpenFromButton from "../components/openFromButton.jsx";
 import DataBalons from "../components/dadaBalons.jsx";
@@ -10,7 +10,9 @@ import Filt from "../components/filt.jsx";
 import api from "../services/api.js";
 import ModalRevenues from "../components/modalRevenues.jsx";
 import { useForm } from "react-hook-form";
-import { Filter } from "lucide-react";
+import MainRequests from "../services/requests.js";
+
+const requests = new MainRequests()
 
 function RevenuesPage() {
   const [showForm, setShowForm] = useState(false);
@@ -22,7 +24,10 @@ function RevenuesPage() {
   const [type, setType] = useState("date"),
       [start_date, setStart_date] = useState(""),
       [end_date, setEnd_date] = useState("")
-  
+
+    console.log(start_date)
+    console.log(end_date)
+
 
   const { register, handleSubmit } = useForm();
 
@@ -31,19 +36,23 @@ function RevenuesPage() {
     console.log("Button clicked! Show form:", showForm);
   };
 
+
+
   async function onGetRevenues() {
-    const response = await api.get("/revenues");
-    setRevenues(response.data);
+      try{
+          const response = await requests.onGet("revenues", '');
+          setRevenues(response);
+      }catch(error){
+          console.log(error);
+      }
+
   }
 
   useEffect(() => {
     onGetRevenues().then();
   }, []);
 
-  async function onAddRevenue(data) {
-    await api.post("/revenues", data);
-    onGetRevenues().then();
-  }
+
   async function onDeleteRevenue(id) {
     console.log("Deleting revenue with id:", id);
     await api.delete(`/revenues/${id}`);
@@ -51,28 +60,38 @@ function RevenuesPage() {
     onGetRevenues().then();
   }
 
-  useEffect(() => {
-    async function fetchSearch() {
-      if (search !== "") {
-        const response = await api.get(`/revenues?search=${encodeURIComponent(search)}`);
-        setRevenues(response.data);
-      } else {
-        const response = await api.get("/revenues");
-        setRevenues(response.data);
-      }
-    }
-    fetchSearch().then();
+  useEffect( () => {
+      const fetchData = async () => {
+          try {
+              const response = await requests.onGet("revenues", search);
+              setRevenues(response);
+          } catch (error) {
+              console.error("Erro ao buscar revenues:", error);
+          }
+      };
+
+      fetchData().then();
+
   }, [search]);
 
-  useEffect(() => {
-      async function onFilterRevenues(){
-          const response = await api.get(`/revenues/filter?type=${encodeURIComponent(type)}&date1=${encodeURIComponent(start_date)}&date2=${encodeURIComponent(end_date)}`);
-          setRevenues(response.data)
-     }
-      onFilterRevenues().then()
-      console.log();
-  },[type, start_date, end_date]);
-  
+    useEffect(() => {
+        async function onFilterRevenues() {
+            try {
+                const response = await requests.onFilter("revenues", {
+                    type,
+                    start_date,
+                    end_date,
+                });
+                setRevenues(response || []); // garante que seja array
+            } catch (error) {
+                console.error("Erro ao filtrar revenues:", error);
+            }
+        }
+
+        onFilterRevenues().then(); //
+    }, [type, start_date, end_date]);
+
+
 
   return (
     <div className="justify-center h-[90vh] w-screen">
@@ -98,7 +117,10 @@ function RevenuesPage() {
           {showForm && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form
-                action={() =>  handleSubmit(onAddRevenue)()}
+                action={() =>  {handleSubmit(async (data) => await requests.onPost("revenues", data))()
+                    onGetRevenues().then()
+
+                }}
                 className="flex flex-col  space-y-3"
               >
                 <section className="flex flex-col items-start">
@@ -189,7 +211,14 @@ function RevenuesPage() {
                 setShowEditForm(true);
                 setEditData(data);
               }}
-              onDelete={() => onDeleteRevenue(data.id)}
+              onDelete={async () => {
+                  try {
+                      await requests.onDelete("revenues", data.id)
+                      onGetRevenues().then()
+                  }catch(error) {
+                      console.log(error);
+                  }
+              } }
             />
           ))}
           {showEditForm && (

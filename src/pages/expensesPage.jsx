@@ -9,14 +9,22 @@ import SearchBar from "../components/searchBar.jsx";
 import api from "../services/api.js";
 import { useForm } from "react-hook-form";
 import ModalExpenses from "../components/modalExpences.jsx";
+import Filt from "../components/filt.jsx";
+import MainRequests from "../services/requests.js";
+
+const requests = new MainRequests()
 
 function ExpensesPage() {
-  
-  const [showForma, setShowForma] = useState(false);
-  const [showEditForm, setShowEditForm] = useState(false);
-  const [editData, setEditData] = useState(null);
-  const [expenses, setExpences] = useState([]);
-  const [search, setSearch] = useState("")
+
+    const [showForma, setShowForma] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [editData, setEditData] = useState(null);
+    const [expenses, setExpences] = useState([]);
+    const [showFilter, setShowFilter] = useState(false);
+    const [search, setSearch] = useState("")
+    const [type, setType] = useState("date"),
+        [start_date, setStart_date] = useState(""),
+        [end_date, setEnd_date] = useState("")
 
   const { register, handleSubmit } = useForm();
 
@@ -24,38 +32,42 @@ function ExpensesPage() {
     setShowForma(!showForma);
 
   }
-  async function onGetExpences(){
-    const response =  await api.get("/expenses");
-    setExpences (response.data);
-  }
+    async function onGetExpenses () {
+        try{
+            const response = await requests.onGet("expenses", '');
+            setExpences(response);
+        }catch(error){
+            console.log(error);
+        }
+
+    }
 
   useEffect(() => {
-      onGetExpences();
+      onGetExpenses().then();
     }, []);
 
-  async function onAddExpence(data) {
-    console.log(data);
-    await api.post("/expenses", data);
-    onGetExpences();
-  }
-  async function onDeleteExpence(id){
-    await api.delete(`/expenses/${id}`);
-    onGetExpences();
-  }
 
   useEffect (() => {
-    async function onSearch (){
-      if (search !== null) {
-        const response = await api.get(`/expenses?search=${encodeURIComponent(search)}`)
-        setExpences(response.data)
-      }else{
-        const response = await api.get("/revenues")
-        setExpences(response.data)
+      const fetchData = async () => {
+          try {
+              const response = await requests.onGet("expenses", search);
+              setExpences(response);
+          } catch (error) {
+              console.error("Erro ao buscar revenues:", error);
+          }
+      };
 
-      }
-    }
-    onSearch()
+      fetchData().then();
   }, [search])
+
+    useEffect(() => {
+        async function onFilterRevenues(){
+            const response = await requests.onFilter("expenses", {type, start_date, end_date});
+            setExpences(response)
+        }
+        onFilterRevenues().then()
+        console.log();
+    },[type, start_date, end_date]);
  
 
   return (
@@ -74,10 +86,16 @@ function ExpensesPage() {
               <OpenFromButton onClick={onShowForm}>{"New Expences"}</OpenFromButton>
             </div>
           </section>
-          <SearchArea placeholder={"Search by description or supplier..."} value={search} onChange={(e) => setSearch(e.target.value)} />
+            <SearchArea placeholder={"Search by description or member..."} showFilter={() => setShowFilter(!showFilter)} value={search}
+                        onChange={(e) => {setSearch(e.target.value)}} />
+            {showFilter && <Filt type={type} start_date={start_date} end_date={end_date} onChangeType={(e) => setType(e.target.value)} onChangeStartDate={(e) => setStart_date(e.target.value)} onChangeEndDate={(e) => setEnd_date(e.target.value)} />}
           {showForma && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300">
-              <form action={() => handleSubmit(onAddExpence)()} className="flex flex-col  space-y-3">
+              <form action={() => {
+                  handleSubmit(async (data) => await requests.onPost("expenses", data))()
+                  onGetExpenses().then()
+                    }}
+                className="flex flex-col  space-y-3">
                 <section className="flex flex-col items-start">
                   <label htmlFor="Title" className="text-xs">Title</label>
                   <SearchBar placeholder="Title" type="text" id="Title" {...register('title')} />
@@ -145,10 +163,13 @@ function ExpensesPage() {
                 setShowEditForm(true);
                 setEditData(data);
               }}
-              onDelete={() => onDeleteExpence(data.id)}
+              onDelete={async () => {
+                  await requests.onDelete("expenses", data.id)
+                  onGetExpenses().then()
+              }}
             />
           ))}
-            {showEditForm && <ModalExpenses onGetExpenses={() => onGetExpences()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
+            {showEditForm && <ModalExpenses onGetExpenses={() => onGetExpenses()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
         </div>
       </div>
     </div>
