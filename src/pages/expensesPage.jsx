@@ -22,7 +22,7 @@ function ExpensesPage() {
     const [expenses, setExpences] = useState([]);
     const [showFilter, setShowFilter] = useState(false);
     const [search, setSearch] = useState("")
-    const [type, setType] = useState("date"),
+    const [type, setType] = useState(""),
         [start_date, setStart_date] = useState(""),
         [end_date, setEnd_date] = useState("")
 
@@ -32,15 +32,15 @@ function ExpensesPage() {
     setShowForma(!showForma);
 
   }
-    async function onGetExpenses () {
-        try{
-            const response = await requests.onGet("expenses", '');
-            setExpences(response);
-        }catch(error){
-            console.log(error);
-        }
+  async function onGetExpenses() {
+      try {
+          const response = await requests.onGet("expenses", '');
+          setExpences(response);
+      } catch (error) {
+          console.log(error);
+      }
 
-    }
+  }
 
   useEffect(() => {
       onGetExpenses().then();
@@ -61,12 +61,21 @@ function ExpensesPage() {
   }, [search])
 
     useEffect(() => {
-        async function onFilterRevenues(){
-            const response = await requests.onFilter("expenses", {type, start_date, end_date});
-            setExpences(response)
+        if (!type && !start_date && !end_date) return;
+        async function onFilterExpenses () {
+            try {
+                const response = await requests.onFilter("expenses", {
+                    type,
+                    start_date,
+                    end_date,
+                });
+                setExpences(response); // garante que seja array
+            } catch (error) {
+                console.error("Erro ao filtrar revenues:", error);
+            }
         }
-        onFilterRevenues().then()
-        console.log();
+        console.log(type)
+        onFilterExpenses().then(); //
     },[type, start_date, end_date]);
  
 
@@ -86,14 +95,24 @@ function ExpensesPage() {
               <OpenFromButton onClick={onShowForm}>{"New Expences"}</OpenFromButton>
             </div>
           </section>
-            <SearchArea placeholder={"Search by description or member..."} showFilter={() => setShowFilter(!showFilter)} value={search}
-                        onChange={(e) => {setSearch(e.target.value)}} />
-            {showFilter && <Filt type={type} start_date={start_date} end_date={end_date} onChangeType={(e) => setType(e.target.value)} onChangeStartDate={(e) => setStart_date(e.target.value)} onChangeEndDate={(e) => setEnd_date(e.target.value)} />}
-          {showForma && (
+            <SearchArea placeholder={"Search by description or member..."} showFilter={() => setShowFilter(!showFilter)}
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value)
+                        }}/>
+            {showFilter && <Filt type={type} start_date={start_date} end_date={end_date}
+                                 onChangeType={(e) => setType(e.target.value)}
+                                 onChangeStartDate={(e) => setStart_date(e.target.value)}
+                                 onChangeEndDate={(e) => setEnd_date(e.target.value)}
+                                 options={["Manutenção", "Salários", "Projetos", "Utilidades", "Eventos", "Outros"]}/>}
+            {showForma && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300">
               <form action={() => {
-                  handleSubmit(async (data) => await requests.onPost("expenses", data))()
-                  onGetExpenses().then()
+                  handleSubmit(async (data) => {
+                      await requests.onPost("expenses", data)
+                      onGetExpenses().then()
+                  })()
+
                     }}
                 className="flex flex-col  space-y-3">
                 <section className="flex flex-col items-start">
@@ -105,7 +124,7 @@ function ExpensesPage() {
                 <section className="flex flex-row gap-4 w-full">
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="type" className="text-xs">Category</label>
-                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('category')}  >
+                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('type')}  >
                       <option value="">Select a category</option>
                       <option value="Manutenção">Manutenção</option>
                       <option value="Salários">Salários</option>
@@ -153,7 +172,7 @@ function ExpensesPage() {
           {expenses.map((data) => (
             <DataBalons
               key={data.id}
-              type={data.category}
+              type={data.type}
               date={data.date}
               title={data.title}
               value={data.value}

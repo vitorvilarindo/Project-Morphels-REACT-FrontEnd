@@ -8,10 +8,10 @@ import Inputs from "../components/inputs.jsx";
 import ModalInfo from "../components/modelInfo.jsx";
 import {User, Building2, Search, Trash2, Users, CreditCard, MapPin, Phone, Info} from 'lucide-react';
 import {useState, useEffect} from "react";
-import api from "../services/api.js";
 import {useForm} from 'react-hook-form';
-import SearchArea from "../components/searchArea.jsx";
-import Filt from "../components/filt.jsx";
+import MainRequests from "../services/requests.js";
+
+const request = new MainRequests()
 
 function Register() {
     const [showPage, setShowPage] = useState(true)
@@ -21,51 +21,38 @@ function Register() {
     const [companies, setCompanies] = useState([])
     const [selectedCompanyInfo, setSelectedCompanyInfo] = useState(null);
     const [showInfo, setShowInfo] = useState(false);
-    const [search, setSearch] = useState("")
-    const [showFilter, setShowFilter] = useState(false);
-    const [type, setType] = useState("date"),
-        [start_date, setStart_date] = useState(""),
-        [end_date, setEnd_date] = useState("")
+    const [searchMembers, setSearchMembers] = useState("")
+    const [searchCompanies, setSearchCompanies] = useState("")
+
 
     const {register, handleSubmit} = useForm();
 
     //Members services
 
-    async function fetchMembers() {
-        const response = await api.get('/members');
-        console.log(response.data);
-        setMembers(response.data);
-    }
+    async function onGetMembers(search) {
+        try{
+            const response = await request.onGet("members", search);
+            console.log(response);
+            setMembers(response);
+        }catch(error){
+            console.log(error);
+        }
 
-    async function onAddMember(data) {
-        console.log(data);
-        await api.post("/members", data);
-        fetchMembers();
     }
 
 
     //Companies services
 
-    async function fetchCompanies() {
+    async function onGetCompanyes(search) {
         try {
-            const response = await api.get('/companies');
-            console.log(response.data);
-            setCompanies(response.data);
+            const response = await request.onGet("companies", search);
+            console.log(response);
+            setCompanies(response);
         } catch (error) {
             console.error('Error fetching companies:', error);
         }
     }
 
-    async function onAddCompanies(data) {
-        console.log(data);
-        try {
-            await api.post("/companies", data);
-            console.log(data)
-            fetchCompanies();
-        } catch (error) {
-            console.error('Error adding company:', error);
-        }
-    }
 
     function onShowInfo(data) {
         setSelectedCompanyInfo(data);
@@ -73,12 +60,12 @@ function Register() {
     }
 
     useEffect(() => {
-        fetchMembers();
-    }, []);
-    useEffect(() => {
-        fetchCompanies();
-    }, []);
+        onGetMembers(searchMembers).then();
 
+    }, []);
+    useEffect(() =>{
+        onGetCompanyes(searchCompanies).then()
+    },[])
 
     return (
         <main className=" w-screen">
@@ -128,7 +115,10 @@ function Register() {
                             </section>
                             {showForm1 && (
                                 <div className="">
-                                    <form action={() => handleSubmit(onAddMember)()}
+                                    <form action={() => handleSubmit(async (data) => {
+                                        await request.onPost("members", data)
+                                        onGetMembers(searchMembers).then()
+                                    })()}
                                           className="flex flex-col  space-y-3">
                                         <section className="flex flex-col items-start space-y-1">
                                             <label htmlFor="member" className="text-xs">Complete name *</label>
@@ -179,7 +169,7 @@ function Register() {
                             <Header2 title={"Registed Member"} description={""}/>
                             <section className="flex items-center gap-2">
                                 <Search size={16} className="text-gray-500"/>
-                                <SearchBar placeholder="Member" type="text" id="member"/>
+                                <SearchBar placeholder="Member" type="text" id="member" value={searchMembers} onChange={(e) => setSearchMembers(e.target.value)} />
                             </section>
                             <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
                                 <table className="w-full ">
@@ -270,7 +260,10 @@ function Register() {
                             {showForm2 && (
                                 <div className="mt-4">
 
-                                    <form action={() => handleSubmit(onAddCompanies)()}
+                                    <form action={() => handleSubmit(async (data) => {
+                                        await request.onPost("companies", data)
+                                        onGetCompanyes(searchCompanies).then()
+                                    })()}
                                           className="flex flex-col  space-y-3">
                                         <article className="space-y-3">
                                             <section className="flex gap-2 items-center mb-4">
@@ -472,15 +465,10 @@ function Register() {
                         <div
                             className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
                             <Header2 title={"Registed Member"} description={""}/>
-                            <SearchArea placeholder={"Search by description or member..."}
-                                        showFilter={() => setShowFilter(!showFilter)} value={search}
-                                        onChange={(e) => {
-                                            setSearch(e.target.value)
-                                        }}/>
-                            {showFilter && <Filt type={type} start_date={start_date} end_date={end_date}
-                                                 onChangeType={(e) => setType(e.target.value)}
-                                                 onChangeStartDate={(e) => setStart_date(e.target.value)}
-                                                 onChangeEndDate={(e) => setEnd_date(e.target.value)}/>}
+                            <section className="flex items-center gap-2">
+                                <Search size={16} className="text-gray-500"/>
+                                <SearchBar placeholder="Member" type="text" id="member" value={searchCompanies} onChange={(e) => setSearchCompanies(e.target.value)} />
+                            </section>
 
                             <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
                                 <table className="border-collapse w-[150%] xl:w-full">

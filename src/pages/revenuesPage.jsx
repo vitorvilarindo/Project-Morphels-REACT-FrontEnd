@@ -21,12 +21,9 @@ function RevenuesPage() {
   const [editData, setEditData] = useState(null);
   const [search, setSearch] = useState("")
   const [showFilter, setShowFilter] = useState(false);
-  const [type, setType] = useState("date"),
+  const [type, setType] = useState(""),
       [start_date, setStart_date] = useState(""),
       [end_date, setEnd_date] = useState("")
-
-    console.log(start_date)
-    console.log(end_date)
 
 
   const { register, handleSubmit } = useForm();
@@ -54,7 +51,6 @@ function RevenuesPage() {
 
 
   async function onDeleteRevenue(id) {
-    console.log("Deleting revenue with id:", id);
     await api.delete(`/revenues/${id}`);
 
     onGetRevenues().then();
@@ -75,6 +71,8 @@ function RevenuesPage() {
   }, [search]);
 
     useEffect(() => {
+
+        if (!type && !start_date && !end_date) return;
         async function onFilterRevenues() {
             try {
                 const response = await requests.onFilter("revenues", {
@@ -82,12 +80,12 @@ function RevenuesPage() {
                     start_date,
                     end_date,
                 });
-                setRevenues(response || []); // garante que seja array
+                setRevenues(response); // garante que seja array
             } catch (error) {
                 console.error("Erro ao filtrar revenues:", error);
             }
         }
-
+        console.log(type)
         onFilterRevenues().then(); //
     }, [type, start_date, end_date]);
 
@@ -111,14 +109,23 @@ function RevenuesPage() {
               </OpenFromButton>
             </div>
           </section>
-          <SearchArea placeholder={"Search by description or member..."} showFilter={() => setShowFilter(!showFilter)} value={search}
-                  onChange={(e) => {setSearch(e.target.value)}} />
-            {showFilter && <Filt type={type} start_date={start_date} end_date={end_date} onChangeType={(e) => setType(e.target.value)} onChangeStartDate={(e) => setStart_date(e.target.value)} onChangeEndDate={(e) => setEnd_date(e.target.value)} />}
-          {showForm && (
+            <SearchArea placeholder={"Search by description or member..."} showFilter={() => setShowFilter(!showFilter)}
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value)
+                        }}/>
+            {showFilter && <Filt type={type} start_date={start_date} end_date={end_date}
+                                 onChangeType={(e) => setType(e.target.value)}
+                                 onChangeStartDate={(e) => setStart_date(e.target.value)}
+                                 onChangeEndDate={(e) => setEnd_date(e.target.value)}
+                                 options={["Dizimo", "Oferta", "Doação"]}   />}
+
+            {showForm && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form
-                action={() =>  {handleSubmit(async (data) => await requests.onPost("revenues", data))()
-                    onGetRevenues().then()
+                action={() =>  {handleSubmit(async (data) => {await requests.onPost("revenues", data)
+                                onGetRevenues().then()
+                })()
 
                 }}
                 className="flex flex-col  space-y-3"

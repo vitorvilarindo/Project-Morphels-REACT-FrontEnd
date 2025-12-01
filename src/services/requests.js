@@ -23,6 +23,11 @@ class MainRequests  {
     async onDelete (route, id) {
         await api.delete(`/${route}/${id}`)
     }
+
+    async onLogin (route, params) {
+        const response = await api.post(`/${route}/login`, params)
+        return response.data
+    }
 }
 
 

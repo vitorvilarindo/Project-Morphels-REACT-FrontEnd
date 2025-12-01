@@ -1,5 +1,5 @@
 import IforParagraf from './infoParagraf.jsx';
-import { User, Building2, Search, Trash2, Users, CreditCard, MapPin, Phone, Info } from 'lucide-react';
+import { Building2, X } from 'lucide-react';
 
 function ModalInfo({selectedCompanyInfo, setShowInfo}) {
 
@@ -13,7 +13,7 @@ function ModalInfo({selectedCompanyInfo, setShowInfo}) {
 
     return(<div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
       <div className="flex flex-col bg-white h-[70%] w-[50%] lg:w-[60%] p-6 rounded-lg shadow-lg space-y-4 overflow-auto">
-        <section className="flex">
+        <section className="flex justify-between items-center">
           <nav className="flex flex-col items-baseline">
             <section className='flex gap-2 items-center '>
               <Building2 />
@@ -21,6 +21,7 @@ function ModalInfo({selectedCompanyInfo, setShowInfo}) {
             </section>
             <p className="text-gray-500 text-sm">Complete register data to fiscal note</p>
           </nav>
+            <button onClick={setShowInfo} className=" text-gray-500 text-xs px-2 py-2 mt-4 rounded-lg hover:bg-neutral-200 transition-discrete"><X size={20}/></button>
         </section>
 
         <div className="">
@@ -91,7 +92,7 @@ function ModalInfo({selectedCompanyInfo, setShowInfo}) {
             <IforParagraf title="PIX Key" info={selectedCompanyInfo.pixkey}/>
           </section>
 
-          <button onClick={setShowInfo} className="bg-neutral-950 text-white text-xs px-4 py-2 mt-4 rounded-lg hover:bg-neutral-600 transition-discrete">Close</button>
+
         </div>
       </div>
     </div>
