@@ -28,6 +28,10 @@ class MainRequests  {
         const response = await api.post(`/${route}/login`, params)
         return response.data
     }
+    async onProfile (route, param) {
+        const response = await api.post(`/${route}/profile`)
+        return response.status
+    }
 }
 
 

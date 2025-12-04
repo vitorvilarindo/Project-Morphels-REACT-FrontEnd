@@ -2,13 +2,35 @@ import Menu from '../components/menu.jsx';
 import Header from '../components/header.jsx';
 import Balons from '../components/balons.jsx';
 import Grafics from '../components/grafics.jsx';
-import { BadgeDollarSign, Loader } from 'lucide-react';
+import { BadgeDollarSign } from 'lucide-react';
+import MainRequests from "../services/requests.js";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
-import { Church, Moon } from 'lucide-react';
-
+const request = new MainRequests();
 
 function Login () {
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        async function verify() {
+            try {
+                const response = await request.onProfile("users")
+                console.log(response)
+
+                if (response !== 200) {
+                    navigate("/")
+                } else {
+                    console.log("Profile was successfully logged in")
+                }
+            } catch (error) {
+                console.error("Erro ao verificar perfil:", error)
+                navigate("/")
+            }
+        }
+
+        verify().then()
+    }, [navigate])
 
   return (
     
