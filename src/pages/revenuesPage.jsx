@@ -189,6 +189,20 @@ function RevenuesPage() {
                     <SearchBar type="date" id="date" {...register("date")} />
                   </div>
                 </section>
+                  <section className="flex flex-col items-start">
+                      <label htmlFor="church" className="text-xs">
+                          Church
+                      </label>
+                      <select
+                          id="church"
+                          className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
+                          {...register("church")}
+                      >
+                          <option value="">Select Church</option>
+                          <option value="Igreja Quadra 3">Igreja Quadra 3</option>
+                      </select>
+
+                  </section>
 
                 <div className="w-full flex flex-row mt-4 gap-4 ">
                   <button
