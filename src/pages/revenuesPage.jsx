@@ -11,6 +11,7 @@ import api from "../services/api.js";
 import ModalRevenues from "../components/modalRevenues.jsx";
 import { useForm } from "react-hook-form";
 import MainRequests from "../services/requests.js";
+import permissionModal from "../components/permissionModal.jsx";
 
 const requests = new MainRequests()
 
@@ -24,6 +25,7 @@ function RevenuesPage() {
   const [type, setType] = useState(""),
       [start_date, setStart_date] = useState(""),
       [end_date, setEnd_date] = useState("")
+  const [showWithoutPermissionsModal, setShowWithoutPermissionsModal] = useState(false);
 
 
   const { register, handleSubmit } = useForm();
@@ -123,8 +125,12 @@ function RevenuesPage() {
             {showForm && (
             <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
               <form
-                action={() =>  {handleSubmit(async (data) => {await requests.onPost("revenues", data)
-                                onGetRevenues().then()
+                action={() =>  {handleSubmit(async (data) => { const response = await requests.onPost("revenues", data)
+                    console.log(response)
+                    if (response !== 200) {
+                        setShowWithoutPermissionsModal(true);
+                    }
+                    onGetRevenues().then()
                 })()
 
                 }}
@@ -249,6 +255,7 @@ function RevenuesPage() {
               complete={editData}
             />
           )}
+            {showWithoutPermissionsModal && ( <permissionModal /> )}
         </div>
       </div>
     </div>
