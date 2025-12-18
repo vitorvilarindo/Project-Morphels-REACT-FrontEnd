@@ -6,6 +6,7 @@ import Header2 from './header2.jsx';
 function ModalExpenses({complete, onHideForm, onGetExpenses}) {
   const { register, handleSubmit} = useForm();
 
+
     async function onEditExpence(data) {
       console.log(data);
       await api.put(`/expenses/${complete.id}`, data)

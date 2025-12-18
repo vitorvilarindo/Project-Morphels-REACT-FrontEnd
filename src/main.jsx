@@ -8,6 +8,7 @@ import Register from './pages/register.jsx';
 import ReportsPage from './pages/reportsPage.jsx';
 import Login from './pages/mainPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { WithoutPermissionProvider } from "./context/withoutPermissionContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <WithoutPermissionProvider>
+      <RouterProvider router={router} />
+    </WithoutPermissionProvider>
   </StrictMode>,
 )

@@ -12,9 +12,7 @@ class MainRequests  {
     }
 
     async onPost (route, params) {
-        const response = await api.post(`/${route}`, params)
-        console.log(response.status === 200)
-        return response.status
+        return await api.post(`/${route}`, params)
     }
 
     async onPut (route, params) {

@@ -1,0 +1,38 @@
+import { useState, useContext, createContext } from "react";
+import {registerOpenModal} from "./withoutPermissionModalHandler.js";
+
+export const WithoutPermissionContext = createContext(undefined);
+
+export function WithoutPermissionProvider({ children }) {
+    const [showModal, setShowModal] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const openModal = (msg= "you don't have permission to execute this action") => {
+        setShowModal(true);
+        setMessage(msg);
+    }
+    registerOpenModal(openModal);
+
+    const closeModal = () => {
+        setShowModal(false);
+    }
+
+    return(
+        <WithoutPermissionContext.Provider value={{ showModal, message, openModal, closeModal }}>
+            {children}
+            {showModal && (
+                <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
+                    <div className="flex flex-col items-center bg-white w-[40%] lg:w-[20%] p-6 rounded-lg shadow-lg space-y-4">
+                        <h1 className="text-x">Without Permission!!!</h1>
+                        <p className="text-sm text-gray-500">{message}</p>
+                        <button onClick={closeModal} className="flex w-[15%] items-center bg-neutral-950 text-white text-sm px-2 py-1.5 gap-3 rounded hover:bg-neutral-600 transition-discrete">Close</button>
+                    </div>
+                </div>
+            )}
+        </WithoutPermissionContext.Provider>
+    )
+}
+
+export function useWithoutPermissionModal() {
+    return useContext(WithoutPermissionContext);
+}
