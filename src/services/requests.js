@@ -31,6 +31,10 @@ class MainRequests  {
         const response = await api.post(`/${route}/profile`)
         return response.status
     }
+    async onGeneral (route, params) {
+        const response = await api.get(`/general/${route}`)
+        return response.data
+    }
 }
 
 
