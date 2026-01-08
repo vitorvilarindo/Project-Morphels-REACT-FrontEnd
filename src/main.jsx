@@ -9,6 +9,7 @@ import ReportsPage from './pages/reportsPage.jsx';
 import Login from './pages/mainPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { WithoutPermissionProvider } from "./context/withoutPermissionContext.jsx";
+import SettingsPage from "./pages/settingsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,12 +29,16 @@ const router = createBrowserRouter([
     element: <ExpensesPage />,
   },
   {
-    path: "/grafics",
+    path: "/register",
     element: <Register />,
   },
   {
     path: "/reports",
     element: <ReportsPage />,
+  },
+  {
+    path: "/settings",
+    element: <SettingsPage />,
   }
 ]);
 

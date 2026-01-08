@@ -32,7 +32,6 @@ function Register() {
     async function onGetMembers(search) {
         try{
             const response = await request.onGet("members", search);
-            console.log(response);
             setMembers(response);
         }catch(error){
             console.log(error);
@@ -46,7 +45,6 @@ function Register() {
     async function onGetCompanyes(search) {
         try {
             const response = await request.onGet("companies", search);
-            console.log(response);
             setCompanies(response);
         } catch (error) {
             console.error('Error fetching companies:', error);
