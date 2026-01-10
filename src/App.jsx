@@ -1,67 +1,72 @@
-import AddTask from "./components/AddTask";
-import Tasks from "./components/Tasks";
-import { useState } from "react";
+import {Document, Page, Text, View, StyleSheet, PDFViewer, Image} from "@react-pdf/renderer";
+import {Table, TR, TH, TD} from '@ag-media/react-pdf-table';
+import { createTw } from "react-pdf-tailwind";
 
-function App() {
-  const [tasks, setTasks]  = useState([{
-      id: 1,
-      title: "Estudar React",
-      description: "Estudar React",
-      IsCompleted: false
+// The 'theme' object is your Tailwind theme config
+const td_style = " text-base p-1"
 
+const tw = createTw({
+    theme: {
+        fontFamily: {
+            sans: ["Comic Sans"],
+        },
+        extend: {
+            colors: {
+                custom: "#bada55",
+            },
+        },
     },
-    {
-      id: 2,
-      title: "Estudar JavaScript",
-      description: "Estudar JavaScript",
-      IsCompleted: false
+});
 
-    },
-    {
-      id: 3,
-      title: "Estudar TypeScript",
-      description: "Estudar TypeScript",
-      IsCompleted: false
-  
-    }])
+const InvoicePDF = () => (
+    <Document>
+        <Page size={"A4"} style={tw("p-12 w-full")}>
+            <View style={tw("flex flex-row justify-left gap-2 items-end border border-gray-200 rounded-t-md m-0 p-2")}>
+                <View style={tw("")}>
+                    <Image src="../images/ADEB-logo.png" source={"Logo-ADEB"} style={tw("w-[70px] h-32 ")}/>
+                </View>
+                <View style={tw("text-9xl")}>
+                    <Text>ADEB</Text>
+                </View>
+            </View>
+            <View style={tw("flex flex-row justify-left gap-2 items-end border border-gray-200 m-0 p-2")}>
+                <View style={tw("w-full pl-[10px] text-sm")}>
+                    <Text>Igreja:</Text>
+                    <Text>Pastor local:</Text>
+                    <Text>Tesoureiro:</Text>
+                </View>
+                <View style={tw("w-full pl-[10px] text-sm")}>
+                    <Text>Pastos presidente:</Text>
+                    <Text>Coordenador setorial:</Text>
+                    <Text>Setor:</Text>
+                </View>
+            </View>
+            <View style={tw("flex flex-row justify-left gap-2 items-end border border-gray-200 m-0 p-2")}>
+                <Table style={tw("w-full border border-gay-300")}>
+                    <TH style={tw("w-full border")}>
+                        <TD style={tw(td_style)}>Header 1</TD>
+                        <TD style={tw(td_style)}>Header 2</TD>
+                    </TH>
+                    <TR>
+                        <TD>Data 1</TD>
+                        <TD>Data 2</TD>
+                    </TR>
+                </Table>
+            </View>
 
-  function onCheckTask(id){
-    const newTasks = tasks.map((task) => {
-      if(task.id === id){
-        return {...task, IsCompleted: !task.IsCompleted}
-      }
-      return task
-    }
-    )
-    setTasks(newTasks)
-  }
+        </Page>
+    </Document>
+);
 
-  function deleteTask(id){
-    const newTasks = tasks.filter((task) => task.id !== id)
-    setTasks(newTasks)
-  }
+export default function App(){
 
-  function addTask(title, description){
-    const newTask = {
-      id: tasks.length + 1,
-      title,
-      description,
-      IsCompleted: false
-    }
-    setTasks([...tasks, newTask])
-  }
+    return (
 
-  return( 
-    <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
-      
-      <div className="w-[500px] space-y-4">
-        <h1 className="text-3xl text-slate-100 font-bold text-center">Gerenciandor de tarefas</h1>
-        <AddTask addTask={addTask} />
-        <Tasks tasks={tasks} onCheckTask={onCheckTask} deleteTask={deleteTask} />
-      </div>
-    </div>
-  
-  )
-};
+            <div className={"h-[100%]"}>
+                <PDFViewer style={tw("h-[100%] w-[100%]")} >
+                    <InvoicePDF />
+                </PDFViewer>
+            </div>
 
-export default App;
+    );
+}
