@@ -1,9 +1,14 @@
 import {Document, Page, Text, View, StyleSheet, PDFViewer, Image} from "@react-pdf/renderer";
 import {Table, TR, TH, TD} from '@ag-media/react-pdf-table';
 import { createTw } from "react-pdf-tailwind";
+import {useEffect, useState} from "react";
+import MainRequests from "../services/requests.js";
 
 // The 'theme' object is your Tailwind theme config
-const td_style = " text-base p-1"
+const th_style = " text-sm justify-center p-1 border-gray-200";
+const td_style = " text-xs items-center justify-center border-gray-200 p-1"
+const requests = new MainRequests()
+
 
 const tw = createTw({
     theme: {
@@ -21,15 +26,18 @@ const tw = createTw({
 const InvoicePDF = () => (
     <Document>
         <Page size={"A4"} style={tw("p-12 w-full")}>
-            <View style={tw("flex flex-row justify-left gap-2 items-end border border-gray-200 rounded-t-md m-0 p-2")}>
-                <View style={tw("")}>
-                    <Image src="../images/ADEB-logo.png" source={"Logo-ADEB"} style={tw("w-[70px] h-32 ")}/>
+            <View style={tw("flex flex-row justify-start gap-2 items-end border border-gray-200 rounded-t-md m-0 p-2")}>
+                <View >
+                    <Image src="../images/ADEB-logo.png" source={"Logo-ADEB"} style={tw("w-[80px] h-32 ")}/>
                 </View>
                 <View style={tw("text-9xl")}>
                     <Text>ADEB</Text>
                 </View>
             </View>
-            <View style={tw("flex flex-row justify-left gap-2 items-end border border-gray-200 m-0 p-2")}>
+            <View style={tw("flex flex-row text-sm justify-end items-end border border-gray-200 m-0 p-2")}>
+                <Text>Data: {new Date().getDate()}/{String(new Date().getMonth() + 1).padStart(2, "0") }/{new Date().getFullYear()}</Text>
+            </View>
+            <View style={tw("flex flex-row justify-start gap-2 items-end border border-gray-200 m-0 p-2")}>
                 <View style={tw("w-full pl-[10px] text-sm")}>
                     <Text>Igreja:</Text>
                     <Text>Pastor local:</Text>
@@ -41,28 +49,97 @@ const InvoicePDF = () => (
                     <Text>Setor:</Text>
                 </View>
             </View>
-            <View style={tw("flex flex-row justify-left gap-2 items-end border border-gray-200 m-0 p-2")}>
-                <Table style={tw("w-full border border-gay-300")}>
-                    <TH style={tw("w-full border")}>
-                        <TD style={tw(td_style)}>Header 1</TD>
-                        <TD style={tw(td_style)}>Header 2</TD>
-                    </TH>
-                    <TR>
-                        <TD>Data 1</TD>
-                        <TD>Data 2</TD>
-                    </TR>
-                </Table>
+            <View style={tw("border border-gray-200 m-0 p-2 gap-6")}>
+                <View>
+
+                    <Table style={tw("w-full")}>
+                        <TH>
+                            <TD style={tw(th_style)}>Header 1</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                        </TH>
+                        <TR>
+                            <TD style={tw(td_style)}>R$ Data 1</TD>
+                            <TD style={tw(td_style)}>R$ Data 2</TD>
+                            <TD style={tw(td_style)}>R$ Data 2</TD>
+                            <TD style={tw(td_style)}>R$ Data 2</TD>
+                        </TR>
+                    </Table>
+                </View>
+                <View>
+                    <Text style={tw("text-lg ")}>Receitas</Text>
+                    <Table style={tw("w-full")}>
+                        <TH>
+                            <TD style={tw(th_style)}>Header 1</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                        </TH>
+                        <TR>
+                            <TD style={tw(td_style)}>Data 1</TD>
+                            <TD style={tw(td_style)}>R$ Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
+                        </TR>
+                        <TR>
+                            <TD style={tw("flex-1 px-2 text-xs items-center justify-center border-gray-200")}>Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
+                        </TR>
+                    </Table>
+                </View>
+                <View>
+                    <Text style={tw("text-lg ")}>Gastos</Text>
+                    <Table style={tw("w-full")}>
+                        <TH>
+                            <TD style={tw(th_style)}>Header 1</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                            <TD style={tw(th_style)}>Header 2</TD>
+                        </TH>
+                        <TR>
+                            <TD style={tw(td_style)}>Data 1</TD>
+                            <TD style={tw(td_style)}>R$ Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
+                        </TR>
+                        <TR>
+                            <TD style={tw("flex-1 px-2 text-xs items-center justify-center border-gray-200")}>Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
+                        </TR>
+                    </Table>
+                </View>
             </View>
 
         </Page>
     </Document>
 );
 
-export default function App(){
+export default function LocalReportsPage(){
+
+    const [revenues, setRevenues] = useState([]);
+    const [expenses, setExpences] = useState([]);
+    const on_revenues = true
+
+    async function onGetData() {
+        try {
+            const response_revenues = await requests.onGet("revenues", "")
+            const response_expenses = await requests.onGet("expenses", '');
+            setExpences(response_expenses);
+            setRevenues(response_revenues);
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    useEffect(() => {
+        onGetData().then();
+    }, []);
 
     return (
 
-        <div className={"h-[100%]"}>
+        <div className={"h-full w-full"}>
             <PDFViewer style={tw("h-[100%] w-[100%]")} >
                 <InvoicePDF />
             </PDFViewer>

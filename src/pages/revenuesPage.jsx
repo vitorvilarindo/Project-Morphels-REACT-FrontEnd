@@ -32,22 +32,6 @@ function RevenuesPage() {
     console.log("Button clicked! Show form:", showForm);
   };
 
-
-
-  async function onGetRevenues() {
-      try{
-          const response = await requests.onGet("revenues", '');
-          setRevenues(response);
-      }catch(error){
-          console.log(error);
-      }
-
-  }
-
-  useEffect(() => {
-    onGetRevenues().then();
-  }, []);
-
   useEffect( () => {
       const fetchData = async () => {
           try {

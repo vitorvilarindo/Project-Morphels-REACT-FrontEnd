@@ -6,6 +6,7 @@ import RevenuesPage from './pages/revenuesPage.jsx';
 import ExpensesPage from './pages/expensesPage.jsx';
 import Register from './pages/register.jsx';
 import ReportsPage from './pages/reportsPage.jsx';
+import LocalReportsPage from './pages/localReportsPage.jsx';
 import Login from './pages/mainPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { WithoutPermissionProvider } from "./context/withoutPermissionContext.jsx";
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/settings",
     element: <SettingsPage />,
+  },
+  {
+    path: "/reports/local",
+    element: <LocalReportsPage />,
   }
 ]);
 
