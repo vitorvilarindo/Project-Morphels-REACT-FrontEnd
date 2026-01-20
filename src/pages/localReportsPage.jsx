@@ -8,6 +8,7 @@ import MainRequests from "../services/requests.js";
 const th_style = " text-sm justify-center p-1 border-gray-200";
 const td_style = " text-xs items-center justify-center border-gray-200 p-1"
 const requests = new MainRequests()
+const on_revenues = true
 
 
 const tw = createTw({
@@ -23,7 +24,7 @@ const tw = createTw({
     },
 });
 
-const InvoicePDF = () => (
+const InvoicePDF = ({revenues, expenses, informations}) => (
     <Document>
         <Page size={"A4"} style={tw("p-12 w-full")}>
             <View style={tw("flex flex-row justify-start gap-2 items-end border border-gray-200 rounded-t-md m-0 p-2")}>
@@ -60,10 +61,10 @@ const InvoicePDF = () => (
                             <TD style={tw(th_style)}>Header 2</TD>
                         </TH>
                         <TR>
-                            <TD style={tw(td_style)}>R$ Data 1</TD>
+                            <TD style={tw(td_style)}>Data 1</TD>
                             <TD style={tw(td_style)}>R$ Data 2</TD>
-                            <TD style={tw(td_style)}>R$ Data 2</TD>
-                            <TD style={tw(td_style)}>R$ Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
+                            <TD style={tw(td_style)}>Data 2</TD>
                         </TR>
                     </Table>
                 </View>
@@ -71,17 +72,25 @@ const InvoicePDF = () => (
                     <Text style={tw("text-lg ")}>Receitas</Text>
                     <Table style={tw("w-full")}>
                         <TH>
-                            <TD style={tw(th_style)}>Header 1</TD>
-                            <TD style={tw(th_style)}>Header 2</TD>
-                            <TD style={tw(th_style)}>Header 2</TD>
-                            <TD style={tw(th_style)}>Header 2</TD>
+                            <TD style={tw(th_style)}>nome</TD>
+                            <TD style={tw(th_style)}>valor</TD>
+                            <TD style={tw(th_style)}>data</TD>
+                            <TD style={tw(th_style)}>entrada</TD>
                         </TH>
-                        <TR>
-                            <TD style={tw(td_style)}>Data 1</TD>
-                            <TD style={tw(td_style)}>R$ Data 2</TD>
-                            <TD style={tw(td_style)}>Data 2</TD>
-                            <TD style={tw(td_style)}>Data 2</TD>
-                        </TR>
+                        {revenues.map((revenue) => (
+
+                            <TR>
+                                <TD style={tw(td_style)}>{revenue.member}</TD>
+                                <TD style={tw(td_style)}>R${revenue.value}</TD>
+                                <TD style={tw(td_style)}>
+                                    {new Date(revenue.date).toLocaleDateString("pt-BR", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                })}</TD>
+                                <TD style={tw(td_style)}>{revenue.payment}</TD>
+                            </TR>
+                        ))}
                         <TR>
                             <TD style={tw("flex-1 px-2 text-xs items-center justify-center border-gray-200")}>Data 2</TD>
                             <TD style={tw(td_style)}>Data 2</TD>
@@ -116,17 +125,19 @@ const InvoicePDF = () => (
 );
 
 export default function LocalReportsPage(){
-
     const [revenues, setRevenues] = useState([]);
-    const [expenses, setExpences] = useState([]);
-    const on_revenues = true
-
+    const [expenses, setExpenses] = useState([]);
+    const [information, setInformation] = useState([]);
     async function onGetData() {
         try {
-            const response_revenues = await requests.onGet("revenues", "")
-            const response_expenses = await requests.onGet("expenses", '');
-            setExpences(response_expenses);
-            setRevenues(response_revenues);
+            const response = await requests.onCreateRepost(`local`, {
+                type_revenues: "All",
+                type_expenses: "All",
+                start_date: "2025/12/01",
+                end_date: "2026/01/01"});
+            setRevenues(response.revenues);
+            setExpenses(response.expenses)
+            setInformation(response.info_user)
         } catch (error) {
             console.log(error);
         }
@@ -135,13 +146,14 @@ export default function LocalReportsPage(){
 
     useEffect(() => {
         onGetData().then();
-    }, []);
+    },[]);
+
 
     return (
 
         <div className={"h-full w-full"}>
             <PDFViewer style={tw("h-[100%] w-[100%]")} >
-                <InvoicePDF />
+                <InvoicePDF revenues={revenues} expenses={expenses} informations={information} />
             </PDFViewer>
         </div>
 

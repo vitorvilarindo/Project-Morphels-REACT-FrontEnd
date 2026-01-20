@@ -6,7 +6,7 @@ class MainRequests  {
         return response.data
     }
 
-    async onFilter (route, params) {
+    async onFilter(route, params) {
         const response = await api.get(`/${route}/filter?type=${encodeURIComponent(params.type)}&date1=${encodeURIComponent(params.start_date)}&date2=${encodeURIComponent(params.end_date)}`)
         return response.data
     }
@@ -33,6 +33,10 @@ class MainRequests  {
     }
     async onGeneral (route, params) {
         const response = await api.get(`/general/${route}`)
+        return response.data
+    }
+    async onCreateRepost (route, params) {
+        const response = await api.post(`/reports/${route}`, params)
         return response.data
     }
 }
