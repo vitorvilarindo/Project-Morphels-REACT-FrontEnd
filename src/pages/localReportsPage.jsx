@@ -77,7 +77,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                         </TH>
                         {revenues.map((revenue) => (
 
-                            <TR>
+                            <TR key={revenue.id}>
                                 <TD style={tw(td_style)}>{revenue.member}</TD>
                                 <TD style={tw(td_style)}>R${revenue.value}</TD>
                                 <TD style={tw(td_style)}>
@@ -105,7 +105,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                             <TD style={tw(th_style)}>entrada</TD>
                         </TH>
                         {expenses.map((expense) => (
-                            <TR>
+                            <TR key={expense.id} >
                                 <TD style={tw(td_style)}>{expense.member}</TD>
                                 <TD style={tw(td_style)}>R$ {expense.value}</TD>
                                 <TD style={tw(td_style)}>{expense.date}</TD>
