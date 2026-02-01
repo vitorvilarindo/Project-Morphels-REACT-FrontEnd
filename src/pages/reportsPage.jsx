@@ -8,22 +8,18 @@ import SearchBar from "../components/searchBar.jsx";
 import {useState} from "react";
 import OpenFromButton from "../components/openFromButton.jsx";
 import SearchArea from "../components/searchArea.jsx";
+import ModalReports from "../components/modalReports.jsx";
 function ReportsPage() {
     const [searchMembers, setSearchMembers] = useState("")
     const [reports, setReports] = useState([])
     const [search, setSearch] = useState("")
-    const [onShowForm, setOnShowForm] = useState(false)
+    const [showModal, setShowModal] = useState(false)
 
   return (
       <div className='justify-center h-[90vh] w-screen'>
         <Header />
         <Menu />
-          <div className='flex justify-center'>
-              <section className='flex w-[55vw] mt-8 gap-3'>
-                  <Balons title={'entradas'} value={"oasd"} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
-                  <Balons title={'entradas'} value={"sumExpenses"} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
-              </section>
-          </div>
+
           <div className="flex justify-center">
               <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
                   <section className="flex justify-between items-center">
@@ -32,7 +28,7 @@ function ReportsPage() {
                           description={"Form to add new revenues"}
                       />
                       <div className="flex justify-center">
-                          <OpenFromButton onClick={onShowForm}>
+                          <OpenFromButton onClick={() => setShowModal(true)} >
                               {"New Report"}
                           </OpenFromButton>
                       </div>
@@ -76,9 +72,9 @@ function ReportsPage() {
                                       <td className="p-2">{report.title}</td>
                                       <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{report.type}</div></td>
                                       <td>{formatedDates[1]} until {formatedDates[2]}</td>
-                                      <td>{report.revenues}</td>
-                                      <td>{report.expenses}</td>
-                                      <td>{report.balance}</td>
+                                      <td className={"green-red-600"}>{report.revenues}</td>
+                                      <td className={"text-red-800"}>{report.expenses}</td>
+                                      <td className={"accent-green-600"}>{report.revenues - report.expenses}</td>
                                       <td>{formatedDates[0]}</td>
                                       <td>{report.by}</td>
 
@@ -101,6 +97,12 @@ function ReportsPage() {
                           </tbody>
                       </table>
                   </section>
+                  {showModal && (
+                      <ModalReports
+                          onGetRevenues={() => onGetRevenues()}
+                          onHideForm={() => setShowModal(false)}
+                      />
+                  )}
               </div>
           </div>
       </div>
