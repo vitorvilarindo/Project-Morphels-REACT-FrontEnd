@@ -5,15 +5,26 @@ import Balons from "../components/balons.jsx";
 import {BadgeDollarSign, Search, Trash2} from "lucide-react";
 import Header2 from "../components/header2.jsx";
 import SearchBar from "../components/searchBar.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import OpenFromButton from "../components/openFromButton.jsx";
 import SearchArea from "../components/searchArea.jsx";
 import ModalReports from "../components/modalReports.jsx";
+import MainRequests from "../services/requests.js";
+
+const request = new MainRequests()
 function ReportsPage() {
     const [searchMembers, setSearchMembers] = useState("")
     const [reports, setReports] = useState([])
     const [search, setSearch] = useState("")
     const [showModal, setShowModal] = useState(false)
+
+    useEffect(() => {
+        async function onfetch(){
+            const response = await request.onRepost("list_reports")
+            setReports(response)
+        }
+        onfetch().then()
+    })
 
   return (
       <div className='justify-center h-[90vh] w-screen'>

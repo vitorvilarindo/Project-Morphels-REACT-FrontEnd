@@ -1,14 +1,25 @@
 import { useForm } from "react-hook-form";
-import api from "../services/api.js";
 import SearchBar from "./searchBar.jsx";
 import Header2 from "./header2.jsx";
 import Inputs from "./inputs.jsx";
+import MainRequests from "../services/requests.js";
+
+const request = new MainRequests()
 
 function ModalReports({ onHideForm, onGetRevenues }) {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm({
+        defaultValues:{
+            options: {
+                resume: false,
+                revenues: false,
+                expenses: false
+            }
+        }
+        }
+    );
 
-    function onEditRevenue(report) {
-        console.log(report);
+    async function onPostReportPreset(data) {
+        await request.onRepost("setReportPreset", data)
     }
 
 
@@ -20,7 +31,7 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                     description={"Form to edit revenues"}
                 />
                 <form
-                    action={() => handleSubmit(onEditRevenue)()}
+                    action={() => handleSubmit(onPostReportPreset)()}
                     className="flex flex-col  space-y-3"
                 >
                     <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
@@ -33,7 +44,7 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                                 placeholder="Ex: Relatório Mensal - Janeiro 2025"
                                 type="text"
                                 id="member"
-                                {...register("member")}
+                                {...register("title")}
                             />
                         </section>
                         <section className="flex flex-col w-full items-start gap-1">
@@ -69,21 +80,21 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                                 Type
                             </label>
                             <Inputs id="end_date" type="date"
-                                    register={{...register("star_date")}}></Inputs>
+                                    register={{...register("end_date")}}></Inputs>
                         </section>
                     </div>
                     <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
                         <h1 className={"text-xl bold mb-2"}>Sections to include</h1>
-                        <section className="flex items-center w-full  gap-1">
-                            <input className={"black"} type="checkbox" checked={true}/>
+                        <section className={"flex items-center w-full  gap-1"}>
+                            <input type="checkbox" checked={true} {...register("options.resume")}/>
                             <p className={"text-xs"}>Resumo financeiro (totais de receitas, despesas e saldo)</p>
                         </section>
-                        <section className="flex items-center w-full  gap-1">
-                            <input className={""} type="checkbox" checked={true}/>
+                        <section className={"flex items-center w-full  gap-1"}>
+                            <input type="checkbox" checked={true} {...register("options.revenues")}/>
                             <p className={"text-xs"}>Detalhamento de receitas (lista completa de receitas do periodo)</p>
                         </section>
-                        <section className="flex items-center w-full  gap-1">
-                            <input className={""} type="checkbox" checked={true}/>
+                        <section className={"flex items-center w-full  gap-1"}>
+                            <input type="checkbox" checked={true} {...register("options.expenses")}/>
                             <p className={"text-xs"}>Detalhamento de despesas (lista completa de despesas do periodo)</p>
                         </section>
 
