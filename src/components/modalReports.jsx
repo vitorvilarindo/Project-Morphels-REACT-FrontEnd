@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import api from "../services/api.js";
 import SearchBar from "./searchBar.jsx";
 import Header2 from "./header2.jsx";
+import Inputs from "./inputs.jsx";
 
 function ModalReports({ onHideForm, onGetRevenues }) {
     const { register, handleSubmit } = useForm();
@@ -15,27 +16,27 @@ function ModalReports({ onHideForm, onGetRevenues }) {
         <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
             <div className="flex flex-col bg-white w-[50%] lg:w-[30%] p-6 rounded-lg shadow-lg space-y-4">
                 <Header2
-                    title={"Revenues put Form"}
+                    title={"Create new report"}
                     description={"Form to edit revenues"}
                 />
                 <form
                     action={() => handleSubmit(onEditRevenue)()}
                     className="flex flex-col  space-y-3"
                 >
-                    <section className="flex flex-col items-start">
-                        <label htmlFor="member" className="text-xs">
-                            Member
-                        </label>
-                        <SearchBar
-                            placeholder="Member"
-                            type="text"
-                            id="member"
-                            {...register("member")}
-                        />
-                    </section>
-
-                    <section className="flex flex-row gap-4 w-full">
-                        <div className="flex flex-col items-start w-full">
+                    <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
+                        <h1 className={"text-xl bold mb-2"}>Basic Information's</h1>
+                        <section className="flex flex-col w-full items-start gap-1">
+                            <label htmlFor="member" className="text-xs ">
+                                Report´s title
+                            </label>
+                            <SearchBar
+                                placeholder="Ex: Relatório Mensal - Janeiro 2025"
+                                type="text"
+                                id="member"
+                                {...register("member")}
+                            />
+                        </section>
+                        <section className="flex flex-col w-full items-start gap-1">
                             <label htmlFor="type" className="text-xs">
                                 Type
                             </label>
@@ -45,48 +46,48 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                                 {...register("type")}
                             >
                                 <option value="">Select a category</option>
-                                <option value="Dizimo">Dizimo</option>
-                                <option value="Oferta">Oferta</option>
-                                <option value="Doação">Doação</option>
+                                <option value="Mensal">Mensal</option>
+                                <option value="Trimestral">Trimestral</option>
+                                <option value="Semestral">Semestral</option>
+                                <option value="Anual">Anual</option>
+                                <option value="Cutomizado">Cutomizado</option>
                             </select>
-                        </div>
-                        <div className="flex flex-col items-start w-full">
-                            <label htmlFor="value" className="text-xs">
-                                Values
+                        </section>
+                    </div>
+
+                    <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
+                        <h1 className={"text-xl bold mb-2"}>Period</h1>
+                        <section className="flex flex-col w-full items-start gap-1">
+                            <label htmlFor="start_date" className="text-xs ">
+                                Start´s date
                             </label>
-                            <SearchBar
-                                placeholder="00,0"
-                                type="number"
-                                id="value"
-                                {...register("value")}
-                                defaultValue={"oi"}
-                            />
-                        </div>
-                    </section>
-                    <section className="flex flex-row gap-4 w-full">
-                        <div className="flex flex-col items-start w-full">
-                            <label htmlFor="payment" className="text-xs">
-                                Payment
+                            <Inputs id="start_date" type="date"
+                                    register={{...register("star_date")}}></Inputs>
+                        </section>
+                        <section className="flex flex-col w-full items-start gap-1">
+                            <label htmlFor="end_date" className="text-xs">
+                                Type
                             </label>
-                            <select
-                                id="payment"
-                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
-                                {...register("payment")}
-                                defaultValue={"complete.payment"}
-                            >
-                                <option value="">Select a Payment</option>
-                                <option value="Pix/Depósito">Pix/Depósito</option>
-                                <option value="Dinheiro">Dinheiro</option>
-                                <option value="Cheque">Cheque</option>
-                            </select>
-                        </div>
-                        <div className="flex flex-col items-start w-full">
-                            <label htmlFor="date" className="text-xs">
-                                Data
-                            </label>
-                            <SearchBar type="date" id="date" {...register("date")} />
-                        </div>
-                    </section>
+                            <Inputs id="end_date" type="date"
+                                    register={{...register("star_date")}}></Inputs>
+                        </section>
+                    </div>
+                    <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
+                        <h1 className={"text-xl bold mb-2"}>Sections to include</h1>
+                        <section className="flex items-center w-full  gap-1">
+                            <input className={"black"} type="checkbox" checked={true}/>
+                            <p className={"text-xs"}>Resumo financeiro (totais de receitas, despesas e saldo)</p>
+                        </section>
+                        <section className="flex items-center w-full  gap-1">
+                            <input className={""} type="checkbox" checked={true}/>
+                            <p className={"text-xs"}>Detalhamento de receitas (lista completa de receitas do periodo)</p>
+                        </section>
+                        <section className="flex items-center w-full  gap-1">
+                            <input className={""} type="checkbox" checked={true}/>
+                            <p className={"text-xs"}>Detalhamento de despesas (lista completa de despesas do periodo)</p>
+                        </section>
+
+                    </div>
                     <div className="w-full flex flex-row mt-4 gap-4 ">
                         <button
                             type="submit"
