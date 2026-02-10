@@ -10,6 +10,7 @@ import OpenFromButton from "../components/openFromButton.jsx";
 import SearchArea from "../components/searchArea.jsx";
 import ModalReports from "../components/modalReports.jsx";
 import MainRequests from "../services/requests.js";
+import {ArrowDownToLine} from "lucide-react";
 
 const request = new MainRequests()
 function ReportsPage() {
@@ -20,7 +21,8 @@ function ReportsPage() {
 
     useEffect(() => {
         async function onfetch(){
-            const response = await request.onRepost("list_reports")
+            const response = await request.onGet("reports", search)
+            console.log(response)
             setReports(response)
         }
         onfetch().then()

@@ -19,7 +19,9 @@ function ModalReports({ onHideForm, onGetRevenues }) {
     );
 
     async function onPostReportPreset(data) {
+        console.log(data);
         await request.onRepost("setReportPreset", data)
+
     }
 
 
@@ -73,7 +75,7 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                                 Start´s date
                             </label>
                             <Inputs id="start_date" type="date"
-                                    register={{...register("star_date")}}></Inputs>
+                                    register={{...register("start_date")}}></Inputs>
                         </section>
                         <section className="flex flex-col w-full items-start gap-1">
                             <label htmlFor="end_date" className="text-xs">

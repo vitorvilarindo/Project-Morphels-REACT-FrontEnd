@@ -132,7 +132,7 @@ export default function LocalReportsPage(){
     const [information, setInformation] = useState([]);
     async function onGetData() {
         try {
-            const response = await requests.onCreateRepost(`local`, {
+            const response = await requests.onRepost(`local`, {
                 type_revenues: "All",
                 type_expenses: "All",
                 start_date: "2025/01/01",
