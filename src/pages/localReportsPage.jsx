@@ -3,6 +3,7 @@ import {Table, TR, TH, TD} from '@ag-media/react-pdf-table';
 import { createTw } from "react-pdf-tailwind";
 import {useEffect, useState} from "react";
 import MainRequests from "../services/requests.js";
+import { useLocation } from 'react-router-dom'
 
 // The 'theme' object is your Tailwind theme config
 const th_style = " text-sm justify-center p-1 border-gray-200";
@@ -51,7 +52,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                 </View>
             </View>
             <View style={tw("border border-gray-200 m-0 p-2 gap-6")}>
-                <View>
+                {sum.length !== 0 && (<View>
 
                     <Table style={tw("w-full")}>
                         <TH>
@@ -65,7 +66,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                             <TD style={tw(td_style)}>R$ {sum[0].revenues_sum - sum[0].expenses_sum}</TD>
                         </TR>
                     </Table>
-                </View>
+                </View>)}
                 {revenues.length !== 0 && (<View>
                     <Text style={tw("text-lg ")}>Receitas</Text>
                     <Table style={tw("w-full")}>
@@ -75,7 +76,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                             <TD style={tw(th_style)}>data</TD>
                             <TD style={tw(th_style)}>entrada</TD>
                         </TH>
-                        {revenues.map((revenue) => (
+                        {revenues?.length > 0 && revenues.map((revenue) => (
 
                             <TR key={revenue.id}>
                                 <TD style={tw(td_style)}>{revenue.member}</TD>
@@ -95,7 +96,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                         </TR>
                     </Table>
                 </View>)}
-                {expenses.length !== 0 && (<View>
+                {expenses?.length > 0 && expenses.length !== 0 && (<View>
                     <Text style={tw("text-lg ")}>Gastos</Text>
                     <Table style={tw("w-full")}>
                         <TH>
@@ -106,7 +107,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                         </TH>
                         {expenses.map((expense) => (
                             <TR key={expense.id} >
-                                <TD style={tw(td_style)}>{expense.member}</TD>
+                                <TD style={tw(td_style)}>{expense.title}</TD>
                                 <TD style={tw(td_style)}>R$ {expense.value}</TD>
                                 <TD style={tw(td_style)}>{expense.date}</TD>
                                 <TD style={tw(td_style)}>{expense.payment}</TD>
@@ -130,18 +131,17 @@ export default function LocalReportsPage(){
     const [expenses, setExpenses] = useState([]);
     const [sum, setSum] = useState([]);
     const [information, setInformation] = useState([]);
+    const location = useLocation();
+
+    const {report_id} = location.state || {}
     async function onGetData() {
         try {
-            const response = await requests.onRepost(`local`, {
-                type_revenues: "All",
-                type_expenses: "All",
-                start_date: "2025/01/01",
-                end_date: "2026/01/01"});
+            const response = await requests.onRepost(`local`, {id: report_id});
+            console.log(response);
             setRevenues(response.revenues);
             setExpenses(response.expenses)
             setInformation(response.information)
             setSum(response.sum)
-            console.log(expenses.length)
         } catch (error) {
             console.log(error);
         }

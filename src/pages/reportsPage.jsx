@@ -1,7 +1,5 @@
 import Menu from "../components/menu.jsx"
 import Header from "../components/header.jsx";
-import Grafics from "../components/grafics.jsx"
-import Balons from "../components/balons.jsx";
 import {BadgeDollarSign, Search, Trash2} from "lucide-react";
 import Header2 from "../components/header2.jsx";
 import SearchBar from "../components/searchBar.jsx";
@@ -11,6 +9,7 @@ import SearchArea from "../components/searchArea.jsx";
 import ModalReports from "../components/modalReports.jsx";
 import MainRequests from "../services/requests.js";
 import {ArrowDownToLine} from "lucide-react";
+import {useNavigate, useNavigation} from "react-router-dom";
 
 const request = new MainRequests()
 function ReportsPage() {
@@ -18,15 +17,16 @@ function ReportsPage() {
     const [reports, setReports] = useState([])
     const [search, setSearch] = useState("")
     const [showModal, setShowModal] = useState(false)
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         async function onfetch(){
             const response = await request.onGet("reports", search)
-            console.log(response)
             setReports(response)
         }
         onfetch().then()
-    })
+    },[])
 
   return (
       <div className='justify-center h-[90vh] w-screen'>
@@ -93,12 +93,12 @@ function ReportsPage() {
 
                                       <td>
                                           <div className="pr-3 flex justify-end  items-center gap-2">
-                                              <button>
+                                              <button onClick={() => {
+                                                  navigate("/reports/local",{state:{report_id: report.id}})}}>
                                                   <ArrowDownToLine size={18}/>
                                               </button>
 
-                                              <button
-                                                  className="text-red-600 hover:bg-red-200 p-1 rounded-md">
+                                              <button className="text-red-600 hover:bg-red-200 p-1 rounded-md">
                                                   <Trash2 size={18}/>
                                               </button>
                                           </div>

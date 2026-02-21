@@ -8,49 +8,63 @@ import Register from './pages/register.jsx';
 import ReportsPage from './pages/reportsPage.jsx';
 import LocalReportsPage from './pages/localReportsPage.jsx';
 import Login from './pages/mainPage.jsx';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Teste from './pages/teste.jsx'
+import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
 import { WithoutPermissionProvider } from "./context/withoutPermissionContext.jsx";
 import SettingsPage from "./pages/settingsPage.jsx";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/main",
-    element: <Login />,
-  },
-  {
-    path: "/revenues",
-    element: <RevenuesPage />,
-  },
-  {
-    path: "/expences",
-    element: <ExpensesPage />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/reports",
-    element: <ReportsPage />,
-  },
-  {
-    path: "/settings",
-    element: <SettingsPage />,
-  },
-  {
-    path: "/reports/local",
-    element: <LocalReportsPage />,
-  }
+  {element:(
+        <WithoutPermissionProvider>
+          <Outlet/>
+        </WithoutPermissionProvider>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <App />,
+      },
+      {
+        path: "/main",
+        element: <Login />,
+      },
+      {
+        path: "/revenues",
+        element: <RevenuesPage />,
+      },
+      {
+        path: "/expences",
+        element: <ExpensesPage />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/reports",
+        element: <ReportsPage />,
+      },
+      {
+        path: "/settings",
+        element: <SettingsPage />,
+      },
+      {
+        path: "/reports/local",
+        element: <LocalReportsPage />,
+      },
+      {
+        path: "/teste",
+        element: <Teste />,
+      }
+    ]}
+
+
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <WithoutPermissionProvider>
+
       <RouterProvider router={router} />
-    </WithoutPermissionProvider>
+
   </StrictMode>,
 )

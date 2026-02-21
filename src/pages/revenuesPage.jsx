@@ -23,10 +23,12 @@ function RevenuesPage() {
   const [type, setType] = useState(""),
       [start_date, setStart_date] = useState(""),
       [end_date, setEnd_date] = useState("")
+  const [members, setMembers] = useState([]);
+  const [filted , setFilted] = useState([])
+    const { register, watch, setValue, handleSubmit } = useForm();
 
 
-  const { register, handleSubmit } = useForm();
-
+  const searchTerm = watch("member")
   const onShowForm = () => {
     setShowForm(!showForm);
     console.log("Button clicked! Show form:", showForm);
@@ -65,6 +67,19 @@ function RevenuesPage() {
         onFilterRevenues().then(); //
     }, [type, start_date, end_date]);
 
+    useEffect(() => {
+        if (searchTerm && searchTerm.length > 1) {
+            const result = members.filter((member) => member.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            setFilted(result)
+        }
+
+    },[searchTerm])
+
+    const selectSugestion = (value) => {
+        setValue("members", value);
+        setFilted([])
+    }
+
 
 
   return (
@@ -86,10 +101,10 @@ function RevenuesPage() {
             </div>
           </section>
             <SearchArea placeholder={"Search by description or member..."} showFilter={() => setShowFilter(!showFilter)}
-                        value={search}
                         onChange={(e) => {
                             setSearch(e.target.value)
-                        }}/>
+                        }}
+                        value={search}
             {showFilter && <Filt type={type} start_date={start_date} end_date={end_date}
                                  onChangeType={(e) => setType(e.target.value)}
                                  onChangeStartDate={(e) => setStart_date(e.target.value)}
@@ -111,11 +126,20 @@ function RevenuesPage() {
                 }}
                 className="flex flex-col  space-y-3"
               >
-                <section className="flex flex-col items-start">
+                <section className="flex flex-col items-start relative">
                   <label htmlFor="member" className="text-xs">
                     Member
                   </label>
-                  <SearchBar placeholder="Member" type="text" id="member" {...register("member")} />
+                    <input
+                        className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+                        placeholder="Member" type="text" id="member"
+                        {register("member")} />
+                    {members.length !== 0 && <div
+                        className={"w-full items-start bg-gray-100 border border-t-0 border-gray-400 rounded-md rounded-t-none absolute top-11"}>
+                        <ul className={"w-full "}>
+                            <li className={"flex items-start pl-2 py-1 hover:bg-gray-300"}>Ola pastes dboa</li>
+                        </ul>
+                    </div>}
 
                 </section>
 

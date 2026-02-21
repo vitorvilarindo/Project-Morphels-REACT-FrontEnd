@@ -21,6 +21,8 @@ function ModalReports({ onHideForm, onGetRevenues }) {
     async function onPostReportPreset(data) {
         console.log(data);
         await request.onRepost("setReportPreset", data)
+        onGetRevenues()
+        onHideForm()
 
     }
 
@@ -88,15 +90,15 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                     <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
                         <h1 className={"text-xl bold mb-2"}>Sections to include</h1>
                         <section className={"flex items-center w-full  gap-1"}>
-                            <input type="checkbox" checked={true} {...register("options.resume")}/>
+                            <input type="checkbox" {...register("options.resume")}/>
                             <p className={"text-xs"}>Resumo financeiro (totais de receitas, despesas e saldo)</p>
                         </section>
                         <section className={"flex items-center w-full  gap-1"}>
-                            <input type="checkbox" checked={true} {...register("options.revenues")}/>
+                            <input type="checkbox" {...register("options.revenues")}/>
                             <p className={"text-xs"}>Detalhamento de receitas (lista completa de receitas do periodo)</p>
                         </section>
                         <section className={"flex items-center w-full  gap-1"}>
-                            <input type="checkbox" checked={true} {...register("options.expenses")}/>
+                            <input type="checkbox" {...register("options.expenses")}/>
                             <p className={"text-xs"}>Detalhamento de despesas (lista completa de despesas do periodo)</p>
                         </section>
 
