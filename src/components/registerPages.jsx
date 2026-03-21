@@ -17,9 +17,9 @@ import SearchBar from "./searchBar.jsx";
 import Inputs from "./inputs.jsx";
 import ModalInfo from "./modelInfo.jsx";
 import {useEffect, useState} from "react";
-// import MainPage from "./mainPage.jsx";
 import MainRequests from "../services/requests.js";
 import {useForm} from "react-hook-form";
+import Scanner from "./scanner.jsx";
 
 const request = new MainRequests()
 
@@ -513,13 +513,52 @@ export function Page2(){
     </main>)
 }
 export function Page3 (){
+    const [showForm, setShowForm] = useState(false),
+        [showOptions, setShowOptions] = useState(false);
     const [showCardsForm, setShowCardsForm] = useState(false)
-    const {register, handleSubmit} = useForm();
+    const {register, watch, setValue, handleSubmit} = useForm();
     const [searchCards, setSearchCards] = useState([])
     const [cards, setCards] = useState([])
-    function onGetCard (){
+    const [showScanner, setShowScanner] = useState(false)
+    const [filted, setFilted] = useState([])
+    const [members, setMembers] = useState([]);
+    const [search, setSearch] = useState("")
 
+    const fetchData = async () => {
+        try {
+            // const response_revenues = await request.onGet("revenues", search);
+            const response_members = await request.onGet("members", search);
+            // setRevenues(response_revenues);
+            setMembers(response_members);
+        } catch (error) {
+            console.error("Erro ao buscar revenues:", error);
+        }
+    };
+    useEffect(() => {
+        fetchData().then();
+
+    }, [search]);
+    const searchTerm = watch("member")
+
+    useEffect(() => {
+        if (searchTerm && searchTerm.length > 0) {
+            const result = members.filter((member) =>
+                member.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            setShowOptions(true)
+            setFilted(result)
+        }else {
+            setFilted([])
+            setShowOptions(false);
+        }
+
+    }, [searchTerm])
+
+    const selectSuggestion = (value) => {
+        setValue("member", value);
+        setFilted([])
+        setShowOptions(false);
     }
+
     return (
         <main>
             <div className="flex justify-center">
@@ -539,18 +578,40 @@ export function Page3 (){
                         <div className="">
                             <form action={() => handleSubmit(async (data) => {
                                 await request.onPost("members", data)
-                                onGetCard().then()
+                                fetchData().then()
                             })()}
                                   className="flex flex-col  space-y-3">
                                 <sections clasname="">
-                                    <button className="flex items-center gap-4 bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete"> <ScanBarcode  size={20}/>
+                                    <button type={"button"} onClick={() => setShowScanner(true)} className="flex items-center gap-4 bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete"> <ScanBarcode  size={20}/>
                                     Scan Code
                                     </button>
                                 </sections>
                                 <section className="flex flex-row gap-4 w-full">
                                     <Inputs id="bar_code" type="text" placeholder={'0000000000000000000000000000'}
                                             register={{...register("bar_code")}}>Bar Code *</Inputs>
-                                    <Inputs id="member" type="text" placeholder={"Ex: João da melancia"} register={{...register("member")}}>Member</Inputs>
+                                    <section className="w-full flex flex-col items-start relative">
+                                        <label htmlFor="member" className="text-xs">
+                                            Member
+                                        </label>
+                                        <input
+                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+                                            placeholder="Member" type="text" id="member"
+                                            {...register("member")} />
+                                        {showOptions && filted.length !== 0 && <div
+                                            className={"w-full items-start bg-gray-100 border border-t-0 border-gray-400 rounded-md rounded-t-none absolute top-11"}>
+                                            <ul className={"w-full "}>
+                                                {filted.map((member) => (
+                                                    <li key={member.id}
+                                                        onClick={() => selectSuggestion(member.name)}
+                                                        className={"flex items-start pl-2 py-1 hover:bg-gray-300"}>
+                                                        {member.name}
+                                                    </li>
+                                                ))}
+
+                                            </ul>
+                                        </div>}
+
+                                    </section>
                                 </section>
 
 
@@ -583,7 +644,9 @@ export function Page3 (){
                                     </button>
                                 </div>
                             </form>
+                            {showScanner && <Scanner hidden={() => setShowScanner(false)} />}
                         </div>
+
                     )}
                 </div>
             </div>

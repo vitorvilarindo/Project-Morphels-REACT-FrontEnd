@@ -8,7 +8,7 @@ import Register from './pages/register.jsx';
 import ReportsPage from './pages/reportsPage.jsx';
 import LocalReportsPage from './pages/localReportsPage.jsx';
 import Login from './pages/mainPage.jsx';
-import Teste from './pages/teste.jsx'
+import Teste from './components/scanner.jsx'
 import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
 import { WithoutPermissionProvider } from "./context/withoutPermissionContext.jsx";
 import SettingsPage from "./pages/settingsPage.jsx";

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import Quagga from "@ericblade/quagga2";
 
 
-export default function Scanner() {
+export default function Scanner({hidden}) {
     const scannerRef = useRef(null);
 
     useEffect(() => {
@@ -35,5 +35,14 @@ export default function Scanner() {
         };
     }, []);
 
-    return <div ref={scannerRef} style={{ width: "100%", height: "400px" }} />;
+    return (
+        <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
+            <div className="flex flex-col bg-white w-[50%] lg:w-[30%] p-6 rounded-lg shadow-lg space-y-4">
+                <div ref={scannerRef} style={{ width: "100%", height: "400px" }}/>
+                <button onClick={hidden} className={"bg-black border text-xs border-gray-200 shadow-xs text-white px-4 py-2 rounded-lg hover:bg-neutral-700 transition-discrete"}>
+                    close
+                </button>
+            </div>
+        </div>
+    );
 }
