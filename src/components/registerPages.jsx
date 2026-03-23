@@ -512,16 +512,17 @@ export function Page2(){
         </div>
     </main>)
 }
-export function Page3 (){
+
+export function Page3() {
+    const [cards, setCards] = useState([])
+    const [members, setMembers] = useState([]);
     const [showForm, setShowForm] = useState(false),
         [showOptions, setShowOptions] = useState(false);
     const [showCardsForm, setShowCardsForm] = useState(false)
     const {register, watch, setValue, handleSubmit} = useForm();
     const [searchCards, setSearchCards] = useState([])
-    const [cards, setCards] = useState([])
     const [showScanner, setShowScanner] = useState(false)
     const [filted, setFilted] = useState([])
-    const [members, setMembers] = useState([]);
     const [search, setSearch] = useState("")
 
     const fetchData = async () => {
@@ -530,6 +531,7 @@ export function Page3 (){
             const response_members = await request.onGet("members", search);
             // setRevenues(response_revenues);
             setMembers(response_members);
+
         } catch (error) {
             console.error("Erro ao buscar revenues:", error);
         }
@@ -546,7 +548,7 @@ export function Page3 (){
                 member.name.toLowerCase().includes(searchTerm.toLowerCase()));
             setShowOptions(true)
             setFilted(result)
-        }else {
+        } else {
             setFilted([])
             setShowOptions(false);
         }
@@ -571,7 +573,7 @@ export function Page3 (){
                         />
                         <div className="flex justify-center">
                             <OpenFromButton
-                                onClick={() => setShowCardsForm(!showCardsForm)}>{showCardsForm ?  "Cancel" : "New Card"}</OpenFromButton>
+                                onClick={() => setShowCardsForm(!showCardsForm)}>{showCardsForm ? "Cancel" : "New Card"}</OpenFromButton>
                         </div>
                     </section>
                     {showCardsForm && (
@@ -582,8 +584,10 @@ export function Page3 (){
                             })()}
                                   className="flex flex-col  space-y-3">
                                 <sections clasname="">
-                                    <button type={"button"} onClick={() => setShowScanner(true)} className="flex items-center gap-4 bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete"> <ScanBarcode  size={20}/>
-                                    Scan Code
+                                    <button type={"button"} onClick={() => setShowScanner(true)}
+                                            className="flex items-center gap-4 bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">
+                                        <ScanBarcode size={20}/>
+                                        Scan Code
                                     </button>
                                 </sections>
                                 <section className="flex flex-row gap-4 w-full">
@@ -618,7 +622,8 @@ export function Page3 (){
                                 <section className="flex flex-row gap-4 w-full">
                                     <Inputs id="issue_date" type="date" placeholder={'(61) 91234-5678'}
                                             register={{...register("issue_date")}}>Issue Date *</Inputs>
-                                    <Inputs id="due_date" type="date" register={{...register("due_date")}}>Due Date *</Inputs>
+                                    <Inputs id="due_date" type="date" register={{...register("due_date")}}>Due Date
+                                        *</Inputs>
                                 </section>
 
                                 <section className="flex flex-row gap-4 w-full">
@@ -644,7 +649,7 @@ export function Page3 (){
                                     </button>
                                 </div>
                             </form>
-                            {showScanner && <Scanner hidden={() => setShowScanner(false)} />}
+                            {showScanner && <Scanner hidden={() => setShowScanner(false)}/>}
                         </div>
 
                     )}
@@ -656,7 +661,8 @@ export function Page3 (){
                     <Header2 title={"Registed Member"} description={""}/>
                     <section className="flex items-center gap-2">
                         <Search size={16} className="text-gray-500"/>
-                        <SearchBar placeholder="Member" type="text" id="member" value={searchCards} onChange={(e) => setSearchCards(e.target.value)} />
+                        <SearchBar placeholder="Member" type="text" id="member" value={searchCards}
+                                   onChange={(e) => setSearchCards(e.target.value)}/>
                     </section>
                     <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
                         <table className="w-full ">

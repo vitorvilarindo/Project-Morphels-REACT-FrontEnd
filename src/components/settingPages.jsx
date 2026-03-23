@@ -10,13 +10,17 @@ const request = new MainRequests()
 
 export function Page1(){
     const [users, setUsers] = useState([]);
+    const [roles, setRoles] = useState([]);
     const [showSingUpUserForm, setShowSingUpUserForm] = useState(false);
     const {register, handleSubmit} = useForm();
 
     useEffect(()=>{
         const getUsers = async () => {
             const response = await request.onGet('users', '');
+            const responseRoles = await request.onGet('roles', '');
+
             setUsers(response);
+            setRoles(responseRoles);
         }
         getUsers().then();
     },[])
@@ -56,9 +60,9 @@ export function Page1(){
                                             <label htmlFor="designation" className="text-xs">Designation *</label>
                                             <select id="stats"
                                                     className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("stats")} >
-                                                <option value="Active">Active</option>
-                                                <option value="Due">Due</option>
-                                                <option value="Canceled">Canceled</option>
+                                                {roles.map(role =>
+                                                    <option key={role.id} value={role.name}>{role.name}</option>
+                                                )}
                                             </select>
                                         </div>
 
