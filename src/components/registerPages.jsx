@@ -519,11 +519,11 @@ export function Page3() {
     const [showForm, setShowForm] = useState(false),
         [showOptions, setShowOptions] = useState(false);
     const [showCardsForm, setShowCardsForm] = useState(false)
-    const {register, watch, setValue, handleSubmit} = useForm();
     const [searchCards, setSearchCards] = useState([])
     const [showScanner, setShowScanner] = useState(false)
     const [filted, setFilted] = useState([])
     const [search, setSearch] = useState("")
+    const {register, watch, setValue, handleSubmit} = useForm();
 
     const fetchData = async () => {
         try {
@@ -583,16 +583,24 @@ export function Page3() {
                                 fetchData().then()
                             })()}
                                   className="flex flex-col  space-y-3">
-                                <sections clasname="">
+                                <section >
                                     <button type={"button"} onClick={() => setShowScanner(true)}
                                             className="flex items-center gap-4 bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">
                                         <ScanBarcode size={20}/>
                                         Scan Code
                                     </button>
-                                </sections>
+                                </section>
                                 <section className="flex flex-row gap-4 w-full">
-                                    <Inputs id="bar_code" type="text" placeholder={'0000000000000000000000000000'}
-                                            register={{...register("bar_code")}}>Bar Code *</Inputs>
+                                    <div className="flex flex-col items-start w-full space-y-1">
+                                        <label htmlFor="bar_code" className="text-xs">Bar code</label>
+                                        <input
+                                            id="bar_code"
+                                            placeholder={"0000000000000000000000000"}
+                                            type="text"
+                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+                                            {...register("bar_code")}
+                                        />
+                                    </div>
                                     <section className="w-full flex flex-col items-start relative">
                                         <label htmlFor="member" className="text-xs">
                                             Member
@@ -628,7 +636,7 @@ export function Page3() {
 
                                 <section className="flex flex-row gap-4 w-full">
                                     <div className="flex flex-col items-start w-full space-y-1">
-                                        <label htmlFor="pixType" className="text-xs">Pix type</label>
+                                        <label htmlFor="pixType" className="text-xs">Status</label>
                                         <select id="stats"
                                                 className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("stats")} >
                                             <option value="Active">Active</option>
@@ -649,7 +657,7 @@ export function Page3() {
                                     </button>
                                 </div>
                             </form>
-                            {showScanner && <Scanner hidden={() => setShowScanner(false)}/>}
+                            {showScanner && <Scanner hidden={() => setShowScanner(false)} code={setValue}/>}
                         </div>
 
                     )}

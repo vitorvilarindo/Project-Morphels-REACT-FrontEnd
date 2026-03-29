@@ -2,35 +2,51 @@ import { useEffect, useRef } from "react";
 import Quagga from "@ericblade/quagga2";
 
 
-export default function Scanner({hidden}) {
+export default function Scanner({hidden, code}) {
     const scannerRef = useRef(null);
 
     useEffect(() => {
-        if (scannerRef.current) {
-            Quagga.init({
-                inputStream: {
-                    type: "LiveStream",
-                    target: scannerRef.current,
-                    constraints: {
-                        facingMode: "environment",
-                        width: 640,
-                        height: 480,
-                    },
-                },
-                decoder: {
-                    readers: ["code_128_reader", "ean_reader"],
-                },
-            }, (err) => {
-                if (!err) Quagga.start();
-            })
+        let isMounted = true;
 
-            Quagga.onDetected((data) => {
-                console.log(data);
-            });
+        const handleDetected = (data) => {
+            code("bar_code",data.codeResult.code)
+        }
+        const startScanner = () => {
+            if (!isMounted || !scannerRef.current) return;
+
+            if (scannerRef.current) {
+                Quagga.init({
+                    inputStream: {
+                        type: "LiveStream",
+                        target: scannerRef.current,
+                        constraints: {
+                            facingMode: "environment",
+                        },
+                    },
+                    decoder: {
+                        readers: ["code_128_reader", "ean_reader"],
+                    },
+                }, (err) => {
+                    if (err) {
+                        console.log("Err to star Quagga", err)
+                        return;
+                    }
+                    if (isMounted) {
+                        Quagga.start();
+                        Quagga.onDetected(handleDetected);
+                    }
+                })
+
+            }
         }
 
+
+        const timeOut =  setTimeout(startScanner, 200)
+
         return () => {
-            Quagga.offDetected();
+            isMounted = false;
+            clearTimeout(timeOut);
+            Quagga.offDetected(handleDetected);
             Quagga.stop();
         };
     }, []);
