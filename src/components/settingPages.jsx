@@ -11,17 +11,23 @@ const request = new MainRequests()
 export function Page1(){
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
+    const [sectors, setSectors] = useState([]);
+    const [churches, setChurches] = useState([]);
     const [showSingUpUserForm, setShowSingUpUserForm] = useState(false);
     const {register, handleSubmit} = useForm();
 
-    useEffect(()=>{
-        const getUsers = async () => {
-            const response = await request.onGet('users', '');
-            const responseRoles = await request.onGet('roles', '');
+    const getUsers = async () => {
+        const responseUsers = await request.onGet('users', '');
+        const responseRoles = await request.onGet('roles', '');
+        const responseSectors = await request.onGet('sectors', '');
+        const responseChurches = await request.onGet('churchs', '');
 
-            setUsers(response);
-            setRoles(responseRoles);
-        }
+        setUsers(responseUsers);
+        setRoles(responseRoles);
+        setSectors(responseSectors);
+        setChurches(responseChurches);
+    }
+    useEffect(()=>{
         getUsers().then();
     },[])
     return (
@@ -39,13 +45,13 @@ export function Page1(){
                         <div className="flex flex-col bg-white w-[50%] lg:w-[30%] p-6 rounded-lg shadow-lg space-y-4">
                             <div className="">
                                 <form action={() => handleSubmit(async (data) => {
-                                    await request.onPost("members", data)
-
+                                    await request.onPost("users", data)
+                                    getUsers().then()
                                 })()}
                                       className="flex flex-col  space-y-3">
                                     <Header2
-                                        title={"Revenues put Form"}
-                                        description={"Form to edit revenues"}
+                                        title={"Users Sing-Up"}
+                                        description={"Form to sing-up users"}
                                     />
                                     <section className="flex flex-row gap-4 w-full">
                                         <Inputs id="name" type="text" placeholder={'Ex: JOAO DA MACEDO'}
@@ -72,6 +78,27 @@ export function Page1(){
                                         <Inputs id="password" type="text" placeholder={'Ex: XXXXXXXXX'}
                                                 register={{...register("password")}}>Password *</Inputs>
                                         <Inputs id="confirm_password" type="text" placeholder={'Ex: XXXXXXXXX'} register={{...register("confirm_password")}}>Confirm password *</Inputs>
+                                    </section>
+
+                                    <section className="flex flex-row gap-4 w-full">
+                                        <div className="flex flex-col items-start w-full space-y-1">
+                                            <label htmlFor="designation" className="text-xs">Sector *</label>
+                                            <select id="stats"
+                                                    className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("stats")} >
+                                                {sectors.map(sector =>
+                                                    <option key={sector.id} value={sector.sector}>{sector.sector}</option>
+                                                )}
+                                            </select>
+                                        </div>
+                                        <div className="flex flex-col items-start w-full space-y-1">
+                                            <label htmlFor="designation" className="text-xs">Church *</label>
+                                            <select id="stats"
+                                                    className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("stats")} >
+                                                {churches.map(church =>
+                                                    <option key={church.id} value={church.name}>{church.name}</option>
+                                                )}
+                                            </select>
+                                        </div>
                                     </section>
 
                                     <div className="w-full flex flex-row mt-4 gap-4 ">

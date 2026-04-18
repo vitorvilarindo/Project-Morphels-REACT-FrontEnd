@@ -13,7 +13,6 @@ function App() {
     const {register, handleSubmit, errors} = useForm();
 
     async function onCheckLogin(data) {
-        console.log(data)
         try{
             const response = await request.onLogin("users", data);
             if (response.success === false) {
