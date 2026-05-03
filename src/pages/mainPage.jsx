@@ -14,27 +14,6 @@ function Login () {
     const [sumRevenues, setSumRevenues] = useState();
     const [sumExpenses, setSumExpenses] = useState();
 
-
-    useEffect(() => {
-        async function verify() {
-            try {
-                const response = await request.onProfile("users")
-                console.log(response)
-
-                if (response !== 200) {
-                    navigate("/")
-                } else {
-                    console.log("Profile was successfully logged in")
-                }
-            } catch (error) {
-                console.error("Erro ao verificar perfil:", error)
-                navigate("/")
-            }
-        }
-
-        verify().then()
-    }, [navigate])
-
     useEffect(() => {
         async function generalSum() {
             try {

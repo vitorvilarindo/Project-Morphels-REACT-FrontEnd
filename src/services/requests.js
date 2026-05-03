@@ -7,7 +7,7 @@ class MainRequests  {
     }
 
     async onFilter(route, params) {
-        const response = await api.get(`/${route}/filter?type=${encodeURIComponent(params.type)}&date1=${encodeURIComponent(params.start_date)}&date2=${encodeURIComponent(params.end_date)}`)
+        const response = await api.post(`/${route}/filter`, params);
         return response.data
     }
 
