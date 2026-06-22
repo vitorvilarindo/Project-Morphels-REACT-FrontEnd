@@ -10,7 +10,7 @@ const request = new MainRequests()
 
 function App() {
     const navigate = useNavigate()
-    const {register, handleSubmit, errors} = useForm();
+    const {register, handleSubmit} = useForm();
 
     async function onCheckLogin(data) {
         try{

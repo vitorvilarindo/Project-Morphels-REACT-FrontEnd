@@ -13,20 +13,6 @@ function Login () {
     const navigate = useNavigate();
     const [sumRevenues, setSumRevenues] = useState();
     const [sumExpenses, setSumExpenses] = useState();
-
-    useEffect(() => {
-        async function generalSum() {
-            try {
-                const response = await request.onGeneral("sum")
-                setSumRevenues(response.revenues)
-                setSumExpenses(response.expenses)
-            }catch (error) {
-                console.error("Erro ao generar perfil:", error)
-            }
-        }
-        generalSum().then()
-    },[])
-
   return (
     
     <div className='justify-center items-center h-[90vh] w-screen'>

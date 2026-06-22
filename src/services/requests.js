@@ -27,18 +27,6 @@ class MainRequests  {
         const response = await api.post(`/${route}/login`, params)
         return response.data
     }
-    async onProfile (route, param) {
-        const response = await api.post(`/${route}/profile`)
-        return response.status
-    }
-    async onGeneral (route, params) {
-        const response = await api.get(`/general/${route}`)
-        return response.data
-    }
-    async onRepost (route, params) {
-        const response = await api.post(`/reports/${route}`, params)
-        return response.data
-    }
 }
 
 

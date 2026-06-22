@@ -25,7 +25,7 @@ const tw = createTw({
     },
 });
 
-const InvoicePDF = ({revenues, expenses, information, sum}) => (
+const InvoicePDF = ({revenues, expenses, information}) => (
     <Document>
         <Page size={"A4"} style={tw("p-12 w-full")}>
             <View style={tw("flex flex-row justify-start gap-2 items-end border border-gray-200 rounded-t-md m-0 p-2")}>
@@ -41,18 +41,17 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
             </View>
             <View style={tw("flex flex-row justify-start gap-2 items-end border border-gray-200 m-0 p-2")}>
                 <View style={tw("w-full pl-[10px] text-sm")}>
-                    <Text style={tw("space-x-20")}>Igreja: {information[0].church_name}</Text>
-                    <Text>Pastor local: {information[0].sherperd_name}</Text>
-                    <Text>Tesoureiro: {information[0].user_name}</Text>
+                    <Text style={tw("space-x-20")}>Igreja: {information.branch}</Text>
+                    <Text>Pastor local: {information.branch_owner}</Text>
+                    <Text>Tesoureiro: {information.user_name}</Text>
                 </View>
                 <View style={tw("w-full pl-[10px] text-sm")}>
-                    <Text>Pastos presidente: {information[0].presidente_name}</Text>
-                    <Text>Coordenador setorial: {information[0].coordenator_name}</Text>
-                    <Text>Setor: {information[0].sector_name}</Text>
+                    <Text>Coordenador setorial: {information.sectorial_coordinator}</Text>
+                    <Text>Setor: {information.sector_name}</Text>
                 </View>
             </View>
             <View style={tw("border border-gray-200 m-0 p-2 gap-6")}>
-                {sum.length !== 0 && (<View>
+                <View>
 
                     <Table style={tw("w-full")}>
                         <TH>
@@ -61,12 +60,12 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                             <TD style={tw(th_style)}>Saldo</TD>
                         </TH>
                         <TR>
-                            <TD style={tw(td_style)}>R$ {sum[0].revenues_sum}</TD>
-                            <TD style={tw(td_style)}>R$ {sum[0].expenses_sum}</TD>
-                            <TD style={tw(td_style)}>R$ {sum[0].revenues_sum - sum[0].expenses_sum}</TD>
+                            <TD style={tw(td_style)}>R$ {revenues[0].revenues_sum}</TD>
+                            <TD style={tw(td_style)}>R$ {expenses[0].expenses_sum}</TD>
+                            <TD style={tw(td_style)}>R$ {revenues[0].revenues_sum - expenses[0].expenses_sum}</TD>
                         </TR>
                     </Table>
-                </View>)}
+                </View>
                 {revenues.length !== 0 && (<View>
                     <Text style={tw("text-lg ")}>Receitas</Text>
                     <Table style={tw("w-full")}>
@@ -92,7 +91,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
                         ))}
                         <TR>
                             <TD style={tw("flex-1 px-2 text-xs items-center justify-center border-gray-200")}>TOTAL</TD>
-                            <TD style={tw(td_style)}>{sum[0].revenues_sum}</TD>
+                            <TD style={tw(td_style)}>{revenues[0].revenues_sum}</TD>
                         </TR>
                     </Table>
                 </View>)}
@@ -116,7 +115,7 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
 
                         <TR>
                             <TD style={tw("flex-1 px-2 text-xs items-center justify-center border-gray-200")}>TOTAL</TD>
-                            <TD style={tw(td_style)}>{sum[0].expenses_sum}</TD>
+                            <TD style={tw(td_style)}>{expenses[0].expenses_sum}</TD>
                         </TR>
                     </Table>
                 </View>)}
@@ -129,19 +128,21 @@ const InvoicePDF = ({revenues, expenses, information, sum}) => (
 export default function LocalReportsPage(){
     const [revenues, setRevenues] = useState([]);
     const [expenses, setExpenses] = useState([]);
-    const [sum, setSum] = useState([]);
     const [information, setInformation] = useState([]);
     const location = useLocation();
 
     const {report_id} = location.state || {}
     async function onGetData() {
         try {
-            const response = await requests.onRepost(`local`, {id: report_id});
-            console.log(response);
-            setRevenues(response.revenues);
-            setExpenses(response.expenses)
-            setInformation(response.information)
-            setSum(response.sum)
+            const finance_response = await requests.onPost(`reports/finance/${report_id}`, {});
+            const infos_response = await requests.onGet(`users/infos`, "")
+
+            console.log(finance_response.data.filterRevenues);
+            console.log(infos_response);
+
+            setRevenues(finance_response.data.filterRevenues);
+            setExpenses(finance_response.data.filterExpenses)
+            setInformation(infos_response)
         } catch (error) {
             console.log(error);
         }
@@ -157,7 +158,7 @@ export default function LocalReportsPage(){
 
         <div className={"h-full w-full"}>
             <PDFViewer style={tw("h-[100%] w-[100%]")} >
-                <InvoicePDF revenues={revenues} expenses={expenses} information={information} sum={sum} />
+                <InvoicePDF revenues={revenues} expenses={expenses} information={information}/>
             </PDFViewer>
         </div>
 

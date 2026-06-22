@@ -39,8 +39,8 @@ function RevenuesPage() {
         try {
             const response_revenues = await requests.onGet("revenues", search);
             const response_members = await requests.onGet("members", search);
-            setRevenues(response_revenues);
-            setMembers(response_members);
+            setRevenues(response_revenues ? response_revenues: []);
+            setMembers(response_members ? response_members : []);
         } catch (error) {
             console.error("Erro ao buscar revenues:", error);
         }

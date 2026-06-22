@@ -50,6 +50,7 @@ function ExpensesPage() {
       const fetchData = async () => {
           try {
               const response = await requests.onGet("expenses", search);
+              console.log(response);
               setExpences(response);
           } catch (error) {
               console.error("Erro ao buscar revenues:", error);
