@@ -3,7 +3,7 @@ import { openPermissionModal } from "../context/withoutPermissionModalHandler.js
 // função que abre modal (vamos criar abaixo)
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: import.meta.env.VITE_DATABASE_URL_ROOT,
     withCredentials: true
 
 });
