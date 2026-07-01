@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+@theme {
+    /*lightness-theme*/
+    --bg-primary-color-lightness: #F8FAFC;
+    --bg-secondary-color-lightness: #FFFFFF;
+
+    --primary-titles-color-lightness: #0F2547;
+
+    --butons-color-lightness: #13305B;
+
+    --destack-color-lightness: #C59B27;
+
+    /*darkness-theme*/
+    --bg-primary-color-darkness: #0A1424;
+    --bg-secondary-color-darkness: #122035;
+
+    --primary-titles-color-darkness: #E2E8F0;
+
+    --butons-color-darkness: #1E40AF;
+
+    --destack-color-darkness: #E5B842;
+
+}
