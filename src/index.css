@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+.desktop-only-flex { display: flex; }
+.mobile-only-flex { display: none; }
+.mobile-only-block { display: none; }
+
+@media (max-width: 768px) {
+    .desktop-only-flex { display: none; }
+    .mobile-only-flex { display: flex; }
+    .mobile-only-block { display: block; }
+}
+
 @theme {
     /*lightness-theme*/
     --bg-primary-color-lightness: #F8FAFC;
@@ -28,3 +38,4 @@
 
 
 }
+

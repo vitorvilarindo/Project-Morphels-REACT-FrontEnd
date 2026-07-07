@@ -19,7 +19,7 @@
       getPermission().then()
   }, [])
   return (
-      <div className='flex justify-center items-center mt-7'>
+      <div className='flex justify-center items-center mt-7 desktop-only-flex'>
           <ul className='w-[55vw] flex flex-row bg-gray-200 rounded-sm items-center shadow-lg'>
               <li className='w-full '>
                   <MenuButtons to='/main' onClick={() => navigate(`/main`)}><ChartColumn size={14}/>Dashboard

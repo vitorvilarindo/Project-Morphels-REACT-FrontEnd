@@ -4,6 +4,8 @@ import {Users, Building2, IdCard} from "lucide-react";
 import {useEffect, useState} from "react";
 import {Page1, Page2, Page3} from '../components/registerPages.jsx'
 import MainRequests from "../services/requests.js";
+import {MenuProvider} from "../context/menuContext.jsx";
+import SideMenu from "../components/sideMenu.jsx";
 
 const request = new MainRequests();
 
@@ -35,11 +37,14 @@ function Register() {
 
     return (
         <div className="justify-center h-[90vh] w-screen">
-            <Header />
-            <Menu />
+            <MenuProvider>
+                <Header/>
+                <SideMenu/>
+            </MenuProvider>
+            <Menu/>
 
             <section className="flex justify-center items-center mt-7">
-                <ul className="w-[55vw] flex flex-row bg-gray-200 rounded-sm items-center shadow-lg">
+                <ul className="flex flex-row bg-gray-200 rounded-sm items-center shadow-lg w-[80vw] md:w-[55vw]">
                     {pages.map(item => (
                             <li key={item.id} className="w-full">
                                 <button

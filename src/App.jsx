@@ -25,7 +25,7 @@ function App() {
 }
   return(
     <main className="flex flex-col justify-center items-center h-screen w-screen gap-4 bg-[url('../images/adebBackground.jpg')] bg-cover bg-center bg-black/30 bg-blend-darken">
-      <div className="flex flex-col justify-center items-center bg-white backdrop-blur-md p-10 rounded-lg shadow-lg w-110 gap-4">
+      <div className="flex flex-col justify-center items-center bg-white backdrop-blur-md p-10 rounded-lg shadow-lg w-90 gap-4 sm:w-110">
         <header className="flex flex-col justify-center items-center gap-2">
           <i className='bg-gray-100 p-4 rounded-full'>
             <Church  size={40}/>

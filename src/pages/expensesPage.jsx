@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 import ModalExpenses from "../components/modalExpences.jsx";
 import Filt from "../components/filt.jsx";
 import MainRequests from "../services/requests.js";
+import {MenuProvider} from "../context/menuContext.jsx";
+import SideMenu from "../components/sideMenu.jsx";
 
 const requests = new MainRequests()
 
@@ -81,11 +83,14 @@ function ExpensesPage() {
 
   return (
     <div className="justify-center h-[90vh] w-screen">
-      <Header />
-      <Menu />
+        <MenuProvider>
+            <Header/>
+            <SideMenu/>
+        </MenuProvider>
+        <Menu/>
       
       <div className="flex justify-center">
-        <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+        <div className="flex flex-col justify-center mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
           <section className="flex justify-between items-center">
             <Header2
               title={"Expences Form"}
