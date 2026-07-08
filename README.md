@@ -200,7 +200,7 @@ POST /login
 Cabeçalho principal:
 - Cabeçalho fixo 
 - Navegação entre páginas
-- Botão de troda do modos (Light, Dark)
+- Botão de troca do modos (Light, Dark)
 - Botão logout
 
 ### `<Balons />`
@@ -213,3 +213,49 @@ Balões de dados listados:
 - Dados detalhados
 - Botão para chamar o model de edição
 - Usado para as listagens de dados financeiros
+
+## 🌐 API Endpoints
+
+### Autenticação
+
+```js
+POST /user/login    //Login via email e senha
+```
+
+### User
+
+```js
+POST    /users          // Cria a receita
+GET     /users          // Lista os usuários
+GET     /users/infos    // Busca informações do usuários logado
+PUT     /users/{id}     // Edita os dados do usuário
+DELETE  /users/{id}     // Deleta o usuário
+```
+
+### Sectors
+
+```js
+POST    /sectors        // Cria um setor
+GET     /sectors        // Lista os setores
+PUT     /sectors/{id}   // Edita os dados
+DELETE  /sector/{id}    // Deleta o setor
+```
+
+### Roles
+
+```js
+POST    /roles          // Cria uma role
+GET     /roles          // Lista todas as roles da instituição
+PUT     /roles/{id}     // Edita os dados da role (inclusive os acessos)
+DELETE  /roles/{id}     // Deleta role e exclui as permissões
+```
+
+### Revenues
+
+```js
+POST    /revenues           // Cria uma receita
+GET     /revenues           // Lista todas as receitas (com base no nível de visualização do usuário)
+POST    /revenues/filter    // FIltra a exibição com base na data de criação e no tipo
+PUT     /revenues/{id}      // Edita os dados da revenue
+DELETE  /revenues/{id}      // Deleta o registro
+```
