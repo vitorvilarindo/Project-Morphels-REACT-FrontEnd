@@ -256,6 +256,90 @@ DELETE  /roles/{id}     // Deleta role e exclui as permissões
 POST    /revenues           // Cria uma receita
 GET     /revenues           // Lista todas as receitas (com base no nível de visualização do usuário)
 POST    /revenues/filter    // FIltra a exibição com base na data de criação e no tipo
-PUT     /revenues/{id}      // Edita os dados da revenue
+PUT     /revenues/{id}      // Edita os dados da receita
 DELETE  /revenues/{id}      // Deleta o registro
 ```
+
+### Reports 
+
+```js
+POST    /reports                // Cria um preset de relatorio
+GET     /reports                // Lista todos os presets
+PUT     /reports                // Edita os dados do preset
+DELETE  /reports                // Deleta o preset
+POST    /reports/finance/{id}   // Busca os dados financeiros que com base no preset
+```
+
+### Pages 
+Esses endpoints são exclusivos do painel de admin **eles não devem ser implementados para os usuário comuns**
+
+```js
+POST    /members        // Cria um membro
+GET     /members        // Lista os membros (até o momento lista todos cadastrados na instituição do usuário)
+PUT     /members/{id}   // Edita os dados do usuário
+DELETE  /members/{id}    // Deleta o usuário
+```
+
+### Expenses 
+
+```js
+POST    /expenses           // Cria uma despesa
+GET     /expenses           // Lista todas as despesas (com base no nível de visualização do usuário)
+GET     /expenses/filter    // Filtra a exibição com base na data de criação e no tipo
+PUT     /expenses/{id}      // Edita os dados da despesa
+DELETE  /expenses/{id}      // Delete ao registro
+```
+
+### Companies
+
+```js
+POST    /companies        // Cria o registro de um parceiro
+GET     /companies        // Lista os parceiros
+PUT     /companies/{id}   // Edita os dados do parceiro
+DELETE  /companies/{id}    // Deleta o parceiro
+```
+
+### Cards
+
+```js
+POST    /cards        // Cria um cartão de fidelidade
+GET     /cards        // Lista os cartões
+PUT     /cards/{id}   // Edita os dados do cartão
+DELETE  /cards/{id}    // Deleta o cartão
+```
+
+### Branches
+
+```js
+POST    /branches        // Cria uma filial
+GET     /branches        // Lista as filiais (exclusiva para usuário com nível de visualização acima de setorial)
+PUT     /branches/{id}   // Edita os dados da filial (exclusivo dos usuário com acesso global)
+DELETE  /branches/{id}    // Deleta a filial (exclusivo dos usuário com acesso global)
+```
+
+## 🛠️ Funcionalidades implementadas
+
+### ✅ Autenticação
+- [x] Login com email e senha
+- [x] JWT storage nos coockies
+- [ ] Logout
+
+### ✅ Dashboard
+- [ ] Balões com dados financieros
+- [ ] Gráfico com levantamento dos gastos
+
+### ✅ Revenues
+- [x] CRUD de receitas
+- [x] Filtro de receitas
+- [x] Integração com a tabela de membros
+
+### ✅ Expenses
+- [x] CRUD de despesas
+- [x] Filtro de despesas
+- [x] Integração com a tabela de parceiros
+
+### ✅ Register
+- [x] CRUD membros
+- [x] CRUD parceiros
+- [x] CRUD cartões
+
