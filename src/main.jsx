@@ -9,6 +9,7 @@ import ReportsPage from './pages/reportsPage.jsx';
 import LocalReportsPage from './pages/localReportsPage.jsx';
 import Login from './pages/mainPage.jsx';
 import Teste from './components/scanner.jsx'
+import InstitutionRegister from "./pages/institutionRegister.jsx";
 import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
 import { WithoutPermissionProvider } from "./context/withoutPermissionContext.jsx";
 import SettingsPage from "./pages/settingsPage.jsx";
@@ -55,7 +56,11 @@ const router = createBrowserRouter([
       {
         path: "/teste",
         element: <Teste />,
-      }
+      },
+      {
+        path: "/register/institution",
+        element: <InstitutionRegister />,
+      },
     ]}
 
 
