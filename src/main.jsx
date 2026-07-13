@@ -7,7 +7,7 @@ import ExpensesPage from './pages/expensesPage.jsx';
 import Register from './pages/register.jsx';
 import ReportsPage from './pages/reportsPage.jsx';
 import LocalReportsPage from './pages/localReportsPage.jsx';
-import Login from './pages/mainPage.jsx';
+import DashBoard from './pages/dashBoard.jsx';
 import Teste from './components/scanner.jsx'
 import InstitutionRegister from "./pages/institutionRegister.jsx";
 import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
@@ -26,8 +26,8 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: "/main",
-        element: <Login />,
+        path: "/dashboard",
+        element: <DashBoard />,
       },
       {
         path: "/revenues",

@@ -99,7 +99,7 @@ frontend/
 │   ├── pages/
 │   │   ├── expensesPage.jsx
 │   │   ├── localReportsPage.jsx
-│   │   ├── mainPage.jsx
+│   │   ├── dashBoard.jsx
 │   │   ├── registe.jsx
 │   │   ├── reportsPage.jxs
 │   │   ├── revenuesPage.jsx

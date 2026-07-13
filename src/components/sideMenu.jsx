@@ -33,7 +33,7 @@ function SideMenu() {
                         </section>
                         <ul className='w-full flex flex-col items-center'>
                             <li className='w-full '>
-                                <MenuButtons to='/main' onClick={() => navigate(`/main`)}><ChartColumn size={14}/>Dashboard
+                                <MenuButtons to='/dashboard' onClick={() => navigate(`/dashboard`)}><ChartColumn size={14}/>Dashboard
                                 </MenuButtons>
                             </li>
                             <li className='w-full'>

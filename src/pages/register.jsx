@@ -1,31 +1,15 @@
 import Menu from "../components/menu.jsx"
 import Header from "../components/header.jsx";
 import {Users, Building2, IdCard} from "lucide-react";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Page1, Page2, Page3} from '../components/registerPages.jsx'
 import MainRequests from "../services/requests.js";
 import {MenuProvider} from "../context/menuContext.jsx";
 import SideMenu from "../components/sideMenu.jsx";
 
-const request = new MainRequests();
-
 function Register() {
     const [activePage, setActivePage] = useState(1);
-    const [permissions, setPermissions] = useState([]);
-
-    useEffect(() => {
-        async function fetchPermissions() {
-            const response = await request.onGeneral("permissions");
-            const group1 = [ "b8ecb185-49dd-4ab9-937c-52e52d4a5be8"];
-
-            if (group1.every(id => response.permissions.includes(id))) {
-                setPermissions([1,2,3]);
-                setActivePage(1);
-            }
-        }
-        fetchPermissions();
-    }, [])
-
+    const [permissions, setPermissions] = useState([1,2,3]);
 
     const pages = [
         { id: 1, name: "Member", permission: 1, component: <Page1 />, icon: <Users  size={14}/> },

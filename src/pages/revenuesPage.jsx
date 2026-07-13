@@ -178,9 +178,16 @@ function RevenuesPage() {
                                                 {...register("type")}
                                             >
                                                 <option value="">Select a category</option>
-                                                <option value="Dizimo">Dizimo</option>
-                                                <option value="Oferta">Oferta</option>
-                                                <option value="Doação">Doação</option>
+                                                <option value="doação">Doação</option>
+                                                <option value="contribuicao_regular">Contribuição Regular</option>
+                                                <option value="oferta_especial">Oferta Especial</option>
+                                                <option value="subvencao">Subvenção/Subsídio</option>
+                                                <option value="convenio">Convenio</option>
+                                                <option value="patrocinio">Patrocínio</option>
+                                                <option value="venda_serviço">Venda/Serviço</option>
+                                                <option value="mensalidade">Mensalidade</option>
+                                                <option value="rendimento_financeiro">Rendimento financeiro</option>
+                                                <option value="outros">Outros</option>
                                             </select>
                                         </div>
                                         <div className="flex flex-col items-start w-full">

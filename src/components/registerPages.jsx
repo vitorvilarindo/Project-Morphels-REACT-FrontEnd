@@ -1,4 +1,3 @@
-import Balons from "./balons.jsx";
 import {
     Building2,
     CreditCard,
@@ -42,6 +41,8 @@ export function Page1(){
     useEffect(()=>{
         onGetMembers(searchMembers).then();
     },[])
+
+    console.log(members)
 
 
     return(
@@ -111,7 +112,7 @@ export function Page1(){
             </div>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                    className="flex flex-col justify-center mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <Header2 title={"Registed Member"} description={""}/>
                     <section className="flex items-center gap-2">
                         <Search size={16} className="text-gray-500"/>
@@ -429,7 +430,7 @@ export function Page2(){
         </div>
         <div className="flex justify-center">
             <div
-                className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                className="flex flex-col justify-center mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                 <Header2 title={"Registed Member"} description={""}/>
                 <section className="flex items-center gap-2">
                     <Search size={16} className="text-gray-500"/>
@@ -665,8 +666,8 @@ export function Page3() {
             </div>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
-                    <Header2 title={"Registed Member"} description={""}/>
+                    className="flex flex-col justify-center mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
+                    <Header2 title={"Registered Member"} description={""}/>
                     <section className="flex items-center gap-2">
                         <Search size={16} className="text-gray-500"/>
                         <SearchBar placeholder="Member" type="text" id="member" value={searchCards}
