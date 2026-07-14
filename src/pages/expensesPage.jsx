@@ -12,6 +12,7 @@ import Filt from "../components/filt.jsx";
 import MainRequests from "../services/requests.js";
 import {MenuProvider} from "../context/menuContext.jsx";
 import SideMenu from "../components/sideMenu.jsx";
+import Select from "../components/select.jsx";
 
 const requests = new MainRequests()
 
@@ -90,7 +91,7 @@ function ExpensesPage() {
         <Menu/>
       
       <div className="flex justify-center">
-        <div className="flex flex-col justify-center mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
+        <div className="flex flex-col justify-center mt-8 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
           <section className="flex justify-between items-center">
             <Header2
               title={"Expences Form"}
@@ -111,7 +112,7 @@ function ExpensesPage() {
                                  onChangeEndDate={(e) => setEnd_date(e.target.value)}
                                  options={["Manutenção", "Salários", "Projetos", "Utilidades", "Eventos", "Outros"]}/>}
             {showForma && (
-            <div className="bg-gray-50 p-3 rounded-sm border border-gray-300">
+            <div className="bg-bg-secondary-color p-3 rounded-sm border border-bg-secondary-destack-color">
               <form action={() => {
                   handleSubmit(async (data) => {
                       await requests.onPost("expenses", data)
@@ -127,34 +128,28 @@ function ExpensesPage() {
                 
                 
                 <section className="flex flex-row gap-4 w-full">
-                  <div className="flex flex-col items-start w-full">
-                    <label htmlFor="type" className="text-xs">Category</label>
-                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('type')}  >
-                      <option value="">Select a category</option>
-                      <option value="Manutenção">Manutenção</option>
-                      <option value="Salários">Salários</option>
-                      <option value="Projetos">Projetos</option>
-                      <option value="Utilidades">Utilidades</option>
-                      <option value="Eventos">Eventos</option>
-                      <option value="Outros">Outros</option>
-                    </select>
-                  </div>
+                    <Select id={"type"} register={{...register("type")}} title={"Type"} options={[
+                        {index:"", title:"Selecione uma opção"},
+                        {index:"manutencao", title:"Manutencao"},
+                        {index:"salario", title:"Salários"},
+                        {index:"projetos", title:"Projetos"},
+                        {index:"utilidades", title:"Utilidades"},
+                        {index:"eventos", title:"Eventos"},
+                        {index:"outros", title:"Outros"}
+                    ]} />
+
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="value" className="text-xs">Value</label>
                     <SearchBar placeholder="00,0" type="number"  id="values" {...register('value')}  />
                   </div>
                 </section >
                 <section className="flex flex-row gap-4 w-full">
-                  <div className="flex flex-col items-start w-full">
-                    <label htmlFor="payment" className="text-xs">Payment</label>
-                    <select id="payment" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('payment')}  >
-                      <option value=''>Select a payment</option>
-                      <option value="Pix/Transferência" >Pix/Transferência</option>
-                      <option value="Dinheiro">Dinheiro</option>
-                      <option value="Check">Check</option>
-               
-                    </select>
-                  </div>
+                    <Select id={"payment"} register={{...register("payment")}} title={"Payment"} options={[
+                        {index:"", title: "Selecione uma opção"},
+                        {index:"pix_deposito", title: "Pix/Depósito"},
+                        {index:"dinheiro", title: "Dinheiro"},
+                        {index:"cheque", title: "Cheque"}
+                    ]} />
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="date" className="text-xs">Data</label>
                     <SearchBar placeholder="Enter category" type="date"  id="date" {...register('date')}  />

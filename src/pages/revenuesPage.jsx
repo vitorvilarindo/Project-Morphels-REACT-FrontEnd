@@ -9,6 +9,7 @@ import SearchBar from "../components/searchBar.jsx";
 import Filt from "../components/filt.jsx";
 import ModalRevenues from "../components/modalRevenues.jsx";
 import SideMenu from "../components/sideMenu.jsx";
+import Select from "../components/select.jsx";
 import { MenuProvider } from "../context/menuContext.jsx";
 import {useForm} from "react-hook-form";
 import MainRequests from "../services/requests.js";
@@ -103,7 +104,7 @@ function RevenuesPage() {
 
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
+                    className="flex flex-col justify-center mt-8 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <section className="flex justify-between items-center">
                         <Header2
                             title={"Revenues Form"}
@@ -128,7 +129,7 @@ function RevenuesPage() {
                                              options={["Dizimo", "Oferta", "Doação"]}/>}
 
                         {showForm && (
-                            <div className="bg-gray-50 p-3 rounded-sm border border-gray-300 shadow-md">
+                            <div className="bg-bg-secondary-color p-3 rounded-sm border border-bg-secondary-destack-color shadow-md">
                                 <form
                                     action={() => {
                                         handleSubmit(async (data) => {
@@ -148,7 +149,7 @@ function RevenuesPage() {
                                             Member
                                         </label>
                                         <input
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+                                            className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
                                             placeholder="Member" type="text" id="member"
                                             {...register("member")} />
                                         {showOptions && filted.length !== 0 && <div
@@ -168,28 +169,19 @@ function RevenuesPage() {
                                     </section>
 
                                     <section className="flex flex-row gap-4 w-full">
-                                        <div className="flex flex-col items-start w-full">
-                                            <label htmlFor="type" className="text-xs">
-                                                Type
-                                            </label>
-                                            <select
-                                                id="type"
-                                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
-                                                {...register("type")}
-                                            >
-                                                <option value="">Select a category</option>
-                                                <option value="doação">Doação</option>
-                                                <option value="contribuicao_regular">Contribuição Regular</option>
-                                                <option value="oferta_especial">Oferta Especial</option>
-                                                <option value="subvencao">Subvenção/Subsídio</option>
-                                                <option value="convenio">Convenio</option>
-                                                <option value="patrocinio">Patrocínio</option>
-                                                <option value="venda_serviço">Venda/Serviço</option>
-                                                <option value="mensalidade">Mensalidade</option>
-                                                <option value="rendimento_financeiro">Rendimento financeiro</option>
-                                                <option value="outros">Outros</option>
-                                            </select>
-                                        </div>
+                                        <Select id={"type"} register={{...register("type")}} title={"Type"} options={[
+                                            {index:"", title: "Selecione uma opção"},
+                                            {index:"doação", title: "Doação"},
+                                            {index:"contribuicao_regular", title: "Contribuição Regular"},
+                                            {index:"oferta_especial", title: "Oferta Especial"},
+                                            {index:"subvencao", title: "Subvenção/Subsídio"},
+                                            {index:"patrocinio", title: "Patrocínio"},
+                                            {index:"venda_serviço", title: "Venda/Serviço"},
+                                            {index:"mensalidade", title: "Mensalidade"},
+                                            {index:"rendimento_financeiro", title: "Rendimento financeiro"},
+                                            {index:"outros", title: "Outros"},
+
+                                        ]} />
                                         <div className="flex flex-col items-start w-full">
                                             <label htmlFor="value" className="text-xs">
                                                 Values
@@ -203,21 +195,12 @@ function RevenuesPage() {
                                         </div>
                                     </section>
                                     <section className="flex flex-row gap-4 w-full">
-                                        <div className="flex flex-col items-start w-full">
-                                            <label htmlFor="payment" className="text-xs">
-                                                Payment
-                                            </label>
-                                            <select
-                                                id="payment"
-                                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
-                                                {...register("payment")}
-                                            >
-                                                <option value="">Select a Payment</option>
-                                                <option value="Pix/Depósito">Pix/Depósito</option>
-                                                <option value="Dinheiro">Dinheiro</option>
-                                                <option value="Cheque">Cheque</option>
-                                            </select>
-                                        </div>
+                                        <Select id={"payment"} register={{...register("payment")}} title={"Payment"} options={[
+                                            {index:"", title: "Selecione uma opção"},
+                                            {index:"pix_deposito", title: "Pix/Depósito"},
+                                            {index:"dinheiro", title: "Dinheiro"},
+                                            {index:"cheque", title: "Cheque"}
+                                        ]} />
                                         <div className="flex flex-col items-start w-full">
                                             <label htmlFor="date" className="text-xs">
                                                 Data
@@ -226,17 +209,10 @@ function RevenuesPage() {
                                         </div>
                                     </section>
                                     <section className="flex flex-col items-start">
-                                        <label htmlFor="church" className="text-xs">
-                                            Church
-                                        </label>
-                                        <select
-                                            id="church"
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
-                                            {...register("church")}
-                                        >
-                                            <option value="">Select Church</option>
-                                            <option value="Igreja Quadra 3">Igreja Quadra 3</option>
-                                        </select>
+                                        <Select id={"branch"} register={{...register("branch")}} title={"Branch"} options={[
+                                            {index:"", title: "Selecione uma filial"},
+                                            {index:"Igreja Quadra 3", title: "Igreja Quadra 3"},
+                                        ]} />
 
                                     </section>
 

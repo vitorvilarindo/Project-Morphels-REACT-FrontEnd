@@ -28,13 +28,13 @@ function Register() {
             <Menu/>
 
             <section className="flex justify-center items-center mt-7">
-                <ul className="flex flex-row bg-gray-200 rounded-sm items-center shadow-lg w-[80vw] md:w-[55vw]">
+                <ul className="flex flex-row bg-bg-secondary-color rounded-sm items-center shadow-lg w-[80vw] md:w-[55vw]">
                     {pages.map(item => (
                             <li key={item.id} className="w-full">
                                 <button
                                     onClick={() => setActivePage(item.permission)}
-                                    className={`w-full flex gap-3 text-sm justify-center items-center py-1 hover:bg-white ${
-                                        activePage === item.permission ? "bg-white" : "bg-transparent"
+                                    className={`w-full flex gap-3 text-sm justify-center items-center py-1 hover:bg-bg-secondary-destack-color ${
+                                        activePage === item.permission ? "bg-bg-secondary-destack-color" : "bg-transparent"
                                     } rounded-sm`}
                                 >
                                     {item.icon}

@@ -1,6 +1,6 @@
 function  Filt ({type, start_date, end_date, onChangeType, onChangeStartDate, onChangeEndDate, options}) {
     return (
-        <div className="flex items-center gap-2 w-full border border-gray-200 rounded-md p-2 ">
+        <div className="flex items-center gap-2 w-full border border-bg-secondary-destack-color rounded-md p-2 ">
             <section className="flex flex-col items-start gap-2 w-full">
                 <label htmlFor="type">Type</label>
                 <select id="type" className="w-full text-sm bg-gray-100 p-2 rounded-sm items-center" value={type} onChange={onChangeType}>

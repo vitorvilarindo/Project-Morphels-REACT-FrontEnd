@@ -21,14 +21,19 @@ function ReportsPage() {
     const [showModal, setShowModal] = useState(false)
     const navigate = useNavigate();
 
+    async function onfetch(){
+        const response = await request.onGet("reports", search)
+        setReports(response)
+    }
 
     useEffect(() => {
-        async function onfetch(){
-            const response = await request.onGet("reports", search)
-            setReports(response)
-        }
         onfetch().then()
     },[])
+
+    async function onDeleteReports(id) {
+        await request.onDelete("reports",id)
+        onfetch().then()
+    }
 
   return (
       <div className='justify-center h-[90vh] w-screen'>
@@ -57,15 +62,12 @@ function ReportsPage() {
                                   setSearch(e.target.value)
                               }}/>
                   <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
-                      <table className="w-full ">
+                      <table className="w-full min-w-[800px]">
                           <thead className="">
-                          <tr className="h-10 text-xs text-gray-900 text-left border-b border-b-neutral-200">
+                          <tr className="h-10 text-xs text-gray-900 text-left border border-neutral-200">
                               <th className="px-2">Title</th>
                               <th>Type</th>
                               <th>Period</th>
-                              <th>Revenues</th>
-                              <th>Expenses </th>
-                              <th>Balance</th>
                               <th>Create in</th>
                               <th>By</th>
                               <th className="text-right px-2">Actions</th>
@@ -85,14 +87,11 @@ function ReportsPage() {
 
 
                               return (
-                                  <tr className="h-11 text-xs text-gray-900 text-left border-b border-b-neutral-200 hover:bg-gray-100"
+                                  <tr className="h-11 text-xs text-gray-900 text-left border border-neutral-200 hover:bg-gray-100"
                                       key={report.id}>
                                       <td className="p-2">{report.title}</td>
                                       <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{report.type}</div></td>
                                       <td>{formatedDates[1]} until {formatedDates[2]}</td>
-                                      <td className={"green-red-600"}>{report.revenues}</td>
-                                      <td className={"text-red-800"}>{report.expenses}</td>
-                                      <td className={"accent-green-600"}>{report.revenues - report.expenses}</td>
                                       <td>{formatedDates[0]}</td>
                                       <td>{report.by}</td>
 
@@ -103,7 +102,7 @@ function ReportsPage() {
                                                   <ArrowDownToLine size={18}/>
                                               </button>
 
-                                              <button className="text-red-600 hover:bg-red-200 p-1 rounded-md">
+                                              <button onClick={() => onDeleteReports(report.id)} className="text-red-600 hover:bg-red-200 p-1 rounded-md">
                                                   <Trash2 size={18}/>
                                               </button>
                                           </div>

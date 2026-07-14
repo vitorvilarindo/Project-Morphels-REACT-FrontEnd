@@ -19,12 +19,12 @@ function DashBoard () {
     async function onGetFinanceData (){
         const start_date = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
         const end_date = new Date()
-        const finance_response = await requests.onPost(`dashboard`, [{start_date, end_date}]);
+        const finance_response = await requests.onPost(`dashboard`, {start_date, end_date});
 
-        console.log(finance_response.data);
+        console.log(finance_response);
 
-        setSumExpenses(finance_response.data.expenses.sum_expenses);
-        setSumRevenues(finance_response.data.revenues.sum_revenues);
+        setSumExpenses(finance_response.data.expenses);
+        setSumRevenues(finance_response.data.revenues);
     }
 
     useEffect(() => {
@@ -44,8 +44,8 @@ function DashBoard () {
 
       <div className='flex justify-center'>
         <section className='flex flex-col mt-8 gap-3 w-[80vw] md:w-[55vw] md:flex-row'>
-          <Balons title={'entradas'} value={sumRevenues} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
-          <Balons title={'entradas'} value={sumExpenses} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
+          <Balons title={'Entradas'} value={sumRevenues?.length > 0 ? sumRevenues : 0} description={'total de entradas'} icon={<BadgeDollarSign />} color="green"/>
+          <Balons title={'Despesas'} value={sumExpenses?.length > 0 ? sumExpenses : 0} description={'total de despesas'} icon={<BadgeDollarSign />} color="green"/>
         </section>
       </div>
       <section className="flex justify-center m-auto w-[80vw] md:w-[55vw]">

@@ -20,7 +20,7 @@
   }, [])
   return (
       <div className='flex justify-center items-center mt-7 desktop-only-flex'>
-          <ul className='w-[55vw] flex flex-row bg-gray-200 rounded-sm items-center shadow-lg'>
+          <ul className='w-[55vw] flex flex-row bg-bg-primary-color rounded-sm items-center shadow-lg shadow-bg-secondary-destack-color'>
               <li className='w-full '>
                   <MenuButtons to='/dashboard' onClick={() => navigate(`/dashboard`)}><ChartColumn size={14}/>Dashboard
                   </MenuButtons>

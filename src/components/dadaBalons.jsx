@@ -54,7 +54,7 @@ function DataBalons({
   return (
     <div
       onClick={showEditForm}
-      className="flex flex-col justify-center border hover:bg-gray-100 border-neutral-200 bg-white px-4 py-3 rounded-lg gap-1"
+      className="flex flex-col justify-center hover:bg-bg-secondary-destack-color border border-bg-secondary-destack-color bg-bg-secondary-color px-4 py-3 rounded-lg gap-1"
     >
       <nav className="flex gap-3">
         <p

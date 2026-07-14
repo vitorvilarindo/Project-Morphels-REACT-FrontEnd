@@ -64,7 +64,6 @@ frontend/
 │   │   ├── balons.jsx              # Componente de exibição de balões/cards de métricas
 │   │   ├── dataBalons.jsx          # Componente para processamento de dados dos balões
 │   │   ├── filt.jsx                # Componente de filtros de busca ou seleção 
-│   │   ├── form.jsx                # Estrutura principal do formulário de entrada
 │   │   ├── formButtons.jsx         # Botões de ação do formulário (enviar, limpar, etc.)
 │   │   ├── grafics.jsx             # Renderização de gráficos e relatórios visuais
 │   │   ├── header.jsx              # Cabeçalho principal da aplicação

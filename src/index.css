@@ -14,32 +14,33 @@
     .mobile-only-flex { display: flex; }
     .mobile-only-block { display: block; }
 }
-
+:root {
+    color-scheme: light dark;
+}
 @theme {
     /*lightness-theme*/
-    --bg-primary-color-lightness: #F8FAFC;
-    --bg-secondary-color-lightness: #FFFFFF;
 
-    --primary-titles-color-lightness: #0F2547;
+    --color-bg-primary-color: light-dark(#F8FAFC, #0A1424) ;
+    --color-bg-secondary-color: light-dark(#FFFFFF, #122035);
 
-    --butons-color-lightness: #13305B;
+    --color-bg-secondary-destack-color: light-dark(#efefef, #192b49);
 
-    --destack-color-lightness: #C59B27;
+    --color-primary-titles-color: light-dark(#0F2547, #E2E8F0);
+    --color-secondary-titles-color: light-dark(#E2E8F0, #0F2547);
 
-    /*darkness-theme*/
-    --bg-primary-color-darkness: #0A1424;
-    --bg-secondary-color-darkness: #122035;
 
-    --primary-titles-color-darkness: #E2E8F0;
+    --color-buttons-color: light-dark(#d69a1c, #ffcc47);
+    --color-buttons-hover: light-dark(#b57e17, #c8a444);
 
-    --butons-color-darkness: #1E40AF;
-
-    --destack-color-darkness: #E5B842;
+    --color-destack-color: light-dark(#C59B27, #E5B842);
 
     /*Fonts*/
-    --primary-font: Montserrat, sans-serif;
-    --secondary-font: "Inter", sans-serif;
+    --font-primary-font: Montserrat, sans-serif;
+    --font-secondary-font: "Inter", sans-serif;
+}
 
-
+body{
+    color: var(--color-primary-titles-color);
+    background-color: var(--color-bg-primary-color);
 }
 
