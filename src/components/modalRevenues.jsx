@@ -2,9 +2,19 @@ import { useForm } from "react-hook-form";
 import api from "../services/api.js";
 import SearchBar from "./searchBar.jsx";
 import Header2 from "./header2.jsx";
+import Select from "./select.jsx";
 
 function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
-  const { register, handleSubmit } = useForm();
+  const formatedData = complete ? {
+    ...complete,
+    date: complete.date?.split("T")[0],
+  } : complete;
+
+  const { register, handleSubmit } = useForm({
+    values: formatedData
+  });
+
+  console.log(complete)
 
   async function onEditRevenue(data) {
     await api.put(`/revenues/${complete.id}`, data);
@@ -13,7 +23,7 @@ function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
   }
   return (
     <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
-      <div className="flex flex-col bg-white p-6 rounded-lg shadow-lg space-y-4 w-[80vw] md:w-[55vw]">
+      <div className="flex flex-col bg-bg-secondary-color p-6 rounded-lg shadow-lg space-y-4 w-[80vw] md:w-[55vw]">
         <Header2
           title={"Revenues put Form"}
           description={"Form to edit revenues"}
@@ -31,26 +41,24 @@ function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
               type="text"
               id="member"
               {...register("member")}
-              defaultValue={complete.member}
             />
           </section>
 
           <section className="flex flex-row gap-4 w-full">
             <div className="flex flex-col items-start w-full">
-              <label htmlFor="type" className="text-xs">
-                Type
-              </label>
-              <select
-                id="type"
-                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
-                {...register("type")}
-                defaultValue={complete.type}
-              >
-                <option value="">Select a category</option>
-                <option value="Dizimo">Dizimo</option>
-                <option value="Oferta">Oferta</option>
-                <option value="Doação">Doação</option>
-              </select>
+              <Select id={"type"} register={{...register("type")}} title={"Type"} options={[
+                {index:"", title: "Selecione uma opção"},
+                {index:"doação", title: "Doação"},
+                {index:"contribuicao_regular", title: "Contribuição Regular"},
+                {index:"oferta_especial", title: "Oferta Especial"},
+                {index:"subvencao", title: "Subvenção/Subsídio"},
+                {index:"patrocinio", title: "Patrocínio"},
+                {index:"venda_serviço", title: "Venda/Serviço"},
+                {index:"mensalidade", title: "Mensalidade"},
+                {index:"rendimento_financeiro", title: "Rendimento financeiro"},
+                {index:"outros", title: "Outros"},
+
+              ]} />
             </div>
             <div className="flex flex-col items-start w-full">
               <label htmlFor="value" className="text-xs">
@@ -61,26 +69,17 @@ function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
                 type="number"
                 id="value"
                 {...register("value")}
-                defaultValue={complete.value}
               />
             </div>
           </section>
           <section className="flex flex-row gap-4 w-full">
             <div className="flex flex-col items-start w-full">
-              <label htmlFor="payment" className="text-xs">
-                Payment
-              </label>
-              <select
-                id="payment"
-                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
-                {...register("payment")}
-                defaultValue={complete.payment}
-              >
-                <option value="">Select a Payment</option>
-                <option value="Pix/Depósito">Pix/Depósito</option>
-                <option value="Dinheiro">Dinheiro</option>
-                <option value="Cheque">Cheque</option>
-              </select>
+              <Select id={"payment"} register={{...register("payment")}} title={"Payment"} options={[
+                {index:"", title: "Selecione uma opção"},
+                {index:"pix_deposito", title: "Pix/Depósito"},
+                {index:"dinheiro", title: "Dinheiro"},
+                {index:"cheque", title: "Cheque"}
+              ]} />
             </div>
             <div className="flex flex-col items-start w-full">
               <label htmlFor="date" className="text-xs">

@@ -44,7 +44,7 @@ function ReportsPage() {
           <Menu/>
 
           <div className="flex justify-center">
-              <div className="flex flex-col justify-center mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
+              <div className="flex flex-col justify-center mt-8 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                   <section className="flex justify-between items-center">
                       <Header2
                           title={"Revenues Form"}
@@ -61,10 +61,10 @@ function ReportsPage() {
                               onChange={(e) => {
                                   setSearch(e.target.value)
                               }}/>
-                  <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
+                  <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
                       <table className="w-full min-w-[800px]">
                           <thead className="">
-                          <tr className="h-10 text-xs text-gray-900 text-left border border-neutral-200">
+                          <tr className="h-10 text-xs  text-left border border-bg-secondary-destack-color">
                               <th className="px-2">Title</th>
                               <th>Type</th>
                               <th>Period</th>
@@ -87,7 +87,7 @@ function ReportsPage() {
 
 
                               return (
-                                  <tr className="h-11 text-xs text-gray-900 text-left border border-neutral-200 hover:bg-gray-100"
+                                  <tr className="h-11 text-xs text-left border border-bg-secondary-destack-color hover:bg-bg-primary-color"
                                       key={report.id}>
                                       <td className="p-2">{report.title}</td>
                                       <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{report.type}</div></td>

@@ -547,7 +547,7 @@ export function Page3() {
         <main>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
+                    className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <section className="flex justify-between items-center">
                         <Header2
                             title={"Cards form"}
@@ -567,21 +567,14 @@ export function Page3() {
                                   className="flex flex-col  space-y-3">
                                 <section >
                                     <button type={"button"} onClick={() => setShowScanner(true)}
-                                            className="flex items-center gap-4 bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">
+                                            className="flex items-center gap-4 bg-buttons-color border text-xs border-buttons-hover shadow-xs text-secondary-titles-color px-4 py-2 rounded-lg hover:bg-buttons-hover transition-discrete">
                                         <ScanBarcode size={20}/>
                                         Scan Code
                                     </button>
                                 </section>
                                 <section className="flex flex-row gap-4 w-full">
                                     <div className="flex flex-col items-start w-full space-y-1">
-                                        <label htmlFor="bar_code" className="text-xs">Bar code</label>
-                                        <input
-                                            id="bar_code"
-                                            placeholder={"0000000000000000000000000"}
-                                            type="text"
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            {...register("bar_code")}
-                                        />
+                                        <Inputs id={"bar_code"} type="text" children={"Bar code"} register={{...register("bar_code")}} placeholder={"0000000000000000000000"} />
                                     </div>
                                     <section className="w-full flex flex-col items-start relative">
                                         <label htmlFor="member" className="text-xs">
@@ -617,16 +610,12 @@ export function Page3() {
                                 </section>
 
                                 <section className="flex flex-row gap-4 w-full">
-                                    <div className="flex flex-col items-start w-full space-y-1">
-                                        <label htmlFor="pixType" className="text-xs">Status</label>
-                                        <select id="stats"
-                                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("stats")} >
-                                            <option value="Active">Active</option>
-                                            <option value="Due">Due</option>
-                                            <option value="Canceled">Canceled</option>
-                                        </select>
-                                    </div>
-
+                                    <Select id={"status"} register={{...register("status")}} title={"Status"} options={[
+                                        {index: "", title: "Selecione uma opção"},
+                                        {index: "active", title: "Ativo"},
+                                        {index: "due", title: "Vencido"},
+                                        {index: "active", title: "Cancelado"},
+                                    ]} />
                                 </section>
 
 
@@ -647,17 +636,17 @@ export function Page3() {
             </div>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
+                    className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <Header2 title={"Registered Member"} description={""}/>
                     <section className="flex items-center gap-2">
                         <Search size={16} className="text-gray-500"/>
                         <SearchBar placeholder="Member" type="text" id="member" value={searchCards}
                                    onChange={(e) => setSearchCards(e.target.value)}/>
                     </section>
-                    <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
+                    <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
                         <table className="w-full min-w-[800px]">
                             <thead className="">
-                            <tr className="h-10 text-xs text-gray-900 text-left border-b border-b-neutral-200">
+                            <tr className="h-10 text-xs text-left border-b border-b-bg-secondary-destack-color">
                                 <th className="px-2">Member</th>
                                 <th>Barc Code</th>
                                 <th>Issue Date</th>

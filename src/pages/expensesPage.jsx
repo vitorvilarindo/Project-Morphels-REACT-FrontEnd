@@ -27,6 +27,7 @@ function ExpensesPage() {
     const [type, setType] = useState(""),
         [start_date, setStart_date] = useState(""),
         [end_date, setEnd_date] = useState("")
+    const [branches, setBranches] = useState([]);
 
   const { register, handleSubmit } = useForm();
 
@@ -34,32 +35,20 @@ function ExpensesPage() {
     setShowForma(!showForma);
 
   }
-  async function onGetExpenses() {
-      try {
-          const response = await requests.onGet("expenses", '');
-          setExpences(response);
-      } catch (error) {
-          console.log(error);
-      }
+    const fetchData = async () => {
+        try {
+            const expensesResponse = await requests.onGet("expenses", search);
+            const branchesResponse = await requests.onGet("branches", search);
 
-  }
-
-  useEffect(() => {
-      onGetExpenses().then();
-    }, []);
+            setExpences(expensesResponse);
+            setBranches(branchesResponse);
+        } catch (error) {
+            console.error("Erro ao buscar revenues:", error);
+        }
+    };
 
 
   useEffect (() => {
-      const fetchData = async () => {
-          try {
-              const response = await requests.onGet("expenses", search);
-              console.log(response);
-              setExpences(response);
-          } catch (error) {
-              console.error("Erro ao buscar revenues:", error);
-          }
-      };
-
       fetchData().then();
   }, [search])
 
@@ -156,6 +145,15 @@ function ExpensesPage() {
                   </div>
                 </section >
                 <section className="flex flex-col items-start">
+                    <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[
+                        {index:"", title: "Selecione uma opção"},
+                        ...branches.map(branch => ({
+                            index: String(branch.id),
+                            // Fique de olho: no Postgres você chamou de 'nome', verifique se o JSON da API traz 'nome' ou 'name'
+                            title: String(branch.name)
+                        }))
+                    ]} />
+
                   <label htmlFor="beneficiary" className="text-xs">Supplier/recepient</label>
                   <SearchBar placeholder="Supplier/recepient" type="text" id="beneficiary" {...register('beneficiary')} />
                 </section>
@@ -184,11 +182,11 @@ function ExpensesPage() {
               }}
               onDelete={async () => {
                   await requests.onDelete("expenses", data.id)
-                  onGetExpenses().then()
+                  fetchData().then()
               }}
             />
           ))}
-            {showEditForm && <ModalExpenses onGetExpenses={() => onGetExpenses()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
+            {showEditForm && <ModalExpenses onGetExpenses={() => fetchData()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
         </div>
       </div>
     </div>
