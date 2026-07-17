@@ -60,7 +60,7 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                             <TD style={tw(th_style)}>Saldo</TD>
                         </TH>
                         <TR>
-                            <TD style={tw(td_style)}>R$ {revenues[0].revenues_sum}</TD>
+                            <TD style={tw(td_style)}>R$ {revenues[0].revenues_sum ? revenues[0].revenues_sum : 0 }</TD>
                             <TD style={tw(td_style)}>R$ {expenses[0].expenses_sum}</TD>
                             <TD style={tw(td_style)}>R$ {revenues[0].revenues_sum - expenses[0].expenses_sum}</TD>
                         </TR>
@@ -108,7 +108,12 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                             <TR key={expense.id} >
                                 <TD style={tw(td_style)}>{expense.title}</TD>
                                 <TD style={tw(td_style)}>R$ {expense.value}</TD>
-                                <TD style={tw(td_style)}>{expense.date}</TD>
+                                <TD style={tw(td_style)}>
+                                    {new Date(expense.date).toLocaleDateString("pt-BR", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })}</TD>
                                 <TD style={tw(td_style)}>{expense.payment}</TD>
                             </TR>
                         ))}
@@ -136,9 +141,6 @@ export default function LocalReportsPage(){
         try {
             const finance_response = await requests.onPost(`reports/finance/${report_id}`, {});
             const infos_response = await requests.onGet(`users/infos`, "")
-
-            console.log(finance_response.data.filterRevenues);
-            console.log(infos_response);
 
             setRevenues(finance_response.data.filterRevenues);
             setExpenses(finance_response.data.filterExpenses)

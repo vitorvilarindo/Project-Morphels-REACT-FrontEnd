@@ -25,9 +25,9 @@ function App() {
 }
   return(
     <main className="flex flex-col justify-center items-center h-screen w-screen gap-4 bg-[url('../images/adebBackground.jpg')] bg-cover bg-center bg-black/30 bg-blend-darken">
-      <div className="flex flex-col justify-center items-center bg-white backdrop-blur-md p-10 rounded-lg shadow-lg w-110 gap-4">
+      <div className="flex flex-col justify-center items-center bg-bg-primary-color backdrop-blur-md p-10 rounded-lg shadow-lg w-90 gap-4 sm:w-110">
         <header className="flex flex-col justify-center items-center gap-2">
-          <i className='bg-gray-100 p-4 rounded-full'>
+          <i className='bg-bg-secondary-color p-4 rounded-full'>
             <Church  size={40}/>
           </i>
           <h1 className="text-center text-2xl mt-2 mb-2">Morphels</h1>
@@ -51,11 +51,11 @@ function App() {
             <article className='flex justify-between w-full mb-4 text-gray-950'>
               <div className='flex items-center'>
                 <input type="checkbox" name="lembreme" id="lembreme"/>
-                <label htmlFor="lembreme" className='text-sm text-gray-950 ml-2'>Lembre-me</label>
+                <label htmlFor="lembreme" className='text-sm text-primary-titles-color ml-2'>Lembre-me</label>
               </div>
               <a href="#" className='hover:underline'>Esqueci a senha</a>
             </article>
-            <button type='submit' className='bg-gray-950 hover:bg-gray-800 text-white rounded-sm p-1'>Entrar</button>
+            <button type='submit' className='bg-buttons-color hover:bg-buttons-hover text-secondary-titles-color rounded-sm p-1'>Entrar</button>
           </section>
         </form>
       </div>

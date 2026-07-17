@@ -12,7 +12,7 @@ function ModalInfo({selectedCompanyInfo, setShowInfo}) {
     })
 
     return(<div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
-      <div className="flex flex-col bg-white h-[70%] w-[50%] lg:w-[60%] p-6 rounded-lg shadow-lg space-y-4 overflow-auto">
+      <div className="flex flex-col bg-bg-secondary-color h-[70%] w-[80%] md:w-[55%] p-6 rounded-lg shadow-lg space-y-4 overflow-auto">
         <section className="flex justify-between items-center">
           <nav className="flex flex-col items-baseline">
             <section className='flex gap-2 items-center '>

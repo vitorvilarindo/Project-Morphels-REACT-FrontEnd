@@ -10,6 +10,9 @@ import { useForm } from "react-hook-form";
 import ModalExpenses from "../components/modalExpences.jsx";
 import Filt from "../components/filt.jsx";
 import MainRequests from "../services/requests.js";
+import {MenuProvider} from "../context/menuContext.jsx";
+import SideMenu from "../components/sideMenu.jsx";
+import Select from "../components/select.jsx";
 
 const requests = new MainRequests()
 
@@ -24,6 +27,7 @@ function ExpensesPage() {
     const [type, setType] = useState(""),
         [start_date, setStart_date] = useState(""),
         [end_date, setEnd_date] = useState("")
+    const [branches, setBranches] = useState([]);
 
   const { register, handleSubmit } = useForm();
 
@@ -31,32 +35,20 @@ function ExpensesPage() {
     setShowForma(!showForma);
 
   }
-  async function onGetExpenses() {
-      try {
-          const response = await requests.onGet("expenses", '');
-          setExpences(response);
-      } catch (error) {
-          console.log(error);
-      }
+    const fetchData = async () => {
+        try {
+            const expensesResponse = await requests.onGet("expenses", search);
+            const branchesResponse = await requests.onGet("branches", search);
 
-  }
-
-  useEffect(() => {
-      onGetExpenses().then();
-    }, []);
+            setExpences(expensesResponse);
+            setBranches(branchesResponse);
+        } catch (error) {
+            console.error("Erro ao buscar revenues:", error);
+        }
+    };
 
 
   useEffect (() => {
-      const fetchData = async () => {
-          try {
-              const response = await requests.onGet("expenses", search);
-              console.log(response);
-              setExpences(response);
-          } catch (error) {
-              console.error("Erro ao buscar revenues:", error);
-          }
-      };
-
       fetchData().then();
   }, [search])
 
@@ -81,11 +73,14 @@ function ExpensesPage() {
 
   return (
     <div className="justify-center h-[90vh] w-screen">
-      <Header />
-      <Menu />
+        <MenuProvider>
+            <Header/>
+            <SideMenu/>
+        </MenuProvider>
+        <Menu/>
       
       <div className="flex justify-center">
-        <div className="flex flex-col justify-center w-[55vw] mt-8 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+        <div className="flex flex-col justify-center mt-8 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
           <section className="flex justify-between items-center">
             <Header2
               title={"Expences Form"}
@@ -106,7 +101,7 @@ function ExpensesPage() {
                                  onChangeEndDate={(e) => setEnd_date(e.target.value)}
                                  options={["Manutenção", "Salários", "Projetos", "Utilidades", "Eventos", "Outros"]}/>}
             {showForma && (
-            <div className="bg-gray-50 p-3 rounded-sm border border-gray-300">
+            <div className="bg-bg-secondary-color p-3 rounded-sm border border-bg-secondary-destack-color">
               <form action={() => {
                   handleSubmit(async (data) => {
                       await requests.onPost("expenses", data)
@@ -122,40 +117,43 @@ function ExpensesPage() {
                 
                 
                 <section className="flex flex-row gap-4 w-full">
-                  <div className="flex flex-col items-start w-full">
-                    <label htmlFor="type" className="text-xs">Category</label>
-                    <select id="type" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('type')}  >
-                      <option value="">Select a category</option>
-                      <option value="Manutenção">Manutenção</option>
-                      <option value="Salários">Salários</option>
-                      <option value="Projetos">Projetos</option>
-                      <option value="Utilidades">Utilidades</option>
-                      <option value="Eventos">Eventos</option>
-                      <option value="Outros">Outros</option>
-                    </select>
-                  </div>
+                    <Select id={"type"} register={{...register("type")}} title={"Type"} options={[
+                        {index:"", title:"Selecione uma opção"},
+                        {index:"manutencao", title:"Manutencao"},
+                        {index:"salario", title:"Salários"},
+                        {index:"projetos", title:"Projetos"},
+                        {index:"utilidades", title:"Utilidades"},
+                        {index:"eventos", title:"Eventos"},
+                        {index:"outros", title:"Outros"}
+                    ]} />
+
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="value" className="text-xs">Value</label>
                     <SearchBar placeholder="00,0" type="number"  id="values" {...register('value')}  />
                   </div>
                 </section >
                 <section className="flex flex-row gap-4 w-full">
-                  <div className="flex flex-col items-start w-full">
-                    <label htmlFor="payment" className="text-xs">Payment</label>
-                    <select id="payment" className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register('payment')}  >
-                      <option value=''>Select a payment</option>
-                      <option value="Pix/Transferência" >Pix/Transferência</option>
-                      <option value="Dinheiro">Dinheiro</option>
-                      <option value="Check">Check</option>
-               
-                    </select>
-                  </div>
+                    <Select id={"payment"} register={{...register("payment")}} title={"Payment"} options={[
+                        {index:"", title: "Selecione uma opção"},
+                        {index:"pix_deposito", title: "Pix/Depósito"},
+                        {index:"dinheiro", title: "Dinheiro"},
+                        {index:"cheque", title: "Cheque"}
+                    ]} />
                   <div className="flex flex-col items-start w-full">
                     <label htmlFor="date" className="text-xs">Data</label>
                     <SearchBar placeholder="Enter category" type="date"  id="date" {...register('date')}  />
                   </div>
                 </section >
                 <section className="flex flex-col items-start">
+                    <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[
+                        {index:"", title: "Selecione uma opção"},
+                        ...branches.map(branch => ({
+                            index: String(branch.id),
+                            // Fique de olho: no Postgres você chamou de 'nome', verifique se o JSON da API traz 'nome' ou 'name'
+                            title: String(branch.name)
+                        }))
+                    ]} />
+
                   <label htmlFor="beneficiary" className="text-xs">Supplier/recepient</label>
                   <SearchBar placeholder="Supplier/recepient" type="text" id="beneficiary" {...register('beneficiary')} />
                 </section>
@@ -184,11 +182,11 @@ function ExpensesPage() {
               }}
               onDelete={async () => {
                   await requests.onDelete("expenses", data.id)
-                  onGetExpenses().then()
+                  fetchData().then()
               }}
             />
           ))}
-            {showEditForm && <ModalExpenses onGetExpenses={() => onGetExpenses()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
+            {showEditForm && <ModalExpenses onGetExpenses={() => fetchData()} onHideForm={() => setShowEditForm(!showEditForm)} complete={editData}/>}
         </div>
       </div>
     </div>

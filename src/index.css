@@ -1,1 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
+
+* {
+    font-family: "Inter", sans-serif !important;
+}
+
+.desktop-only-flex { display: flex; }
+.mobile-only-flex { display: none; }
+.mobile-only-block { display: none; }
+
+@media (max-width: 768px) {
+    .desktop-only-flex { display: none; }
+    .mobile-only-flex { display: flex; }
+    .mobile-only-block { display: block; }
+}
+:root {
+    color-scheme: light dark;
+}
+@theme {
+    /*lightness-theme*/
+
+    --color-bg-primary-color: light-dark(#F8FAFC, #0A1424) ;
+    --color-bg-secondary-color: light-dark(#FFFFFF, #122035);
+
+    --color-bg-secondary-destack-color: light-dark(#efefef, #192b49);
+
+    --color-primary-titles-color: light-dark(#0F2547, #E2E8F0);
+    --color-secondary-titles-color: light-dark(#E2E8F0, #0F2547);
+
+
+    --color-buttons-color: light-dark(#d69a1c, #ffcc47);
+    --color-buttons-hover: light-dark(#b57e17, #c8a444);
+
+    --color-destack-color: light-dark(#C59B27, #E5B842);
+
+    /*Fonts*/
+    --font-primary-font: Montserrat, sans-serif;
+    --font-secondary-font: "Inter", sans-serif;
+}
+
+body{
+    color: var(--color-primary-titles-color);
+    background-color: var(--color-bg-primary-color);
+}
+

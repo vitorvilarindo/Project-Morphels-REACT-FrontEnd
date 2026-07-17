@@ -3,6 +3,7 @@ import SearchBar from "./searchBar.jsx";
 import Header2 from "./header2.jsx";
 import Inputs from "./inputs.jsx";
 import MainRequests from "../services/requests.js";
+import Select from "./select.jsx";
 
 const request = new MainRequests()
 
@@ -20,7 +21,7 @@ function ModalReports({ onHideForm, onGetRevenues }) {
 
     async function onPostReportPreset(data) {
         console.log(data);
-        await request.onRepost("setReportPreset", data)
+        await request.onPost("reports", data)
         onGetRevenues()
         onHideForm()
 
@@ -29,16 +30,16 @@ function ModalReports({ onHideForm, onGetRevenues }) {
 
     return (
         <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
-            <div className="flex flex-col bg-white w-[50%] lg:w-[30%] p-6 rounded-lg shadow-lg space-y-4">
+            <div className="flex flex-col bg-bg-secondary-color w-[80%] md:w-[55%] p-6 rounded-lg shadow-lg space-y-4">
                 <Header2
                     title={"Create new report"}
-                    description={"Form to edit revenues"}
+                    description={"Form to create reports"}
                 />
                 <form
                     action={() => handleSubmit(onPostReportPreset)()}
                     className="flex flex-col  space-y-3"
                 >
-                    <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
+                    <div className="flex flex-col items-start rounded-lg border border-bg-secondary-destack-color p-3 gap-3">
                         <h1 className={"text-xl bold mb-2"}>Basic Information's</h1>
                         <section className="flex flex-col w-full items-start gap-1">
                             <label htmlFor="member" className="text-xs ">
@@ -52,25 +53,18 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                             />
                         </section>
                         <section className="flex flex-col w-full items-start gap-1">
-                            <label htmlFor="type" className="text-xs">
-                                Type
-                            </label>
-                            <select
-                                id="type"
-                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
-                                {...register("type")}
-                            >
-                                <option value="">Select a category</option>
-                                <option value="Mensal">Mensal</option>
-                                <option value="Trimestral">Trimestral</option>
-                                <option value="Semestral">Semestral</option>
-                                <option value="Anual">Anual</option>
-                                <option value="Cutomizado">Cutomizado</option>
-                            </select>
+                            <Select id={"type"} register={{...register("type")}} title={"Tipo"} options={[
+                                {index: "", title: "Selecione uma opção"},
+                                {index: "mensal", title: "Mensal"},
+                                {index: "trimestral", title: "Trimestral"},
+                                {index: "semestral", title: "Semestral"},
+                                {index: "anual", title: "Anual"},
+                                {index: "customizado", title: "Customizado"}
+                            ]}/>
                         </section>
                     </div>
 
-                    <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
+                    <div className="flex flex-col items-start rounded-lg border border-bg-secondary-destack-color p-3 gap-3">
                         <h1 className={"text-xl bold mb-2"}>Period</h1>
                         <section className="flex flex-col w-full items-start gap-1">
                             <label htmlFor="start_date" className="text-xs ">
@@ -87,7 +81,7 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                                     register={{...register("end_date")}}></Inputs>
                         </section>
                     </div>
-                    <div className="flex flex-col items-start rounded-lg border border-neutral-200 p-3 gap-3">
+                    <div className="flex flex-col items-start rounded-lg border border-bg-secondary-destack-color p-3 gap-3">
                         <h1 className={"text-xl bold mb-2"}>Sections to include</h1>
                         <section className={"flex items-center w-full  gap-1"}>
                             <input type="checkbox" {...register("options.resume")}/>

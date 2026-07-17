@@ -1,4 +1,3 @@
-import Balons from "./balons.jsx";
 import {
     Building2,
     CreditCard,
@@ -20,6 +19,7 @@ import {useEffect, useState} from "react";
 import MainRequests from "../services/requests.js";
 import {useForm} from "react-hook-form";
 import Scanner from "./scanner.jsx";
+import Select from "./select.jsx";
 
 const request = new MainRequests()
 
@@ -43,12 +43,14 @@ export function Page1(){
         onGetMembers(searchMembers).then();
     },[])
 
+    console.log(members)
+
 
     return(
         <main>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                    className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <section className="flex justify-between items-center">
                         <Header2
                             title={"Members Form"}
@@ -67,9 +69,8 @@ export function Page1(){
                             })()}
                                   className="flex flex-col  space-y-3">
                                 <section className="flex flex-col items-start space-y-1">
-                                    <label htmlFor="member" className="text-xs">Complete name *</label>
-                                    <SearchBar placeholder="Name" type="text"
-                                               id="member" {...register("name")} />
+                                    <Inputs id="name" type="text" placeholder={'Ex: João...'}
+                                            register={{...register("name")}}>Nome *</Inputs>
                                 </section>
 
                                 <section className="flex flex-row gap-4 w-full">
@@ -81,17 +82,14 @@ export function Page1(){
                                 <section className="flex flex-row gap-4 w-full">
                                     <Inputs id="pixKey" type="text" placeholder={'Write the Pix key.'}
                                             register={{...register("pixkey")}}>Pix Key</Inputs>
-                                    <div className="flex flex-col items-start w-full space-y-1">
-                                        <label htmlFor="pixType" className="text-xs">Pix type</label>
-                                        <select id="pixType"
-                                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("pixtype")} >
-                                            <option value="CPF">CPF</option>
-                                            <option value="CNPJ">CNPJ</option>
-                                            <option value="E-mail">E-mail</option>
-                                            <option value="Telefone">Telefone</option>
-                                            <option value="aleatoryKey">Aleatory Key</option>
-                                        </select>
-                                    </div>
+                                    <Select id={"pixtype"} register={{...register("pixtype")}} title={"Tipo de chave"} options={[
+                                        {index:"", title:'Tipo de chave'},
+                                        {index:"cpf", title:'CPF'},
+                                        {index:"cnpj", title:'CNPJ'},
+                                        {index:"email", title:'E-mail'},
+                                        {index:"cellphone", title:'CPF'},
+                                        {index:"aleatory_key", title:'Chave aleatória'},
+                                    ]} />
 
                                 </section>
 
@@ -111,16 +109,16 @@ export function Page1(){
             </div>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                    className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <Header2 title={"Registed Member"} description={""}/>
                     <section className="flex items-center gap-2">
                         <Search size={16} className="text-gray-500"/>
                         <SearchBar placeholder="Member" type="text" id="member" value={searchMembers} onChange={(e) => setSearchMembers(e.target.value)} />
                     </section>
-                    <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
-                        <table className="w-full ">
+                    <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
+                        <table className="w-full min-w-[800px]">
                             <thead className="">
-                            <tr className="h-10 text-xs text-gray-900 text-left border-b border-b-neutral-200">
+                            <tr className="h-10 text-xs text-left border-b border-b-bg-secondary-destack-color">
                                 <th className="px-2">Nome</th>
                                 <th>Telefone</th>
                                 <th>Idade</th>
@@ -140,7 +138,7 @@ export function Page1(){
                                 });
 
                                 return (
-                                    <tr className="h-11 text-xs text-gray-900 text-left border-b border-b-neutral-200 hover:bg-gray-100"
+                                    <tr className="h-11 text-xs text-left border-b border-b-secondary-destack-color hover:bg-gray-100"
                                         key={member.id}>
                                         <td className="p-2">{member.name}</td>
                                         <td>{member.cellphone}</td>
@@ -212,7 +210,7 @@ export function Page2(){
     return(<main>
         <div className="flex justify-center">
             <div
-                className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                 <section className="flex justify-between items-center">
                     <Header2
                         title={"Companies Form"}
@@ -241,7 +239,7 @@ export function Page2(){
                                             register={{...register("CNPJ")}}>CNPJ *</Inputs>
                                     <div className="flex flex-col items-start w-[30%] space-y-2">
                                         <button
-                                            className="w-full justify-center gap-3 flex flex-row text-xs bg-gray-100 hover:bg-gray-200 border rounded-md border-gray-100 px-2 py-2">
+                                            className="w-full justify-center gap-3 flex flex-row text-xs text-secondary-titles-color bg-buttons-color hover:bg-buttons-hover border rounded-md border-bg-secondary-destack-color px-2 py-2">
                                             <Search size={16}/>
                                             <div>Buscar CNPJ</div>
                                         </button>
@@ -267,17 +265,14 @@ export function Page2(){
                                 <section className="flex flex-row gap-4 w-full">
                                     <Inputs id="pixKey" type="date" register={{...register("open_date")}}>Open
                                         Date</Inputs>
-                                    <div className="flex flex-col items-start w-full space-y-1">
-                                        <label htmlFor="pixType" className="text-xs">Register
-                                            Situation</label>
-                                        <select id="pixType"
-                                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("situation")} >
-                                            <option value="Active">Active</option>
-                                            <option value="Suspence">Suspence</option>
-                                            <option value="Inapta">Inapt</option>
-                                            <option value="Baixada">Baixada</option>
-                                        </select>
-                                    </div>
+
+                                    <Select id={"situations"} register={{...register("situations")}} title={"Situação"} options={[
+                                        {index:"", title:"Selecione uma opção"},
+                                        {index:"active", title:"Ativo"},
+                                        {index:"suspence", title:"Suspenso"},
+                                        {index:"inapt", title:"Inapta"},
+                                        {index:"lowlands", title:"Baixada"}
+                                    ]}/>
                                 </section>
                             </article>
                             <article className="space-y-3">
@@ -287,23 +282,19 @@ export function Page2(){
                                 </section>
                                 <section className="flex flex-row gap-4 w-full items-end">
                                     <div className="flex flex-col items-start w-[20%] space-y-2">
-                                        <label htmlFor="member" className="text-xs">CEP </label>
-                                        <input
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            type="text" id="member"
-                                            placeholder="00.000.000/0000-00" {...register("cep")}/>
+                                        <Inputs id="cep" type="text"
+                                                placeholder={'00000-000'}
+                                                register={{...register("cep")}}>CEP * </Inputs>
                                     </div>
-                                    <Inputs id="address" type="text"
+                                    <Inputs id="street" type="text"
                                             placeholder={'Street name, Avenue, etc'}
-                                            register={{...register("street")}}>street </Inputs>
+                                            register={{...register("street")}}>Street </Inputs>
                                 </section>
                                 <section className="flex flex-row gap-4 w-full items-end">
                                     <div className="flex flex-col items-start w-[20%] space-y-2">
-                                        <label htmlFor="member" className="text-xs">Nùmero </label>
-                                        <input
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            type="text" id="member"
-                                            placeholder="123" {...register("number")}/>
+                                        <Inputs id="number" type="text"
+                                                placeholder={'123'}
+                                                register={{...register("number")}}>Número </Inputs>
                                     </div>
                                     <Inputs id="complement" type="text" placeholder={'Sala, Andar, etc'}
                                             register={{...register("complement")}}>Complement </Inputs>
@@ -312,46 +303,42 @@ export function Page2(){
                                     <Inputs id="neighborhood" type="text" placeholder={'Neighborhood name'}
                                             register={{...register("neighborhood")}}>Neighborhood </Inputs>
                                     <div className="flex flex-col items-start w-[50%] space-y-2">
-                                        <label htmlFor="city" className="text-xs">Cidade </label>
-                                        <input
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            type="text" id="city"
-                                            placeholder="São Paulo" {...register("city")}/>
+                                        <Inputs id="city" type="text" placeholder={'Ex: São Paulo...'}
+                                                register={{...register("city")}}>Cidade </Inputs>
                                     </div>
                                     <div className="flex flex-col items-start w-[50%] space-y-1">
-                                        <label htmlFor="UF" className="text-xs">UF </label>
-                                        <select
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            type="text" id="UF"
-                                            placeholder="Sala, Andar, etc" {...register("UF")}>
-                                            <option value="ac">AC</option>
-                                            <option value="al">AL</option>
-                                            <option value="ap">AP</option>
-                                            <option value="am">AM</option>
-                                            <option value="ba">BA</option>
-                                            <option value="ce">CE</option>
-                                            <option value="df">DF</option>
-                                            <option value="es">ES</option>
-                                            <option value="go">GO</option>
-                                            <option value="ma">MA</option>
-                                            <option value="mt">MT</option>
-                                            <option value="ms">MS</option>
-                                            <option value="mg">MG</option>
-                                            <option value="pa">PA</option>
-                                            <option value="pb">PB</option>
-                                            <option value="pr">PR</option>
-                                            <option value="pe">PE</option>
-                                            <option value="pi">PI</option>
-                                            <option value="rj">RJ</option>
-                                            <option value="rn">RN</option>
-                                            <option value="rs">RS</option>
-                                            <option value="ro">RO</option>
-                                            <option value="rr">RR</option>
-                                            <option value="sc">SC</option>
-                                            <option value="sp">SP</option>
-                                            <option value="se">SE</option>
-                                            <option value="to">TO</option>
-                                        </select>
+                                        <Select id={"uf"} register={{...register("uf")}} title={"UF"} options={
+                                            [
+                                                { "index": "ac", "title": "AC" },
+                                                { "index": "al", "title": "AL" },
+                                                { "index": "ap", "title": "AP" },
+                                                { "index": "am", "title": "AM" },
+                                                { "index": "ba", "title": "BA" },
+                                                { "index": "ce", "title": "CE" },
+                                                { "index": "df", "title": "DF" },
+                                                { "index": "es", "title": "ES" },
+                                                { "index": "go", "title": "GO" },
+                                                { "index": "ma", "title": "MA" },
+                                                { "index": "mt", "title": "MT" },
+                                                { "index": "ms", "title": "MS" },
+                                                { "index": "mg", "title": "MG" },
+                                                { "index": "pa", "title": "PA" },
+                                                { "index": "pb", "title": "PB" },
+                                                { "index": "pr", "title": "PR" },
+                                                { "index": "pe", "title": "PE" },
+                                                { "index": "pi", "title": "PI" },
+                                                { "index": "rj", "title": "RJ" },
+                                                { "index": "rn", "title": "RN" },
+                                                { "index": "rs", "title": "RS" },
+                                                { "index": "ro", "title": "RO" },
+                                                { "index": "rr", "title": "RR" },
+                                                { "index": "sc", "title": "SC" },
+                                                { "index": "sp", "title": "SP" },
+                                                { "index": "se", "title": "SE" },
+                                                { "index": "to", "title": "TO" }
+                                            ]
+                                        } />
+
                                     </div>
                                 </section>
                             </article>
@@ -375,11 +362,9 @@ export function Page2(){
                                 </section>
                                 <section className="flex flex-row gap-4 w-full items-end">
                                     <div className="flex flex-col items-start w-[30%] space-y-2">
-                                        <label htmlFor="CNAE" className="text-xs">CNAE </label>
-                                        <input
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            type="text" id="CNAE"
-                                            placeholder="0000-0/00" {...register("CNAE")} />
+                                        <Inputs id="cnae" type="text"
+                                                placeholder={'0000-0/00'}
+                                                register={{...register("cnae")}}>CNAE *</Inputs>
                                     </div>
                                     <Inputs id="activityDescription" type="text"
                                             placeholder={'Ex: Serviços de manutenção e reparação'}
@@ -395,17 +380,14 @@ export function Page2(){
                                 </section>
                                 <section className="flex flex-row gap-4 w-full items-end">
                                     <div className="flex flex-col items-start w-[30%] space-y-1">
-                                        <label htmlFor="member" className="text-xs">Pix type </label>
-                                        <select
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            type="text" id="member"
-                                            placeholder="0000-0/00" {...register("pixtype")}>
-                                            <option value="CPF">CPF</option>
-                                            <option value="CNPJ">CNPJ</option>
-                                            <option value="E-mail">E-mail</option>
-                                            <option value="Telefone">Telefone</option>
-                                            <option value="aleatoryKey">Aleatory Key</option>
-                                        </select>
+                                        <Select id={"pixtype"} register={{...register("pixtype")}} title={"Tipo de chave"} options={[
+                                            {index:"", title:'Tipo de chave'},
+                                            {index:"cpf", title:'CPF'},
+                                            {index:"cnpj", title:'CNPJ'},
+                                            {index:"email", title:'E-mail'},
+                                            {index:"cellphone", title:'CPF'},
+                                            {index:"aleatory_key", title:'Chave aleatória'},
+                                        ]} />
                                     </div>
                                     <Inputs id="pixKeyPayment" type="text"
                                             placeholder={'Write the Pix key.'}
@@ -429,17 +411,17 @@ export function Page2(){
         </div>
         <div className="flex justify-center">
             <div
-                className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                 <Header2 title={"Registed Member"} description={""}/>
                 <section className="flex items-center gap-2">
                     <Search size={16} className="text-gray-500"/>
                     <SearchBar placeholder="Member" type="text" id="member" value={searchCompanies} onChange={(e) => setSearchCompanies(e.target.value)} />
                 </section>
 
-                <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
-                    <table className="border-collapse w-[150%] xl:w-full">
+                <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
+                    <table className="w-full min-w-[800px]">
                         <thead className="w-full">
-                        <tr className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-10">
+                        <tr className="text-xs text-left border-b border-b-bg-secondary-destack-color h-10">
                             <th className="px-2 whitespace-nowrap w-[20%]">Company Name</th>
                             <th className="whitespace-nowrap">Fantasy Name</th>
                             <th className="whitespace-nowrap">CNPJ</th>
@@ -565,7 +547,7 @@ export function Page3() {
         <main>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
+                    className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <section className="flex justify-between items-center">
                         <Header2
                             title={"Cards form"}
@@ -585,21 +567,14 @@ export function Page3() {
                                   className="flex flex-col  space-y-3">
                                 <section >
                                     <button type={"button"} onClick={() => setShowScanner(true)}
-                                            className="flex items-center gap-4 bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">
+                                            className="flex items-center gap-4 bg-buttons-color border text-xs border-buttons-hover shadow-xs text-secondary-titles-color px-4 py-2 rounded-lg hover:bg-buttons-hover transition-discrete">
                                         <ScanBarcode size={20}/>
                                         Scan Code
                                     </button>
                                 </section>
                                 <section className="flex flex-row gap-4 w-full">
                                     <div className="flex flex-col items-start w-full space-y-1">
-                                        <label htmlFor="bar_code" className="text-xs">Bar code</label>
-                                        <input
-                                            id="bar_code"
-                                            placeholder={"0000000000000000000000000"}
-                                            type="text"
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
-                                            {...register("bar_code")}
-                                        />
+                                        <Inputs id={"bar_code"} type="text" children={"Bar code"} register={{...register("bar_code")}} placeholder={"0000000000000000000000"} />
                                     </div>
                                     <section className="w-full flex flex-col items-start relative">
                                         <label htmlFor="member" className="text-xs">
@@ -635,16 +610,12 @@ export function Page3() {
                                 </section>
 
                                 <section className="flex flex-row gap-4 w-full">
-                                    <div className="flex flex-col items-start w-full space-y-1">
-                                        <label htmlFor="pixType" className="text-xs">Status</label>
-                                        <select id="stats"
-                                                className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2" {...register("stats")} >
-                                            <option value="Active">Active</option>
-                                            <option value="Due">Due</option>
-                                            <option value="Canceled">Canceled</option>
-                                        </select>
-                                    </div>
-
+                                    <Select id={"status"} register={{...register("status")}} title={"Status"} options={[
+                                        {index: "", title: "Selecione uma opção"},
+                                        {index: "active", title: "Ativo"},
+                                        {index: "due", title: "Vencido"},
+                                        {index: "active", title: "Cancelado"},
+                                    ]} />
                                 </section>
 
 
@@ -665,17 +636,17 @@ export function Page3() {
             </div>
             <div className="flex justify-center">
                 <div
-                    className="flex flex-col justify-center w-[55vw] mt-7 p-4 bg-white border border-neutral-200 rounded-lg shadow-md gap-5">
-                    <Header2 title={"Registed Member"} description={""}/>
+                    className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
+                    <Header2 title={"Registered Member"} description={""}/>
                     <section className="flex items-center gap-2">
                         <Search size={16} className="text-gray-500"/>
                         <SearchBar placeholder="Member" type="text" id="member" value={searchCards}
                                    onChange={(e) => setSearchCards(e.target.value)}/>
                     </section>
-                    <section className="w-full rounded-lg border border-neutral-200 overflow-auto">
-                        <table className="w-full ">
+                    <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
+                        <table className="w-full min-w-[800px]">
                             <thead className="">
-                            <tr className="h-10 text-xs text-gray-900 text-left border-b border-b-neutral-200">
+                            <tr className="h-10 text-xs text-left border-b border-b-bg-secondary-destack-color">
                                 <th className="px-2">Member</th>
                                 <th>Barc Code</th>
                                 <th>Issue Date</th>

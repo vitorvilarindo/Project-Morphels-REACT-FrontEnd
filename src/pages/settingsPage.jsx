@@ -4,6 +4,8 @@ import {User, Church, MapPinHouse, ListCheck} from "lucide-react";
 import {useState, useEffect} from "react";
 import MainRequests from "../services/requests.js";
 import {Page1, Page2, Page3, Page4} from "../components/settingPages.jsx";
+import {MenuProvider} from "../context/menuContext.jsx";
+import SideMenu from "../components/sideMenu.jsx";
 
 const request = new MainRequests();
 
@@ -53,11 +55,14 @@ function SettingsPage() {
 
     return (
         <div className="justify-center h-[90vh] w-screen">
-            <Header />
-            <Menu />
+            <MenuProvider>
+                <Header/>
+                <SideMenu/>
+            </MenuProvider>
+            <Menu/>
 
             <section className="flex justify-center items-center mt-7">
-                <ul className="w-[55vw] flex flex-row bg-gray-200 rounded-sm items-center shadow-lg">
+                <ul className="flex flex-row bg-gray-200 rounded-sm items-center shadow-lg w-[80vw] md:w-[55vw]">
                     {pages
                         .filter(item => permissions.includes(item.permission))
                         .map(item => (

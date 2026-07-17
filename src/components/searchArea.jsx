@@ -6,7 +6,7 @@ function SearchArea({ placeholder, showFilter, ...props}) {
       <Search size={16} className="text-gray-500" />
       <SearchBar placeholder={placeholder} {...props} type="text"/>
         
-      <button onClick={showFilter} className="flex hover:bg-gray-100 py-1.5 px-2 text-sm rounded-lg border border-gray-300 transform items-center gap-3">
+      <button onClick={showFilter} className="flex hover:bg-gray-100 py-1.5 px-2 text-sm rounded-lg border border-bg-secondary-destack-color transform items-center gap-3">
         <Funnel size={16} />
         Filters
       </button>
