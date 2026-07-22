@@ -28,7 +28,9 @@ function RevenuesPage() {
         [start_date, setStart_date] = useState(""),
         [end_date, setEnd_date] = useState("")
     const [members, setMembers] = useState([]);
-    const [filted, setFilted] = useState([])
+    const [branches, setBranches] = useState([]);
+    const [filted, setFilted] = useState([]);
+
     const {register, watch, setValue, handleSubmit} = useForm();
 
 
@@ -42,8 +44,11 @@ function RevenuesPage() {
         try {
             const response_revenues = await requests.onGet("revenues", search);
             const response_members = await requests.onGet("members", search);
+            const response_branches = await requests.onGet("branches", search);
+
             setRevenues(response_revenues ? response_revenues: []);
             setMembers(response_members ? response_members : []);
+            setBranches(response_branches ? response_branches : []);
         } catch (error) {
             console.error("Erro ao buscar revenues:", error);
         }
@@ -209,9 +214,12 @@ function RevenuesPage() {
                                         </div>
                                     </section>
                                     <section className="flex flex-col items-start">
-                                        <Select id={"branch"} register={{...register("branch")}} title={"Branch"} options={[
-                                            {index:"", title: "Selecione uma filial"},
-                                            {index:"Igreja Quadra 3", title: "Igreja Quadra 3"},
+                                        <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[
+                                            {index:"", title: "Selecione uma opção"},
+                                            ...branches.map(branch => ({
+                                                index: String(branch.id),
+                                                title: String(branch.name)
+                                            }))
                                         ]} />
 
                                     </section>

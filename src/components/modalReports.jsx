@@ -7,9 +7,10 @@ import Select from "./select.jsx";
 
 const request = new MainRequests()
 
-function ModalReports({ onHideForm, onGetRevenues }) {
+function ModalReports({ onHideForm, onFetch, branches }) {
     const { register, handleSubmit } = useForm({
         defaultValues:{
+            data: new Date(),
             options: {
                 resume: false,
                 revenues: false,
@@ -22,7 +23,7 @@ function ModalReports({ onHideForm, onGetRevenues }) {
     async function onPostReportPreset(data) {
         console.log(data);
         await request.onPost("reports", data)
-        onGetRevenues()
+        onFetch()
         onHideForm()
 
     }
@@ -80,6 +81,14 @@ function ModalReports({ onHideForm, onGetRevenues }) {
                             <Inputs id="end_date" type="date"
                                     register={{...register("end_date")}}></Inputs>
                         </section>
+                        <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[
+                            {index:"", title: "Selecione uma opção"},
+                            ...branches.map(branch => ({
+                                index: String(branch.id),
+                                // Fique de olho: no Postgres você chamou de 'nome', verifique se o JSON da API traz 'nome' ou 'name'
+                                title: String(branch.name)
+                            }))
+                        ]} />
                     </div>
                     <div className="flex flex-col items-start rounded-lg border border-bg-secondary-destack-color p-3 gap-3">
                         <h1 className={"text-xl bold mb-2"}>Sections to include</h1>

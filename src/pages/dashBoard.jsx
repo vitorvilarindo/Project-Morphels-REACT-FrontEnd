@@ -13,8 +13,8 @@ const requests = new MainRequests();
 
 function DashBoard () {
     const navigate = useNavigate();
-    const [sumRevenues, setSumRevenues] = useState();
-    const [sumExpenses, setSumExpenses] = useState();
+    const [sumRevenues, setSumRevenues] = useState(0);
+    const [sumExpenses, setSumExpenses] = useState(0);
 
     async function onGetFinanceData (){
         const start_date = new Date(new Date().getFullYear(), new Date().getMonth(), 1)

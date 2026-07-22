@@ -21,19 +21,23 @@ import {useForm} from "react-hook-form";
 import Scanner from "./scanner.jsx";
 import Select from "./select.jsx";
 
-const request = new MainRequests()
+const requests = new MainRequests()
 
 export function Page1(){
     const [members, setMembers] = useState([])
     const [showMemberForm, setShowMemberForm] = useState(false)
     const [searchMembers, setSearchMembers] = useState("")
+    const [branches, setBranches] = useState([])
 
     const {register, handleSubmit} = useForm();
 
     async function onGetMembers(search) {
         try{
-            const response = await request.onGet("members", search);
-            setMembers(response);
+            const response_members = await requests.onGet("members", search);
+            const response_branches = await requests.onGet("branches", search);
+
+            setMembers(response_members ? response_members : []);
+            setBranches(response_branches ? response_branches : []);
         }catch(error){
             console.log(error);
         }
@@ -92,7 +96,16 @@ export function Page1(){
                                     ]} />
 
                                 </section>
-
+                                <section className="flex flex-row gap-4 w-full">
+                                    <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[
+                                        {index:"", title: "Selecione uma opção"},
+                                        ...branches.map(branch => ({
+                                            index: String(branch.id),
+                                            // Fique de olho: no Postgres você chamou de 'nome', verifique se o JSON da API traz 'nome' ou 'name'
+                                            title: String(branch.name)
+                                        }))
+                                    ]} />
+                                </section>
 
                                 <div className="w-full flex flex-row mt-4 gap-4 ">
                                     <button type="submit"
@@ -185,13 +198,13 @@ export function Page2(){
     const [selectedCompanyInfo, setSelectedCompanyInfo] = useState(null);
     const [showInfo, setShowInfo] = useState(false);
 
-    const [searchCompanies, setSearchCompanies] = useState("")
+    const [search, setSearch] = useState("")
 
     const {register, handleSubmit} = useForm();
 
-    async function onGetCompanyes(search) {
+    async function onGetCompanies() {
         try {
-            const response = await request.onGet("companies", search);
+            const response = await requests.onGet("companies", search);
             setCompanies(response);
         } catch (error) {
             console.error('Error fetching companies:', error);
@@ -204,7 +217,7 @@ export function Page2(){
     }
 
     useEffect(() =>{
-        onGetCompanyes(searchCompanies).then()
+        onGetCompanies().then()
     },[])
 
     return(<main>
@@ -226,7 +239,7 @@ export function Page2(){
 
                         <form action={() => handleSubmit(async (data) => {
                             await request.onPost("companies", data)
-                            onGetCompanyes(searchCompanies).then()
+                            onGetCompanies().then()
                         })()}
                               className="flex flex-col  space-y-3">
                             <article className="space-y-3">
@@ -415,11 +428,11 @@ export function Page2(){
                 <Header2 title={"Registed Member"} description={""}/>
                 <section className="flex items-center gap-2">
                     <Search size={16} className="text-gray-500"/>
-                    <SearchBar placeholder="Member" type="text" id="member" value={searchCompanies} onChange={(e) => setSearchCompanies(e.target.value)} />
+                    <SearchBar placeholder="Member" type="text" id="member" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </section>
 
                 <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
-                    <table className="w-full min-w-[800px]">
+                    <table className="w-full min-w-200">
                         <thead className="w-full">
                         <tr className="text-xs text-left border-b border-b-bg-secondary-destack-color h-10">
                             <th className="px-2 whitespace-nowrap w-[20%]">Company Name</th>
@@ -434,7 +447,7 @@ export function Page2(){
                         </thead>
                         <tbody className=" w-full">
                         {companies.map((company) => (<tr key={company.id}
-                                                         className="text-xs text-gray-900 text-left border-b border-b-neutral-200 h-11">
+                                                         className="text-xs text-primary-titles-color text-left border-b border-b-neutral-200 h-11">
                             <td className="px-2 whitespace-nowrap">{company.company_name}</td>
                             <td className="whitespace-nowrap">{company.fantasy_name}</td>
                             <td className="whitespace-nowrap">{company.cnpj}</td>
@@ -472,7 +485,7 @@ export function Page2(){
                                             pixtype: company.pixtype,
                                             pixkey: company.pixkey,
                                         })
-                                    }} className="hover:bg-neutral-200 p-1 rounded-md">
+                                    }} className="hover:bg-bg-secondary-destack-color p-1 rounded-md">
                                         <Info size={18}/>
                                     </button>
                                     <button className=" text-red-600">
