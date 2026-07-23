@@ -15,15 +15,18 @@ import SideMenu from "../components/sideMenu.jsx";
 
 const request = new MainRequests()
 function ReportsPage() {
-    const [searchMembers, setSearchMembers] = useState("")
     const [reports, setReports] = useState([])
     const [search, setSearch] = useState("")
     const [showModal, setShowModal] = useState(false)
+    const [branches, setBranches] = useState([])
     const navigate = useNavigate();
 
     async function onfetch(){
-        const response = await request.onGet("reports", search)
-        setReports(response)
+        const response_reports = await request.onGet("reports", search)
+        const response_branches = await request.onGet("branches", search)
+
+        setReports(response_reports);
+        setBranches(response_branches ? response_branches : []);
     }
 
     useEffect(() => {
@@ -62,7 +65,7 @@ function ReportsPage() {
                                   setSearch(e.target.value)
                               }}/>
                   <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
-                      <table className="w-full min-w-[800px]">
+                      <table className="w-full min-w-200">
                           <thead className="">
                           <tr className="h-10 text-xs  text-left border border-bg-secondary-destack-color">
                               <th className="px-2">Title</th>
@@ -116,8 +119,9 @@ function ReportsPage() {
                   </section>
                   {showModal && (
                       <ModalReports
-                          onGetRevenues={() => onGetRevenues()}
+                          onFetch={() => onfetch()}
                           onHideForm={() => setShowModal(false)}
+                          branches={branches}
                       />
                   )}
               </div>
