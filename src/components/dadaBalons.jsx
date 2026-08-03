@@ -43,9 +43,8 @@ function DataBalons({
     "bg-gray-100",
   ];
 
-  const dataObj = new Date(date);
 
-  const formatedData = dataObj.toLocaleDateString("pt-BR", {
+  const formatedData = new Date(date).toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
