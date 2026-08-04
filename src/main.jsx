@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <RevenuesPage />,
       },
       {
-        path: "/expences",
+        path: "/expenses",
         element: <ExpensesPage />,
       },
       {

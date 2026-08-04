@@ -1,55 +1,88 @@
- import { ChartColumn, BadgeDollarSign, Receipt, FileText, Settings, Users } from 'lucide-react';
- import MenuButtons from './menuButtons.jsx';
- import { useNavigate } from 'react-router-dom';
- import { useState, useEffect } from 'react';
- import MainRequests from "../services/requests.js";
+import {ChartColumn, BadgeDollarSign, Receipt, FileText, Settings, Users} from 'lucide-react';
+import MenuButtons from './menuButtons.jsx';
+import {useNavigate} from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import MainRequests from "../services/requests.js";
 
- const request = new MainRequests();
- function Menu() {
-  const navigate = useNavigate()
-  const [show, setShow] = useState(false);
+const requests = new MainRequests();
 
-  useEffect(() => {
-      async function getPermission() {
-          const response = await request.onGeneral("permissions");
-          if (response.permissions.includes("fd5b8c57-3767-4fed-a9a4-77e896556ef5")) {
-              setShow(true);
-          }
-      }
-      getPermission().then()
-  }, [])
-  return (
-      <div className='flex justify-center items-center mt-7 desktop-only-flex'>
-          <ul className='w-[55vw] flex flex-row bg-bg-primary-color rounded-sm items-center shadow-lg shadow-bg-secondary-destack-color'>
-              <li className='w-full '>
-                  <MenuButtons to='/dashboard' onClick={() => navigate(`/dashboard`)}><ChartColumn size={14}/>Dashboard
-                  </MenuButtons>
-              </li>
-              <li className='w-full'>
-                  <MenuButtons to='/revenues' onClick={() => navigate(`/revenues`)}><BadgeDollarSign size={14}/>Receitas
-                  </MenuButtons>
-              </li>
-              <li className='w-full'>
-                  <MenuButtons to='/expences' onClick={() => navigate(`/expences`)}><Receipt size={14}/>Despesas
-                  </MenuButtons>
-              </li>
-              <li className='w-full'>
-                  <MenuButtons to='/register' onClick={() => navigate(`/register`)}><Users size={14}/>Register
-                  </MenuButtons>
-              </li>
-              <li className='w-full'>
-                  <MenuButtons to='/reports' onClick={() => navigate(`/reports`)}><FileText
-                      size={14}/>Relatórios</MenuButtons>
-              </li>
-              {show && (
-                  <li className='w-full'>
-                      <MenuButtons to='/settings' onClick={() => navigate(`/settings`)}><Settings
-                          size={14}/>Configurátions</MenuButtons>
-                  </li>
-              )}
+function Menu() {
+    const navigate = useNavigate()
+    const [pagesPermissions, setPagesPermissions] = useState([]);
 
-          </ul>
-      </div>
-  )
+    const PREFERRED_ORDER = ['dashboard', 'revenues', 'expenses', 'register', 'reports', 'settings'];
+
+    const presetPages = {
+        dashboard: {
+            path: "/dashboard",
+            icon: <BadgeDollarSign size={14}/>,
+            title: "Dashboard",
+        },
+        revenues: {
+            path: "/revenues",
+            icon: <ChartColumn size={14}/>,
+            title: "Revenues",
+        },
+        expenses: {
+            path: "/expenses",
+            icon: <Receipt size={14}/>,
+            title: "Expenses",
+        },
+        register: {
+            path: "/register",
+            icon: <Users size={14}/>,
+            title: "Register",
+        },
+        reports: {
+            path: "/reports",
+            icon: <FileText size={14}/>,
+            title: "Reports",
+        },
+        settings: {
+            path: "/settings",
+            icon: <Settings size={14}/>,
+            title: "Settings",
+        }
+    }
+
+    useEffect(() => {
+        async function getPermission() {
+            const response_pagesPermissions = await requests.onGet("permissions");
+            const sortedPermissions = [...response_pagesPermissions].sort((a, b) => {
+                const indexA = PREFERRED_ORDER.indexOf(a.page_name);
+                const indexB = PREFERRED_ORDER.indexOf(b.page_name);
+
+                const posA = indexA !== -1 ? indexA : 999;
+                const posB = indexB !== -1 ? indexB : 999;
+
+                return posA - posB;
+            });
+
+            setPagesPermissions(sortedPermissions);
+        }
+
+        getPermission().then()
+    }, [])
+
+
+    return (
+        <div className='flex justify-center items-center mt-7 desktop-only-flex'>
+            <ul className='w-[55vw] flex flex-row bg-bg-primary-color rounded-sm items-center shadow-lg shadow-bg-secondary-destack-color'>
+                {pagesPermissions.map((page) => {
+                        if (page.can_view === true && presetPages[page.page_name] !== undefined) {
+                            return (
+                                <li key={page.page_name} className='w-full'>
+                                    <MenuButtons to={presetPages[page.page_name]?.path} onClick={() => navigate(presetPages[page.page_name]?.path)}>
+                                        {presetPages[page.page_name]?.icon} {presetPages[page.page_name]?.title}
+                                    </MenuButtons>
+                                </li>
+                            )
+                        }
+                    }
+                )}
+            </ul>
+        </div>
+    )
 }
+
 export default Menu;
