@@ -5,7 +5,7 @@ export function UserBallons({user_name, email, cellphone, designation, sing_up_d
         <article className={"grid grid-flow-col grid-rows-[auto_1fr] w-full gap-3 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-xl p-5"}>
             <div className={"w-full flex items-center justify-start gap-3 m-0 p-0"}>
                 <section>
-                    <h1 className={'h-fit bg-black text-primary-titles-color rounded-2xl px-2 py-1'}>JS</h1>
+                    <h1 className={'h-fit bg-black text-secondary-titles-color rounded-2xl px-2 py-1'}>JS</h1>
                 </section>
                 <section className={'space-y-1'}>
                     <h2>{user_name}</h2>

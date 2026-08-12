@@ -96,7 +96,7 @@ function ReportsPage() {
                                       <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{report.type}</div></td>
                                       <td>{formatedDates[1]} until {formatedDates[2]}</td>
                                       <td>{formatedDates[0]}</td>
-                                      <td>{report.by}</td>
+                                      <td>{report.creator}</td>
 
                                       <td>
                                           <div className="pr-3 flex justify-end  items-center gap-2">
