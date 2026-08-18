@@ -1,4 +1,4 @@
-import { UserBallons } from './settingsBallons.jsx'
+import {RolesBallons, UserBallons} from './settingsBallons.jsx'
 import {useEffect, useState} from "react";
 import MainRequests from "../services/requests.js";
 import {Plus, ScanBarcode} from "lucide-react";
@@ -18,7 +18,7 @@ export function Page1(){
     const [showSingUpUserForm, setShowSingUpUserForm] = useState(false);
     const {register, handleSubmit} = useForm();
 
-    const getUsers = async () => {
+    const getInfos = async () => {
         const response_users = await request.onGet('users');
         const response_roles = await request.onGet('roles');
         const response_sectors = await request.onGet('sectors');
@@ -32,7 +32,7 @@ export function Page1(){
         setBranches(response_branches);
     }
     useEffect(()=>{
-        getUsers().then();
+        getInfos().then();
     },[])
     return (
         <main className={'flex flex-col items-center justify-center '}>
@@ -148,7 +148,100 @@ export function Page3() {
     )
 }
 export function Page4(){
+    const [roles, setRoles] = useState([]);
+    const [pages, setPages] = useState([]);
+    const [numberOfPages, setNumberOfPages] = useState(0);
+    const [showSingUpUserForm, setShowSingUpUserForm] = useState(false);
+    const {register, handleSubmit} = useForm();
+
+    const getInfos = async () => {
+        const roles_response = await request.onGet('roles');
+        const pages_response = await request.onGet('pages');
+        const response_number_of_pages = await request.onGet('pages/count');
+
+        setRoles(roles_response.roles);
+        setPages(pages_response);
+        setNumberOfPages(parseInt(response_number_of_pages[0]?.number_of_pages));
+    }
+
+    useEffect(()=>{
+        getInfos().then();
+    },[])
+
     return (
-        <div>Vai nessa</div>
-    )
+        <main className={'flex flex-col items-center justify-center '}>
+            <div className={'flex w-[55vw] justify-between items-center py-6'}>
+                <section className={'flex flex-col items-start '}>
+                    <h1 className={'text-2xl'}>Cadastro de Usuários</h1>
+                    <h2 className={'text-sm text-neutral-500'}>Gerencie os usuários do sistema</h2>
+                </section>
+                <section>
+                    <button onClick={() => setShowSingUpUserForm(true)} className={'flex gap-2 bg-black text-secondary-titles-color text-sm p-2 rounded-md items-center'}><Plus size={16}/> <p>Novo Usuário</p> </button>
+                </section>
+                {showSingUpUserForm && (
+                    <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
+                        <div className="flex flex-col bg-bg-secondary-color h-[70%] w-[80%] md:w-[30%] p-6 rounded-lg shadow-lg space-y-4 overflow-auto">
+                            <div className="">
+                                <form action={() => handleSubmit(async (data) => {
+                                    await request.onPost("users", data)
+                                    getUsers().then()
+                                })()}
+                                      className="flex flex-col  space-y-3">
+                                    <Header2
+                                        title={"Users Sing-Up"}
+                                        description={"Form to sing-up users"}
+                                    />
+                                    <section className="flex flex-col gap-4 w-full">
+                                        <Inputs id="name" type="text" placeholder={'Ex: JOAO DA MACEDO'}
+                                                register={{...register("name")}}>Designação *</Inputs>
+                                        <Inputs id="description" type="text" placeholder={"Ex: Gerenciamento das receitas"} register={{...register("description")}}>Descrição *</Inputs>
+                                    </section>
+
+                                    {pages.map((page) => {
+                                        return(
+                                            <section className="flex flex-col gap-4 w-full rounded-md border border-gray-300 p-5">
+                                                <nav className={"flex w-full "}>
+                                                    <h2 className={"text-xl"}>{page.name.charAt(0).toUpperCase() + page.name.slice(1)}</h2>
+                                                </nav>
+
+                                                <div className={"flex gap-4 justify-around"}>
+                                                    <p><input type={"checkbox"} {...register("can_view")}/> Visualizar</p>
+                                                    <p><input type={"checkbox"} {...register("can_create")}/> Criar</p>
+                                                    <p><input type={"checkbox"} {...register("can_edit")}/> Editar</p>
+                                                    <p><input type={"checkbox"} {...register("can_delete")}/> Deletar</p>
+                                                </div>
+
+
+                                            </section>
+                                        )
+                                    })}
+
+
+
+
+                                    <div className="w-full flex flex-row mt-4 gap-4 ">
+                                        <button type="submit"
+                                                className="bg-neutral-950 text-white text-xs px-4 py-2 rounded-lg hover:bg-neutral-600 transition-discrete">Submit
+                                        </button>
+                                        <button onClick={() => setShowSingUpUserForm(false)}
+                                                className="bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+            <div className={'grid grid-cols-1 gap-2 w-[80vw] md:w-[55vw] lg:grid-cols-2 xl:grid-cols-3'}>
+                {roles.map((role) => (
+                    <RolesBallons
+                        key={role.id} // Always include a unique key!
+                        role={role}
+                        number_of_pages={numberOfPages}
+                    />
+                ))}
+            </div>
+        </main>
+    );
 }

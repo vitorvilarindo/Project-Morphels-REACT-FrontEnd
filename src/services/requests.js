@@ -13,6 +13,7 @@ class MainRequests  {
 
     async onPost (route, params) {
         return await api.post(`/${route}`, params)
+
     }
 
     async onPut (route, params) {
