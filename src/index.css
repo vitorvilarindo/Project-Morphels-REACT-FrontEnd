@@ -27,6 +27,7 @@
 
     --color-primary-titles-color: light-dark(#0F2547, #E2E8F0);
     --color-secondary-titles-color: light-dark(#E2E8F0, #0F2547);
+    --color-secondary-destack-titles-color: light-dark(#2b6cca, #9ba4ac);
 
 
     --color-buttons-color: light-dark(#d69a1c, #ffcc47);

@@ -5,7 +5,7 @@ export default function Select ({id, register, title, options, ...rest}) {
                 {title}
             </label>
             <select  id="type"
-                     className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
+                     className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:outline-none placeholder:text-gray-500 focus:ring-gray-400 px-2 py-2"
                      {...register}
             >
                 {options.map((option) => (
