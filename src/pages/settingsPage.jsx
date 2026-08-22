@@ -31,8 +31,8 @@ function SettingsPage() {
             component: <Page3 />,
             icon: <MapPinHouse size={14}/>
         },
-        designations:{
-            title: "Designations",
+        permissions:{
+            title: "Permissions",
             component: <Page4 />,
             icon: <ListCheck size={14}/>
         }
