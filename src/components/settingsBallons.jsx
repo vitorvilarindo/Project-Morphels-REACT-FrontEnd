@@ -4,7 +4,7 @@ import MainRequests from "../services/requests.js";
 
 const requests = new MainRequests()
 
-export function UserBallons({user_name, email, cellphone, designation, sing_up_date, last_access}) {
+export function UserBallons({user_name, email, cellphone, designation, sing_up_date, last_access, deleteUser}) {
     return (
         <article
             className={"grid grid-flow-col grid-rows-[auto_1fr] w-full gap-3 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-xl p-5"}>
@@ -31,7 +31,7 @@ export function UserBallons({user_name, email, cellphone, designation, sing_up_d
             </div>
             <div className={"w-full h-[90%] flex items-top justify-end"}>
                 <section className={'hover:bg-gray-200 px-3 py-3 rounded-2xl'}>
-                    <button><Trash2 color={'red'} size={16}/></button>
+                    <button onClick={deleteUser}><Trash2 color={'red'} size={16}/></button>
                 </section>
 
             </div>
@@ -40,7 +40,7 @@ export function UserBallons({user_name, email, cellphone, designation, sing_up_d
     )
 }
 
-export function RolesBallons({role, number_of_pages}) {
+export function RolesBallons({role, number_of_pages, deleteRoleAndPermissions}) {
     const [numberOfPagesWithPermissions, setNumberOfPagesWithPermissions] = useState(0)
 
     useEffect(() => {
@@ -74,7 +74,7 @@ export function RolesBallons({role, number_of_pages}) {
             </div>
             <div className={"w-full h-[90%] flex items-top justify-end"}>
                 <section className={'hover:bg-gray-200 px-3 py-3 rounded-2xl'}>
-                    <button><Trash2 color={'red'} size={16}/></button>
+                    <button onClick={deleteRoleAndPermissions}><Trash2 color={'red'} size={16}/></button>
                 </section>
 
             </div>

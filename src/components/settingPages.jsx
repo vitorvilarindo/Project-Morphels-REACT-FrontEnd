@@ -34,6 +34,13 @@ export function Page1(){
     useEffect(()=>{
         getInfos().then();
     },[])
+
+    const onDeleteUser = async (id) => {
+        const deleted_user = await request.onDelete('users', id);
+        console.log(deleted_user);
+
+        getInfos().then();
+    }
     return (
         <main className={'flex flex-col items-center justify-center '}>
             <div className={'flex w-[55vw] justify-between items-center py-6'}>
@@ -50,7 +57,7 @@ export function Page1(){
                             <div className="">
                                 <form action={() => handleSubmit(async (data) => {
                                     await request.onPost("users", data)
-                                    getUsers().then()
+                                    getInfos().then()
                                 })()}
                                       className="flex flex-col  space-y-3">
                                     <Header2
@@ -129,6 +136,7 @@ export function Page1(){
                         designation={user.designation_name}
                         sing_up_date={FormateDate(user.sing_up_date)} // Fixed a potential typo here
                         last_access={FormateDate(user.last_access)}
+                        deleteUser={() => onDeleteUser(user.id)}
                     />
                 ))}
             </div>
@@ -189,12 +197,27 @@ export function Page4(){
     const onCreateNewRoleAndPermissions = async (data) => {
         const role_id = await request.onPost('roles', {name: data.role_name, description: data.role_description});
         console.log(role_id.data[0]?.id);
+        console.log(data.registers.page);
+        const payload = data.registers.map((item, index) => ({
+            ...item,
+            page_id: pages[index].id
+        }));
+        console.log(payload);
         const permission_response = await request.onPost('permissions', {
             role_id: role_id.data[0]?.id,
-            registers: data.registers,
+            registers: payload,
         })
 
         console.log(permission_response)
+        getInfos().then();
+    }
+
+    const onDeleteRoleAndPermissions = async (id) => {
+        const deleted_role = await request.onDelete('roles', id)
+        const deleted_permission = await request.onDelete('permissions', id)
+        console.log(deleted_permission, deleted_role);
+
+        getInfos().then();
     }
 
     return (
@@ -237,7 +260,7 @@ export function Page4(){
                                                 <nav className={"flex w-full space-x-8 items-center justify-between pb-2"}>
                                                     <div>
                                                         <h2 className={"text-md"}>{page.name.charAt(0).toUpperCase() + page.name.slice(1)}</h2>
-                                                        <p>{pages.description}</p>
+                                                        <p>{page.description}</p>
                                                     </div>
 
                                                     <div className={"flex w-[50%]"}>
@@ -297,6 +320,7 @@ export function Page4(){
                         key={role.id} // Always include a unique key!
                         role={role}
                         number_of_pages={numberOfPages}
+                        deleteRoleAndPermissions={() => onDeleteRoleAndPermissions(role.id)}
                     />
                 ))}
             </div>
