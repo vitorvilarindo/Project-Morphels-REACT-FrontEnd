@@ -29,7 +29,17 @@ export function Page1(){
     const [searchMembers, setSearchMembers] = useState("")
     const [branches, setBranches] = useState([])
 
-    const {register, handleSubmit} = useForm();
+    const {register, handleSubmit} = useForm({
+        defaultValues: {
+            name: "",
+            cellphone: null,
+            date_birth: null,
+            pixkey: null,
+            pixtype: null,
+            branch: null,
+
+        }
+    });
 
     async function onGetMembers(search) {
         try{
@@ -48,6 +58,17 @@ export function Page1(){
     },[])
 
     console.log(members)
+
+    async function onDeleteMember(id){
+        try{
+            const deleted_member = await requests.onDelete("members", id);
+
+            onGetMembers(searchMembers).then()
+            console.log(deleted_member)
+        }catch(error){
+            console.log(error);
+        }
+    }
 
 
     return(
@@ -68,7 +89,7 @@ export function Page1(){
                     {showMemberForm && (
                         <div className="">
                             <form action={() => handleSubmit(async (data) => {
-                                await request.onPost("members", data)
+                                await requests.onPost("members", data)
                                 onGetMembers(searchMembers).then()
                             })()}
                                   className="flex flex-col  space-y-3">
@@ -100,9 +121,9 @@ export function Page1(){
                                     <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[
                                         {index:"", title: "Selecione uma opção"},
                                         ...branches.map(branch => ({
-                                            index: String(branch.id),
+                                            index: branch.id,
                                             // Fique de olho: no Postgres você chamou de 'nome', verifique se o JSON da API traz 'nome' ou 'name'
-                                            title: String(branch.name)
+                                            title: branch.name
                                         }))
                                     ]} />
                                 </section>
@@ -151,8 +172,7 @@ export function Page1(){
                                 });
 
                                 return (
-                                    <tr className="h-11 text-xs text-left border-b border-b-secondary-destack-color hover:bg-gray-100"
-                                        key={member.id}>
+                                    <tr className="h-11 text-xs text-left border-b border-b-secondary-destack-color hover:bg-gray-100" key={member.id}>
                                         <td className="p-2">{member.name}</td>
                                         <td>{member.cellphone}</td>
                                         <td className="flex flex-col gap-1 py-1">
@@ -170,8 +190,7 @@ export function Page1(){
                                         <td>
                                             <div className="pr-3 flex justify-end  items-center gap-2">
 
-                                                <button
-                                                    className="text-red-600 hover:bg-red-200 p-1 rounded-md">
+                                                <button onClick={() => onDeleteMember(member.id)} className="text-red-600 hover:bg-bg-secondary-destack-color p-1 rounded-md">
                                                     <Trash2 size={18}/>
                                                 </button>
                                             </div>
@@ -205,6 +224,7 @@ export function Page2(){
     async function onGetCompanies() {
         try {
             const response = await requests.onGet("companies", search);
+            console.log(response);
             setCompanies(response);
         } catch (error) {
             console.error('Error fetching companies:', error);
@@ -219,6 +239,17 @@ export function Page2(){
     useEffect(() =>{
         onGetCompanies().then()
     },[])
+
+    async function onDeleteCompany(id){
+        try{
+            const deleted_company = await requests.onDelete("companies", id)
+
+            onGetCompanies().then()
+            console.log(deleted_company)
+        }catch(error){
+            console.log(error)
+        }
+    }
 
     return(<main>
         <div className="flex justify-center">
@@ -238,7 +269,7 @@ export function Page2(){
                     <div className="mt-4">
 
                         <form action={() => handleSubmit(async (data) => {
-                            await request.onPost("companies", data)
+                            await requests.onPost("companies", data)
                             onGetCompanies().then()
                         })()}
                               className="flex flex-col  space-y-3">
@@ -249,7 +280,7 @@ export function Page2(){
                                 </section>
                                 <section className="flex flex-row gap-4 w-full items-end">
                                     <Inputs id="cnpj" type="text" placeholder={'00.000.000/0000-00'}
-                                            register={{...register("CNPJ")}}>CNPJ *</Inputs>
+                                            register={{...register("cnpj")}}>CNPJ *</Inputs>
                                     <div className="flex flex-col items-start w-[30%] space-y-2">
                                         <button
                                             className="w-full justify-center gap-3 flex flex-row text-xs text-secondary-titles-color bg-buttons-color hover:bg-buttons-hover border rounded-md border-bg-secondary-destack-color px-2 py-2">
@@ -279,7 +310,7 @@ export function Page2(){
                                     <Inputs id="pixKey" type="date" register={{...register("open_date")}}>Open
                                         Date</Inputs>
 
-                                    <Select id={"situations"} register={{...register("situations")}} title={"Situação"} options={[
+                                    <Select id={"situations"} register={{...register("situation")}} title={"Situação"} options={[
                                         {index:"", title:"Selecione uma opção"},
                                         {index:"active", title:"Ativo"},
                                         {index:"suspence", title:"Suspenso"},
@@ -414,7 +445,7 @@ export function Page2(){
                                         className="bg-neutral-950 text-white text-xs px-4 py-2 rounded-lg hover:bg-neutral-600 transition-discrete">Submit
                                 </button>
                                 <button onClick={() => setShowCompaniesForm(false)}
-                                        className="bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">Address
+                                        className="bg-white border text-xs border-gray-200 shadow-xs text-black px-4 py-2 rounded-lg hover:bg-slate-200 transition-discrete">Cancel
                                 </button>
                             </div>
                         </form>
@@ -446,16 +477,17 @@ export function Page2(){
                         </tr>
                         </thead>
                         <tbody className=" w-full">
-                        {companies.map((company) => (<tr key={company.id}
-                                                         className="text-xs text-primary-titles-color text-left border-b border-b-neutral-200 h-11">
+                        {companies.map((company) => (
+                            <tr className="text-xs text-primary-titles-color text-left border-b border-b-neutral-200 h-11 " key={company.id} >
                             <td className="px-2 whitespace-nowrap">{company.company_name}</td>
                             <td className="whitespace-nowrap">{company.fantasy_name}</td>
                             <td className="whitespace-nowrap">{company.cnpj}</td>
                             <td className="whitespace-nowrap">{company.city}/{(company.uf || '').toUpperCase()}</td>
                             <td className="whitespace-nowrap">{company.cellphone}</td>
                             <td>
-                                <div
-                                    className="inline-block  border bg-black text-white border-neutral-200 px-1 py-0.5 rounded-md uppercase whitespace-nowrap">{company.situation}</div>
+                                <div className="inline-block  border bg-black text-white border-neutral-200 px-1 py-0.5 rounded-md uppercase whitespace-nowrap">
+                                    {company.situation}
+                                </div>
                             </td>
                             <td className="whitespace-nowrap">{company.cnae}</td>
 
@@ -463,7 +495,6 @@ export function Page2(){
                                 <div className="pr-3 flex justify-end gap-2 items-center">
                                     <button onClick={() => {
                                         onShowInfo({
-                                            id: company.id,
                                             cnpj: company.cnpj,
                                             fantasy_name: company.fantasy_name,
                                             estate_registration: company.estate_registration,
@@ -488,7 +519,7 @@ export function Page2(){
                                     }} className="hover:bg-bg-secondary-destack-color p-1 rounded-md">
                                         <Info size={18}/>
                                     </button>
-                                    <button className=" text-red-600">
+                                    <button onClick={() => onDeleteCompany(company.id)} className=" text-red-600 hover:bg-bg-secondary-destack-color p-1 rounded-md">
                                         <Trash2 size={18}/>
                                     </button>
                                 </div>
@@ -574,7 +605,7 @@ export function Page3() {
                     {showCardsForm && (
                         <div className="">
                             <form action={() => handleSubmit(async (data) => {
-                                await request.onPost("members", data)
+                                await requests.onPost("cards", data)
                                 fetchData().then()
                             })()}
                                   className="flex flex-col  space-y-3">
