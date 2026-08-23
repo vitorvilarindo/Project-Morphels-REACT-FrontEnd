@@ -69,11 +69,11 @@ function SideMenu() {
         <>
             {isOpen && (
                 <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-start justify-start mobile-only-block">
-                    <div className="flex flex-col bg-gray-200 w-[70%] h-full rounded-lg shadow-lg space-y-4">
-                        <section className="flex w-full items-center justify-between py-3">
+                    <div className="flex flex-col bg-bg-primary-color w-[70%] h-full rounded-lg shadow-lg space-y-4">
+                        <section className="flex w-full items-center justify-between my-3 px-3">
                             <h2 className='text-2xl pl-3'>Menu de páginas</h2>
-                            <button className="pr-3 hover:bg-white" onClick={toggleMenu}>
-                                <X />
+                            <button className="p-1 hover:bg-bg-secondary-destack-color text-primary-titles-color items-center rounded-2xl" onClick={toggleMenu}>
+                                <X/>
                             </button>
                         </section>
                         <ul className='w-full flex flex-col items-center'>
