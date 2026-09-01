@@ -82,6 +82,7 @@ function ReportsPage() {
                               let formatedDates = []
                               for( let date of dates ) {
                                   formatedDates.push(new Date(date).toLocaleDateString("pt-BR", {
+                                      timeZone: "UTC",
                                       day: "2-digit",
                                       month: "2-digit",
                                       year: "numeric",
@@ -90,7 +91,7 @@ function ReportsPage() {
 
 
                               return (
-                                  <tr className="h-11 text-xs text-left border border-bg-secondary-destack-color hover:bg-bg-primary-color"
+                                  <tr className="h-11 text-xs text-left border border-bg-secondary-destack-color hover:bg-bg-secondary-destack-color"
                                       key={report.id}>
                                       <td className="p-2">{report.title}</td>
                                       <td><div className="inline-block border border-neutral-200 px-1 rounded-md">{report.type}</div></td>

@@ -4,7 +4,7 @@ import SearchBar from "./searchBar.jsx";
 import Header2 from "./header2.jsx";
 import Select from "./select.jsx";
 
-function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
+function ModalRevenues({ complete, onHideForm, onGetRevenues, branches }) {
   const formatedData = complete ? {
     ...complete,
     date: complete.date?.split("T")[0],
@@ -87,6 +87,16 @@ function ModalRevenues({ complete, onHideForm, onGetRevenues }) {
               </label>
               <SearchBar type="date" id="date" {...register("date")} />
             </div>
+          </section>
+          <section className="flex flex-col items-start">
+            <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[
+              {index:"", title: "Selecione uma opção"},
+              ...branches.map(branch => ({
+                index: String(branch.id),
+                title: String(branch.name)
+              }))
+            ]} />
+
           </section>
           <div className="w-full flex flex-row mt-4 gap-4 ">
             <button
