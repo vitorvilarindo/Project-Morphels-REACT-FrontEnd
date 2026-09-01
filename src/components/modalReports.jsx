@@ -31,7 +31,7 @@ function ModalReports({ onHideForm, onFetch, branches }) {
 
     return (
         <div className="fixed inset-0 bg-[rgb(0,0,0,0.7)] bg-opacity-50 flex items-center justify-center">
-            <div className="flex flex-col bg-bg-secondary-color w-[80%] md:w-[55%] p-6 rounded-lg shadow-lg space-y-4">
+            <div className="flex flex-col bg-bg-secondary-color w-[80%] md:w-[55%] p-6 rounded-lg shadow-lg space-y-4 overflow-auto">
                 <Header2
                     title={"Create new report"}
                     description={"Form to create reports"}

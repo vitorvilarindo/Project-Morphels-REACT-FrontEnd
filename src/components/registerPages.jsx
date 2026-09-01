@@ -166,13 +166,14 @@ export function Page1(){
                                 const dataObj = new Date(member.date_birth);
 
                                 const formatedData = dataObj.toLocaleDateString("pt-BR", {
+                                    timeZone: "UTC",
                                     day: "2-digit",
                                     month: "2-digit",
                                     year: "numeric",
                                 });
 
                                 return (
-                                    <tr className="h-11 text-xs text-left border-b border-b-secondary-destack-color hover:bg-gray-100" key={member.id}>
+                                    <tr className="h-11 text-xs text-left border-b border-bg-secondary-destack-color hover:bg-bg-secondary-destack-color" key={member.id}>
                                         <td className="p-2">{member.name}</td>
                                         <td>{member.cellphone}</td>
                                         <td className="flex flex-col gap-1 py-1">
@@ -465,7 +466,7 @@ export function Page2(){
                 <section className="w-full rounded-lg border border-bg-secondary-destack-color overflow-auto">
                     <table className="w-full min-w-200">
                         <thead className="w-full">
-                        <tr className="text-xs text-left border-b border-b-bg-secondary-destack-color h-10">
+                        <tr className="text-xs text-left border-b border-bg-secondary-destack-color h-10">
                             <th className="px-2 whitespace-nowrap w-[20%]">Company Name</th>
                             <th className="whitespace-nowrap">Fantasy Name</th>
                             <th className="whitespace-nowrap">CNPJ</th>

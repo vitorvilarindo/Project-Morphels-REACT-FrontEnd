@@ -154,16 +154,16 @@ function RevenuesPage() {
                                             Member
                                         </label>
                                         <input
-                                            className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+                                            className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
                                             placeholder="Member" type="text" id="member"
                                             {...register("member")} />
                                         {showOptions && filted.length !== 0 && <div
-                                            className={"w-full items-start bg-gray-100 border border-t-0 border-gray-400 rounded-md rounded-t-none absolute top-11"}>
+                                            className={"w-full items-start bg-bg-primary-color border border-t-0 border-bg-secondary-color rounded-md rounded-t-none absolute top-11"}>
                                             <ul className={"w-full "}>
                                                 {filted.map((member) => (
                                                     <li key={member.id}
                                                         onClick={() => selectSuggestion(member.name)}
-                                                        className={"flex items-start pl-2 py-1 hover:bg-gray-300"}>
+                                                        className={"flex items-start pl-2 py-1 text-primary-titles-color  hover:bg-bg-secondary-destack-color"}>
                                                         {member.name}
                                                     </li>
                                                 ))}
@@ -266,9 +266,10 @@ function RevenuesPage() {
                         ))}
                         {showEditForm && (
                             <ModalRevenues
-                                onGetRevenues={() => onGetRevenues()}
+                                onGetRevenues={() => fetchData()}
                                 onHideForm={() => setShowEditForm(!showEditForm)}
                                 complete={editData}
+                                branches={branches}
                             />
                         )}
                 </div>
