@@ -62,7 +62,7 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                         <TR>
                             <TD style={tw(td_style)}>R$ {revenues[0]?.revenues_sum !== undefined ? revenues[0].revenues_sum : 0 }</TD>
                             <TD style={tw(td_style)}>R$ {expenses[0]?.expenses_sum !== undefined ? expenses[0].expenses_sum : 0}</TD>
-                            <TD style={tw(td_style)}>R$ {((revenues[0]?.revenues_sum !== undefined ? revenues[0].revenues_sum : 0) - (expenses[0]?.expenses_sum !== undefined ? expenses[0].expenses_sum : 0)).toFixed(2)}</TD>
+                            <TD style={tw(td_style)}>R$ {((revenues[0]?.revenues_sum !== undefined ? parseFloat(revenues[0].revenues_sum) : 0) - (expenses[0]?.expenses_sum !== undefined ? parseFloat(expenses[0].expenses_sum) : 0)).toFixed(2)}</TD>
                         </TR>
                     </Table>
                 </View>
