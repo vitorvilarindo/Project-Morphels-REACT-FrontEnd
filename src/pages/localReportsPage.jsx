@@ -30,9 +30,9 @@ const InvoicePDF = ({revenues, expenses, information}) => (
         <Page size={"A4"} style={tw("p-12 w-full")}>
             <View style={tw("flex flex-row justify-start gap-2 items-end border border-gray-200 rounded-t-md m-0 p-2")}>
                 <View >
-                    <Image src="../images/ADEB-logo.png" source={"Logo-ADEB"} style={tw("w-[80px] h-32 ")}/>
+                    <Image src="../images/ADEB-logo.png" source={"Logo-ADEB"} style={tw("w-[30px] h-15 ")}/>
                 </View>
-                <View style={tw("text-9xl")}>
+                <View style={tw("text-6xl")}>
                     <Text>ADEB</Text>
                 </View>
             </View>
@@ -71,22 +71,20 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                     <Table style={tw("w-full")}>
                         <TH>
                             <TD style={tw(th_style)}>nome</TD>
-                            <TD style={tw(th_style)}>valor</TD>
                             <TD style={tw(th_style)}>data</TD>
-                            <TD style={tw(th_style)}>entrada</TD>
+                            <TD style={tw(th_style)}>valor</TD>
                         </TH>
                         {revenues?.length > 0 && revenues.map((revenue) => (
 
                             <TR key={revenue.id}>
                                 <TD style={tw(td_style)}>{revenue.member}</TD>
-                                <TD style={tw(td_style)}>R${revenue.value}</TD>
                                 <TD style={tw(td_style)}>
                                     {new Date(revenue.date).toLocaleDateString("pt-BR", {
                                         day: "2-digit",
                                         month: "2-digit",
                                         year: "numeric",
                                     })}</TD>
-                                <TD style={tw(td_style)}>{revenue.payment}</TD>
+                                <TD style={tw(td_style)}>R${revenue.value}</TD>
                             </TR>
                         ))}
                         <TR>
@@ -100,14 +98,12 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                     <Table style={tw("w-full")}>
                         <TH>
                             <TD style={tw(th_style)}>nome</TD>
-                            <TD style={tw(th_style)}>valor</TD>
                             <TD style={tw(th_style)}>data</TD>
-                            <TD style={tw(th_style)}>entrada</TD>
+                            <TD style={tw(th_style)}>valor</TD>
                         </TH>
                         {expenses.map((expense) => (
                             <TR key={expense.id} >
                                 <TD style={tw(td_style)}>{expense.title}</TD>
-                                <TD style={tw(td_style)}>R$ {expense.value}</TD>
                                 <TD style={tw(td_style)}>
                                     {new Date(expense.date).toLocaleDateString("pt-BR", {
                                         timeZone: "UTC",
@@ -115,7 +111,7 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                                         month: "2-digit",
                                         year: "numeric",
                                     })}</TD>
-                                <TD style={tw(td_style)}>{expense.payment}</TD>
+                                <TD style={tw(td_style)}>R$ {expense.value}</TD>
                             </TR>
                         ))}
 
