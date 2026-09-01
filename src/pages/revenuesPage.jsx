@@ -194,7 +194,7 @@ function RevenuesPage() {
                                             <SearchBar
                                                 placeholder="00,0"
                                                 type="number"
-                                                step="any"
+                                                step="0.01"
                                                 id="value"
                                                 {...register("value")}
                                             />
