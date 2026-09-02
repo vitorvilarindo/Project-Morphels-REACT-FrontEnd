@@ -80,6 +80,7 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                                 <TD style={tw(td_style)}>{revenue.member}</TD>
                                 <TD style={tw(td_style)}>
                                     {new Date(revenue.date).toLocaleDateString("pt-BR", {
+                                        timeZone: "UTC",
                                         day: "2-digit",
                                         month: "2-digit",
                                         year: "numeric",
