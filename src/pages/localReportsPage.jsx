@@ -90,7 +90,7 @@ const InvoicePDF = ({revenues, expenses, information}) => (
                         ))}
                         <TR>
                             <TD style={tw("flex-1 px-2 text-xs items-center justify-center border-gray-200")}>TOTAL</TD>
-                            <TD style={tw(td_style)}>{revenues[0]?.revenues_sum}</TD>
+                            <TD style={tw(td_style)}>R$ {revenues[0]?.revenues_sum}</TD>
                         </TR>
                     </Table>
                 </View>)}
@@ -118,7 +118,7 @@ const InvoicePDF = ({revenues, expenses, information}) => (
 
                         <TR>
                             <TD style={tw("flex-1 px-2 text-xs items-center justify-center border-gray-200")}>TOTAL</TD>
-                            <TD style={tw(td_style)}>{expenses[0]?.expenses_sum}</TD>
+                            <TD style={tw(td_style)}>R$ {expenses[0]?.expenses_sum}</TD>
                         </TR>
                     </Table>
                 </View>)}
