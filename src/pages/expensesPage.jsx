@@ -128,8 +128,8 @@ function ExpensesPage() {
                     ]} />
 
                   <div className="flex flex-col items-start w-full">
-                    <label htmlFor="value" className="text-xs">Value</label>
-                    <SearchBar placeholder="00,0" type="number" step="0.01"  id="values" {...register('value')}  />
+                    <label htmlFor="value" className="text-xs">Valor</label>
+                    <SearchBar placeholder="00,00" type="number" step="0.01"  id="values" {...register('value')}  />
                   </div>
                 </section >
                 <section className="flex flex-row gap-4 w-full">

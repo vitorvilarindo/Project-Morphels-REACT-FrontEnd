@@ -66,6 +66,7 @@ function ModalRevenues({ complete, onHideForm, onGetRevenues, branches }) {
               </label>
               <SearchBar
                 placeholder="00,0"
+                step="0.01"
                 type="number"
                 id="value"
                 {...register("value")}
