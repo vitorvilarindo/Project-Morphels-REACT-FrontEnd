@@ -1,4 +1,4 @@
-function Inputs({id, type= "text", placeholder = "", erros , register, children }) {
+function Inputs({id, type= "text", placeholder = "", erros , register, children, ...props }) {
     const hasError = erros?.[id]
   return (
       <>
@@ -8,8 +8,9 @@ function Inputs({id, type= "text", placeholder = "", erros , register, children 
               id={id}
               placeholder={placeholder}
               type={type}
-              className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+              className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:border-primary-titles-color focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
               {...register}
+              {...props}
             />
               {hasError && <span className='text-red-700 text-sm'>This field is required</span>}
           </div>

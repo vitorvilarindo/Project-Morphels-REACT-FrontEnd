@@ -13,6 +13,7 @@ import Select from "../components/select.jsx";
 import { MenuProvider } from "../context/menuContext.jsx";
 import {useForm} from "react-hook-form";
 import MainRequests from "../services/requests.js";
+import Inputs from "../components/inputs.jsx";
 
 const requests = new MainRequests()
 
@@ -31,10 +32,19 @@ function RevenuesPage() {
     const [branches, setBranches] = useState([]);
     const [filted, setFilted] = useState([]);
 
-    const {register, watch, setValue, handleSubmit} = useForm();
+    const {register, watch, setValue, handleSubmit} = useForm({
+        defaultValues:{
+            member: "",
+            type: "",
+            value: "",
+            payment: "",
+            branch: ""
+        }
+    });
 
 
     const searchTerm = watch("member")
+
     const onShowForm = () => {
         setShowForm(!showForm);
         console.log("Button clicked! Show form:", showForm);
@@ -83,6 +93,10 @@ function RevenuesPage() {
         if (searchTerm && searchTerm.length > 0) {
             const result = members.filter((member) =>
                 member.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            console.log(result)
+            if (searchTerm === result[0].name) {
+                return
+            }
             setShowOptions(true)
             setFilted(result)
         }else {
@@ -100,7 +114,7 @@ function RevenuesPage() {
 
 
     return (
-        <div className="justify-center h-[90vh] w-screen">
+        <div className="justify-center h-[100vh] w-full">
             <MenuProvider>
                 <Header/>
                 <SideMenu/>
@@ -112,8 +126,8 @@ function RevenuesPage() {
                     className="flex flex-col justify-center mt-8 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <section className="flex justify-between items-center">
                         <Header2
-                            title={"Revenues Form"}
-                            description={"Form to add new revenues"}
+                            title={"Fomulário de receitas"}
+                            description={"Formulário de cadastro de receitas"}
                         />
                         <div className="flex justify-center">
                             <OpenFromButton onClick={onShowForm}>
@@ -149,12 +163,12 @@ function RevenuesPage() {
                                     }}
                                     className="flex flex-col  space-y-3"
                                 >
-                                    <section className="flex flex-col items-start relative">
+                                    <section className="flex flex-col items-start relative space-y-1">
                                         <label htmlFor="member" className="text-xs">
                                             Member
                                         </label>
                                         <input
-                                            className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+                                            className="w-full text-xs bg-bg-secondary-color border rounded-md border-bg-secondary-destack-color hover:cursor-auto focus:border-primary-titles-color  focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
                                             placeholder="Member" type="text" id="member"
                                             {...register("member")} />
                                         {showOptions && filted.length !== 0 && <div
@@ -174,7 +188,7 @@ function RevenuesPage() {
                                     </section>
 
                                     <section className="flex flex-row gap-4 w-full">
-                                        <Select id={"type"} register={{...register("type")}} title={"Type"} options={[
+                                        <Select id={"type"} register={{...register("type")}} title={"Tipo"} options={[
                                             {index:"", title: "Selecione uma opção"},
                                             {index:"doação", title: "Doação"},
                                             {index:"contribuicao_regular", title: "Contribuição Regular"},
@@ -187,32 +201,20 @@ function RevenuesPage() {
                                             {index:"outros", title: "Outros"},
 
                                         ]} />
-                                        <div className="flex flex-col items-start w-full">
-                                            <label htmlFor="value" className="text-xs">
-                                                Values
-                                            </label>
-                                            <SearchBar
-                                                placeholder="00,0"
-                                                type="number"
-                                                step="0.01"
-                                                id="value"
-                                                {...register("value")}
-                                            />
-                                        </div>
+                                        <Inputs id="values" type="number" placeholder="R$ 00,00" children="Valor" step="0.01"
+                                                register={{...register("value")}}></Inputs>
+
                                     </section>
                                     <section className="flex flex-row gap-4 w-full">
-                                        <Select id={"payment"} register={{...register("payment")}} title={"Payment"} options={[
+                                        <Select id={"payment"} register={{...register("payment")}} title={"Meio de pagamento"} options={[
                                             {index:"", title: "Selecione uma opção"},
                                             {index:"pix_deposito", title: "Pix/Depósito"},
                                             {index:"dinheiro", title: "Dinheiro"},
                                             {index:"cheque", title: "Cheque"}
                                         ]} />
-                                        <div className="flex flex-col items-start w-full">
-                                            <label htmlFor="date" className="text-xs">
-                                                Data
-                                            </label>
-                                            <SearchBar type="date" id="date" {...register("date")} />
-                                        </div>
+                                        <Inputs id="date" type="date" children="Data"
+                                                register={{...register("date")}}></Inputs>
+
                                     </section>
                                     <section className="flex flex-col items-start">
                                         <Select id={"branch"} register={{...register("branch")}} title={"Filial"} options={[

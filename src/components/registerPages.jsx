@@ -14,7 +14,7 @@ import Header2 from "./header2.jsx";
 import OpenFromButton from "./openFromButton.jsx";
 import SearchBar from "./searchBar.jsx";
 import Inputs from "./inputs.jsx";
-import ModalInfo from "./modelInfo.jsx";
+import ModalInfo from "./modalInfo.jsx";
 import {useEffect, useState} from "react";
 import MainRequests from "../services/requests.js";
 import {useForm} from "react-hook-form";
@@ -78,8 +78,8 @@ export function Page1(){
                     className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <section className="flex justify-between items-center">
                         <Header2
-                            title={"Members Form"}
-                            description={"Form to add new member"}
+                            title={"Formulário de membros"}
+                            description={"Formulário para cadastrar membros"}
                         />
                         <div className="flex justify-center">
                             <OpenFromButton
@@ -258,8 +258,8 @@ export function Page2(){
                 className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                 <section className="flex justify-between items-center">
                     <Header2
-                        title={"Companies Form"}
-                        description={"Form to add new company"}
+                        title={"Fomulário de companias"}
+                        description={"Formulário de cadastro de companias"}
                     />
                     <div className="flex justify-center">
                         <OpenFromButton
@@ -595,8 +595,8 @@ export function Page3() {
                     className="flex flex-col justify-center mt-7 p-4 bg-bg-secondary-color border-bg-secondary-destack-color rounded-lg shadow-md gap-5 w-[80vw] md:w-[55vw]">
                     <section className="flex justify-between items-center">
                         <Header2
-                            title={"Cards form"}
-                            description={"Form to add new members cards"}
+                            title={"Formulário de cartões"}
+                            description={"Formulário para cadastrar cartões de fidelidade"}
                         />
                         <div className="flex justify-center">
                             <OpenFromButton
@@ -626,7 +626,7 @@ export function Page3() {
                                             Member
                                         </label>
                                         <input
-                                            className="w-full text-xs bg-gray-100 border rounded-md border-gray-100 hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
+                                            className="w-full text-xs bg-bg-secondary-color border border-bg-secondary-destack-color rounded-md hover:cursor-auto focus:border-gray-400 focus:outline-none placeholder:text-gray-500 transition-all px-2 py-2"
                                             placeholder="Member" type="text" id="member"
                                             {...register("member")} />
                                         {showOptions && filted.length !== 0 && <div
